@@ -16,9 +16,14 @@ public class AuthRestController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("/createCredentials")
+    public ApiResponse createCredentials(@RequestBody Token token) {
+        return authService.saveToken(token);
+    }
+
+    /*@PostMapping("/login")
     public ApiResponse login(@RequestBody Token token) {
         return authService.authenticate(token);
-    }
+    }*/
 
 }
