@@ -1,10 +1,9 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
-
-import com.shabab.SecondSpringBoot.department.entity.Department;
-import com.shabab.SecondSpringBoot.department.repository.DepartmentRepository;
-import com.shabab.SecondSpringBoot.faculty.entity.Faculty;
-import com.shabab.SecondSpringBoot.faculty.repository.FacultyRepository;
+import com.shabab.UniversityManagementSystem.academy.model.Department;
+import com.shabab.UniversityManagementSystem.academy.model.Faculty;
+import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
+import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
+import com.shabab.UniversityManagementSystem.academy.model.Teacher;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

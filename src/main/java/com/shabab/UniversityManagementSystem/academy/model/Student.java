@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.shabab.UniversityManagementSystem.admin.model.Institute;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -78,7 +79,7 @@ public class Student {
     @NotNull(message = "Department is required")
     private Department department;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> enrollments = new ArrayList<>();
+    @Column(name = "institute_id")
+    private Long instituteId;
 
 }

@@ -1,21 +1,20 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Table(name = "ad_users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+@Data
 public class User {
 
     @Id
@@ -34,14 +33,15 @@ public class User {
     private String email;
 
     @NotBlank(message = "Gender is required")
-    private String gender;
+    private Character gender;
 
+    @Size(max = 500, message = "Maximum 500 Characters")
     private String address;
 
     private byte[] avatar;
 
     @NotBlank(message = "Status is required")
-    private String status;
+    private Integer status;
 
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
@@ -51,8 +51,29 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date joiningDate;
 
-    @ManyToOne
     @JoinColumn(name = "institute_id")
-    private Institute institute;
+    private Long instituteId;
 
+    public static final Map<String, String> GENDERS = new HashMap<String, String>() {{
+        put("M", "Male");
+        put("F", "Female");
+        put("O", "Other");
+    }};
+
+    public static final Map<String, String> STATUSES = new HashMap<String, String>() {{
+        put("1", "Active");
+        put("0", "Inactive");
+        put("2", "Suspended");
+    }};
+
+    public static final Map<String, String> BLOOD_GROUPS = new HashMap<String, String>() {{
+        put("A+", "A Positive");
+        put("A-", "A Negative");
+        put("B+", "B Positive");
+        put("B-", "B Negative");
+        put("AB+", "AB Positive");
+        put("AB-", "AB Negative");
+        put("O+", "O Positive");
+        put("O-", "O Negative");
+    }};
 }

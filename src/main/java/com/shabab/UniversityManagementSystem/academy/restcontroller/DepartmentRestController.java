@@ -1,7 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
-import com.shabab.SecondSpringBoot.department.entity.Department;
-import com.shabab.SecondSpringBoot.department.service.DepartmentService;
+import com.shabab.UniversityManagementSystem.academy.model.Department;
+import com.shabab.UniversityManagementSystem.academy.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

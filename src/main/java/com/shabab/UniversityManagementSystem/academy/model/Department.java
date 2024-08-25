@@ -25,4 +25,7 @@ public class Department {
     @JoinColumn(name="faculty_id")
     private Faculty faculty;
 
+    @Column(name = "institute_id")
+    private Long instituteId;
+
 }
