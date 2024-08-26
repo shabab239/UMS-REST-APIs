@@ -40,5 +40,11 @@ public class University {
     @NotBlank(message = "Address is required")
     private String address;
 
+    public static University init(Long id) {
+        University university = new University();
+        university.setId(id);
+        return university;
+    }
+
 }
 

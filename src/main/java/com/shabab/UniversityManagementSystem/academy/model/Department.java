@@ -25,7 +25,7 @@ public class Department {
     private Long id;
 
     @NotBlank(message = "Department name is required")
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)

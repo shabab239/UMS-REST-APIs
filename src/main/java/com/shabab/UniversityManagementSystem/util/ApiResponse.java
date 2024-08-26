@@ -49,6 +49,12 @@ public class ApiResponse {
         this.message = message;
     }
 
+    public ApiResponse returnError(String message) {
+        this.isSuccessful = false;
+        this.message = message;
+        return this;
+    }
+
     public ApiResponse returnError(Exception e) {
         this.isSuccessful = false;
         this.message = e.getMessage();

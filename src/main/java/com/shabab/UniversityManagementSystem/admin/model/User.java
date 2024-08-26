@@ -2,14 +2,11 @@ package com.shabab.UniversityManagementSystem.admin.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,8 +21,6 @@ import java.util.Map;
 
 @Entity
 @Table(name = "ad_users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
 @Data
 public class User implements UserDetails {
 
@@ -44,7 +39,7 @@ public class User implements UserDetails {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Gender is required")
+    @NotNull(message = "Gender is required")
     private Character gender;
 
     @Size(max = 500, message = "Maximum 500 Characters")
@@ -52,7 +47,7 @@ public class User implements UserDetails {
 
     private byte[] avatar;
 
-    @NotBlank(message = "Status is required")
+    @NotNull(message = "Status is required")
     private Integer status;
 
     @Temporal(TemporalType.DATE)
@@ -62,6 +57,9 @@ public class User implements UserDetails {
 
     @Temporal(TemporalType.DATE)
     private Date joiningDate;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_Id", nullable = false)
@@ -75,7 +73,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("USER"));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -90,6 +88,12 @@ public class User implements UserDetails {
 
     public String getIdString() {
         return String.valueOf(id);
+    }
+
+    public enum Role {
+        ADMIN,
+        TEACHER,
+        STAFF
     }
 
     public static final Map<String, String> GENDERS = new HashMap<String, String>() {{

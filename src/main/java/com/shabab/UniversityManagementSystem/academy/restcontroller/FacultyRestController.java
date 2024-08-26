@@ -2,6 +2,8 @@ package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
 import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.academy.service.FacultyService;
+import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,23 +22,28 @@ public class FacultyRestController {
     @Autowired
     private FacultyService facultyService;
 
-    @GetMapping("/list")
-    public List<Faculty> list() {
-        return facultyService.getAllFaculties();
+    @GetMapping("/getAll")
+    public ApiResponse getAll() {
+        return facultyService.getAll();
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody Faculty faculty) {
-        facultyService.saveFaculty(faculty);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        facultyService.deleteFaculty(id);
+    public ApiResponse save(@Valid @RequestBody Faculty faculty) {
+        return facultyService.save(faculty);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody Faculty faculty) {
-        facultyService.saveFaculty(faculty);
+    public ApiResponse update(@Valid @RequestBody Faculty faculty) {
+        return facultyService.update(faculty);
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse getById(@PathVariable Long id) {
+        return facultyService.getById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse deleteById(@PathVariable Long id) {
+        return facultyService.deleteById(id);
     }
 }

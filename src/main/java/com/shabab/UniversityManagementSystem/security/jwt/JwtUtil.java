@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.jwt;
 
+import com.shabab.UniversityManagementSystem.admin.model.University;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,12 @@ public class JwtUtil {
     public Long getUserId() {
         String jwt = extractJwtFromRequest();
         return jwtService.extractUserId(jwt);
+    }
+
+    public University getUniversity() {
+        String jwt = extractJwtFromRequest();
+        Long universityId = jwtService.extractUniversityId(jwt);
+        return University.init(universityId);
     }
 
     public Long getUniversityId() {
