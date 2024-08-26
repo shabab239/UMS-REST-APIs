@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 24/08/2024
+ */
+
 @RestController
 @RequestMapping("/api/student")
 public class StudentRestController {

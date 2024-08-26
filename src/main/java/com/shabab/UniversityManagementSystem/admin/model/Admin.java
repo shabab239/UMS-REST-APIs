@@ -9,6 +9,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 25/08/2024
+ */
+
 @Entity
 @DiscriminatorValue("Admin")
 public class Admin extends User {

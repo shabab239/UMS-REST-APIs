@@ -19,6 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 25/08/2024
+ */
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

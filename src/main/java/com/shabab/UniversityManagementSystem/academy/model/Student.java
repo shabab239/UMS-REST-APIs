@@ -7,6 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 24/08/2024
+ */
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

@@ -16,6 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 26/08/2024
+ */
+
 @Service
 public class JwtService {
 

@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 24/08/2024
+ */
+
 @Service
 public class FacultyService {
 

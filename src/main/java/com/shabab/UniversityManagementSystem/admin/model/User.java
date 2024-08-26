@@ -16,6 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 24/08/2024
+ */
+
 @Entity
 @Table(name = "ad_users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

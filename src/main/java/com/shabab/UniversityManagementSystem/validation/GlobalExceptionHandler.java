@@ -1,4 +1,5 @@
 package com.shabab.UniversityManagementSystem.validation;
+
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 25/08/2024
+ */
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

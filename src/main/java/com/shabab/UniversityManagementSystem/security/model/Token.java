@@ -17,6 +17,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 25/08/2024
+ */
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

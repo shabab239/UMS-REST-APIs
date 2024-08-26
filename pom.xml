@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.shabab</groupId>
-	<artifactId>UMS-REST-APIs</artifactId>
+	<artifactId>UniversityManagementSystem-SpringBoot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UMS-REST-APIs</name>
 	<description>University Management System REST API</description>

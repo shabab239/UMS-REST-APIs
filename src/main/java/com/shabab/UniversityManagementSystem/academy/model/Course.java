@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.*;
 
+/**
+ * Project: UniversityManagementSystem-SpringBoot
+ * Author: Shabab
+ * Created on: 25/08/2024
+ */
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
