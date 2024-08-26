@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.shabab.UniversityManagementSystem.admin.model.University;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -37,7 +38,8 @@ public class Faculty {
     @NotNull(message = "Dean of faculty is required")
     private User dean;
 
-    @Column(name = "institute_id")
-    private Long instituteId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_Id", nullable = false)
+    private University university;
 
 }

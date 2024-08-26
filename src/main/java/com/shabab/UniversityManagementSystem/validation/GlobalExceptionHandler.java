@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
         });
 
         return new ApiResponse(
-                HttpStatus.BAD_REQUEST,
                 "Validation failed",
                 null,
                 errors,

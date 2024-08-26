@@ -1,6 +1,5 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
-import com.shabab.UniversityManagementSystem.academy.model.Teacher;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -11,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "ad_institutes")
-public class Institute {
+@Table(name = "ad_universities")
+public class University {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

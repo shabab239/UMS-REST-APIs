@@ -25,12 +25,12 @@ public class Staff extends User {
 
     @Override
     public String getPassword() {
-        return "admin_password"; // Replace with actual password handling
+        return super.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "admin_username"; // Replace with actual username handling
+        return super.getUsername();
     }
 
 }

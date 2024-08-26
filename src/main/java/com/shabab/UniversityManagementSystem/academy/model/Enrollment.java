@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.shabab.UniversityManagementSystem.admin.model.University;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,8 @@ public class Enrollment {
     )
     private List<Course> courses = new ArrayList<>();
 
-    @Column(name = "institute_id")
-    private Long instituteId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_Id", nullable = false)
+    private University university;
 
 }

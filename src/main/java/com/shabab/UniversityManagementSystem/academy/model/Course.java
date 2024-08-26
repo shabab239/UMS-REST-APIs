@@ -1,6 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
 
+import com.shabab.UniversityManagementSystem.admin.model.University;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -54,6 +55,7 @@ public class Course {
     )
     private List<User> teachers = new ArrayList<>();
 
-    @Column(name = "institute_id")
-    private Long instituteId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_Id", nullable = false)
+    private University university;
 }

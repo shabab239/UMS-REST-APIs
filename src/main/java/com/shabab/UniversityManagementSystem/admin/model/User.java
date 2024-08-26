@@ -57,8 +57,15 @@ public class User implements UserDetails {
     @Temporal(TemporalType.DATE)
     private Date joiningDate;
 
-    @JoinColumn(name = "institute_id")
-    private Long instituteId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_Id", nullable = false)
+    private University university;
+
+    @Transient
+    String username;
+
+    @Transient
+    String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -67,12 +74,16 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
+    }
+
+    public String getIdString() {
+        return String.valueOf(id);
     }
 
     public static final Map<String, String> GENDERS = new HashMap<String, String>() {{

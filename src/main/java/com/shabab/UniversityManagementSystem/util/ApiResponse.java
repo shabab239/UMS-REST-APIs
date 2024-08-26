@@ -13,7 +13,6 @@ import java.util.Map;
 @NoArgsConstructor
 public class ApiResponse {
 
-    private HttpStatus status;
     private String message;
     private Map<String, Object> data;
     private Map<String, String> errors;
@@ -32,6 +31,22 @@ public class ApiResponse {
         Map<String, Object> data = new HashMap<>();
         data.put(key, value);
         this.data = data;
+    }
+
+    public void success(String message) {
+        this.isSuccessful = true;
+        this.message = message;
+    }
+
+    public void error(String message) {
+        this.isSuccessful = false;
+        this.message = message;
+    }
+
+    public ApiResponse returnError(Exception e) {
+        this.isSuccessful = false;
+        this.message = e.getMessage();
+        return this;
     }
 }
 
