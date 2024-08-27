@@ -1,4 +1,4 @@
-package com.shabab.UniversityManagementSystem.security.jwt;
+package com.shabab.UniversityManagementSystem.security.service;
 
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import io.jsonwebtoken.Claims;

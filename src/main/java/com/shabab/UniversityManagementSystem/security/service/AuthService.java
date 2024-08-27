@@ -1,7 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.service;
 
 import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.security.jwt.JwtService;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;

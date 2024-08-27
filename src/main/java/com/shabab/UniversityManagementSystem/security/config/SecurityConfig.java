@@ -1,7 +1,7 @@
 package com.shabab.UniversityManagementSystem.security.config;
 
 import com.shabab.UniversityManagementSystem.admin.service.UserService;
-import com.shabab.UniversityManagementSystem.security.jwt.JwtFilter;
+import com.shabab.UniversityManagementSystem.security.filter.JwtFilter;
 import com.shabab.UniversityManagementSystem.security.handler.CustomAuthenticationFailureHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
