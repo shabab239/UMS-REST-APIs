@@ -6,8 +6,9 @@ import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
-import com.shabab.UniversityManagementSystem.security.jwt.JwtUtil;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +29,11 @@ public class StudentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAll(jwtUtil.getUniversityId()).orElseThrow();
+            List<Student> students = studentRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (students.isEmpty()) {
                 return response.returnError("No student found");
             }
@@ -50,7 +49,7 @@ public class StudentService {
         ApiResponse response = new ApiResponse();
         try {
             Department department = departmentRepository
-                    .getById(student.getDepartment().getId(), jwtUtil.getUniversityId())
+                    .getById(student.getDepartment().getId(), AuthUtil.getCurrentUniversityId())
                     .orElseThrow();
 
             if (department.getId() == null) {
@@ -70,7 +69,7 @@ public class StudentService {
     public ApiResponse update(Student student) {
         ApiResponse response = new ApiResponse();
         try {
-            Student dbStudent = studentRepository.getById(student.getId(), jwtUtil.getUniversityId()).orElseThrow();
+            Student dbStudent = studentRepository.getById(student.getId(), AuthUtil.getCurrentUniversityId()).orElseThrow();
 
             if (dbStudent.getId() == null) {
                 return response.returnError("Student not found");
@@ -90,7 +89,7 @@ public class StudentService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
+            Student student = studentRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (student.getId() == null) {
                 return response.returnError("Student not found");
             }
@@ -105,7 +104,7 @@ public class StudentService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
+            Student student = studentRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (student.getId() == null) {
                 return response.returnError("Student not found");
             }

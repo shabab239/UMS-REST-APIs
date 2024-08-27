@@ -2,14 +2,13 @@ package com.shabab.UniversityManagementSystem.admin.service;
 
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
-import com.shabab.UniversityManagementSystem.security.jwt.JwtUtil;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
-import com.shabab.UniversityManagementSystem.security.service.AuthService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
-import com.shabab.UniversityManagementSystem.validation.InvalidCredentialsException;
+import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,13 +31,10 @@ public class UserService implements UserDetailsService {
     @Autowired
     private AuthRepository authRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<User> users = userRepository.findByUniversity(jwtUtil.getUniversity());
+            List<User> users = userRepository.findByUniversity(AuthUtil.getCurrentUniversity());
             if (users.isEmpty()) {
                 return response.returnError("No users found");
             }
@@ -56,7 +52,7 @@ public class UserService implements UserDetailsService {
             if (user.getRole() == null || user.getRole().equals("")) {
                 return response.returnError("Role is required");
             }
-            user.setUniversity(jwtUtil.getUniversity());
+            user.setUniversity(AuthUtil.getCurrentUniversity());
             User dbUser = userRepository.save(user);
             response.setData("user", dbUser);
             response.success("Saved Successfully");
@@ -69,12 +65,12 @@ public class UserService implements UserDetailsService {
     public ApiResponse update(User user) {
         ApiResponse response = new ApiResponse();
         try {
-            User dbUser = userRepository.findByIdAndUniversity(user.getId(), jwtUtil.getUniversity());
+            User dbUser = userRepository.findByIdAndUniversity(user.getId(), AuthUtil.getCurrentUniversity());
             if (dbUser == null || dbUser.getId() == null) {
                 return response.returnError("User not found");
             }
             user.setRole(dbUser.getRole());
-            user.setUniversity(jwtUtil.getUniversity());
+            user.setUniversity(AuthUtil.getCurrentUniversity());
             User updatedUser = userRepository.save(user);
             response.setData("user", updatedUser);
             response.success("Updated Successfully");
@@ -85,9 +81,10 @@ public class UserService implements UserDetailsService {
     }
 
     public ApiResponse getById(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ApiResponse response = new ApiResponse();
         try {
-            User user = userRepository.findByIdAndUniversity(id, jwtUtil.getUniversity());
+            User user = userRepository.findByIdAndUniversity(id, AuthUtil.getCurrentUniversity());
             if (user == null || user.getId() == null) {
                 return response.returnError("User not found");
             }
@@ -102,7 +99,7 @@ public class UserService implements UserDetailsService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            User user = userRepository.findByIdAndUniversity(id, jwtUtil.getUniversity());
+            User user = userRepository.findByIdAndUniversity(id, AuthUtil.getCurrentUniversity());
             if (user == null || user.getId() == null) {
                 return response.returnError("User not found");
             }
@@ -115,11 +112,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws InvalidCredentialsException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Token token = authRepository.findByUsername(username);
 
         if (token == null || token.getUser() == null) {
-            throw new InvalidCredentialsException("Invalid username or password. Please try again.");
+            throw new UsernameNotFoundException("Invalid username or password.");
         }
 
         User user = token.getUser();

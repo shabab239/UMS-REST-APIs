@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * Author: Shabab
  * Created on: 26/08/2024
  */
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

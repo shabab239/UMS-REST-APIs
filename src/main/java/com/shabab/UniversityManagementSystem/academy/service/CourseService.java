@@ -5,8 +5,9 @@ import com.shabab.UniversityManagementSystem.academy.model.Department;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
-import com.shabab.UniversityManagementSystem.security.jwt.JwtUtil;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +28,11 @@ public class CourseService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Course> courses = courseRepository.getAll(jwtUtil.getUniversityId()).orElseThrow();
+            List<Course> courses = courseRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (courses.isEmpty()) {
                 return response.returnError("No course found");
             }
@@ -49,7 +48,7 @@ public class CourseService {
         ApiResponse response = new ApiResponse();
         try {
             Department department = departmentRepository
-                    .getById(course.getDepartment().getId(), jwtUtil.getUniversityId())
+                    .getById(course.getDepartment().getId(), AuthUtil.getCurrentUniversityId())
                     .orElseThrow();
 
             if (department.getId() == null) {
@@ -68,7 +67,7 @@ public class CourseService {
     public ApiResponse update(Course course) {
         ApiResponse response = new ApiResponse();
         try {
-            Course dbCourse = courseRepository.getById(course.getId(), jwtUtil.getUniversityId()).orElseThrow();
+            Course dbCourse = courseRepository.getById(course.getId(), AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (dbCourse.getId() == null) {
                 return response.returnError("Course not found");
             }
@@ -85,7 +84,7 @@ public class CourseService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Course course = courseRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
+            Course course = courseRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (course.getId() == null) {
                 return response.returnError("Course not found");
             }
@@ -100,7 +99,7 @@ public class CourseService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Course course = courseRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
+            Course course = courseRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
             if (course.getId() == null) {
                 return response.returnError("Course not found");
             }

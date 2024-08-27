@@ -4,8 +4,9 @@ import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
 import com.shabab.UniversityManagementSystem.admin.model.University;
 import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.security.jwt.JwtUtil;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,11 @@ public class FacultyService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Faculty> faculties = facultyRepository.findByUniversity(jwtUtil.getUniversity()).orElseThrow();
+            List<Faculty> faculties = facultyRepository.findByUniversity(AuthUtil.getCurrentUniversity()).orElseThrow();
             if (faculties.isEmpty()) {
                 return response.returnError("No faculty found");
             }
@@ -45,7 +44,7 @@ public class FacultyService {
     public ApiResponse save(Faculty faculty) {
         ApiResponse response = new ApiResponse();
         try {
-            faculty.setUniversity(jwtUtil.getUniversity());
+            faculty.setUniversity(AuthUtil.getCurrentUniversity());
             Faculty dbFaculty = facultyRepository.save(faculty);
             response.setData("faculty", dbFaculty);
             response.success("Saved Successfully");
@@ -58,7 +57,7 @@ public class FacultyService {
     public ApiResponse update(Faculty faculty) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty dbFaculty = facultyRepository.findByIdAndUniversity(faculty.getId(), jwtUtil.getUniversity()).orElseThrow();
+            Faculty dbFaculty = facultyRepository.findByIdAndUniversity(faculty.getId(), AuthUtil.getCurrentUniversity()).orElseThrow();
             if (dbFaculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }
@@ -75,7 +74,7 @@ public class FacultyService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(id, jwtUtil.getUniversity()).orElseThrow();
+            Faculty faculty = facultyRepository.findByIdAndUniversity(id, AuthUtil.getCurrentUniversity()).orElseThrow();
             if (faculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }
@@ -90,7 +89,7 @@ public class FacultyService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(id, jwtUtil.getUniversity()).orElseThrow();
+            Faculty faculty = facultyRepository.findByIdAndUniversity(id, AuthUtil.getCurrentUniversity()).orElseThrow();
             if (faculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }

@@ -1,7 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.jwt;
 
 import com.shabab.UniversityManagementSystem.admin.service.UserService;
-import com.shabab.UniversityManagementSystem.validation.InvalidCredentialsException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -50,23 +49,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            try {
-                UserDetails userDetails = applicationContext.getBean(UserService.class)
-                        .loadUserByUsername(username);
+            UserDetails userDetails = applicationContext.getBean(UserService.class)
+                    .loadUserByUsername(username);
 
-                if (jwtService.validateJwt(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (InvalidCredentialsException e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"error\": \"Invalid username or password. Please try again.\"}");
-                return;
+            if (jwtService.validateJwt(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
         }
         filterChain.doFilter(request, response);
     }
