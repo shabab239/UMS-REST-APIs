@@ -26,18 +26,15 @@ public class CustomAuthenticationFailureHandler implements Customizer<ExceptionH
 
     @Override
     public void customize(ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer) {
-        httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new AuthenticationEntryPoint() {
-            @Override
-            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                if (authException instanceof UsernameNotFoundException) {
-                    ApiResponse apiResponse = new ApiResponse(false, "Invalid username or password");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    ObjectMapper mapper = new ObjectMapper();
-                    String json = mapper.writeValueAsString(apiResponse);
-                    response.getWriter().write(json);
-                }
+        httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
+            if (authException instanceof UsernameNotFoundException) {
+                ApiResponse apiResponse = new ApiResponse(false, authException.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(apiResponse);
+                response.getWriter().write(json);
             }
         });
     }
