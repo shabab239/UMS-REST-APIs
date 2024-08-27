@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
@@ -19,71 +21,94 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "acd_students")
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "ID Number is required")
-    @Min(value = 0, message = "ID Number cannot be negative")
-    private Integer idNo;
+    @NotBlank(message = "ID Number is required")
+    @Column(name = "id_no", unique = true, nullable = false)
+    private String idNo;
 
     @NotBlank(message = "Name is required")
+    @Size(max = 100, message = "Max 100 Characters")
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @NotBlank(message = "Email is required")
+    @Size(max = 100, message = "Max 100 Characters")
     @Email(message = "Invalid email format")
+    @Column(name = "email", length = 100, unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Cell number is required")
+    @NotBlank(message = "Cell is required")
     @Pattern(regexp = "^\\d{11}$", message = "Cell number must be 11 digits")
+    @Column(name = "cell", length = 11, nullable = false)
     private String cell;
 
-    @NotBlank(message = "Gender is required")
-    private String gender;
-
-    @NotBlank(message = "Date Of Birth is required")
-    private String dateOfBirth;
-
-    private String bloodGroup;
-    private String religion;
-    private byte[] avatar;
-
-    @NotBlank(message = "Father's Name is required")
-    private String fatherName;
-
-    @NotBlank(message = "Father's Cell is required")
-    @Pattern(regexp = "^\\d{11}$", message = "Father's Cell number must be 11 digits")
-    private String fatherCell;
-
-    @NotBlank(message = "Mother's Name is required")
-    private String motherName;
-
-    @NotBlank(message = "Mother's Cell is required")
-    @Pattern(regexp = "^\\d{11}$", message = "Mother's Cell number must be 11 digits")
-    private String motherCell;
-
-    @NotBlank(message = "Present Address is required")
-    private String presentAddress;
-
-    @NotBlank(message = "Permanent Address is required")
-    private String permanentAddress;
-
-    @NotBlank(message = "Admission Date is required")
-    private String admissionDate;
+    @NotNull(message = "Admission Date is required")
+    @Column(name = "admission_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date admissionDate;
 
     @NotBlank(message = "Session is required")
+    @Column(name = "session", nullable = false)
     private String session;
 
     @NotBlank(message = "Status is required")
+    @Column(name = "status", nullable = false)
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
     @NotNull(message = "Department is required")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_Id", nullable = false)
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
+
+    /*Optional*/
+
+    @Column(name = "gender")
+    private String gender;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "blood_group")
+    private String bloodGroup;
+
+    @Column(name = "religion")
+    private String religion;
+
+    @Lob
+    @Column(name = "avatar")
+    private byte[] avatar;
+
+    @Size(max = 100, message = "Max 100 Characters")
+    @Column(name = "father_name", length = 100)
+    private String fatherName;
+
+    @Pattern(regexp = "^\\d{11}$", message = "Father's Cell number must be 11 digits")
+    @Column(name = "father_cell", length = 11)
+    private String fatherCell;
+
+    @Size(max = 100, message = "Max 100 Characters")
+    @Column(name = "mother_name", length = 100)
+    private String motherName;
+
+    @Pattern(regexp = "^\\d{11}$", message = "Mother's Cell number must be 11 digits")
+    @Column(name = "mother_cell", length = 11)
+    private String motherCell;
+
+    @Size(max = 400, message = "Max 400 Characters")
+    @Column(name = "present_address", length = 400)
+    private String presentAddress;
+
+    @Size(max = 400, message = "Max 400 Characters")
+    @Column(name = "permanent_address", length = 400)
+    private String permanentAddress;
 
 }

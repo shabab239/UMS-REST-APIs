@@ -22,25 +22,27 @@ import java.util.*;
 @Data
 @Table(name = "acd_enrollments")
 public class Enrollment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "enrollment_date")
     @NotNull(message = "Enrollment date is required")
-    private String enrollmentDate;
+    @Column(name = "enrollment_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date enrollmentDate;
 
-    @Column(name = "fees_paid")
-    @NotNull(message = "Fees is required")
-    private Double feesPaid;
+    @NotNull(message = "Paid Fee is required")
+    @Column(name = "fee_paid", nullable = false)
+    private Double feePaid;
 
-    @Column(name = "status")
     @NotNull(message = "Status is required")
+    @Column(name = "status", nullable = false)
     private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id")
     @NotNull(message = "Student is required")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -52,7 +54,7 @@ public class Enrollment {
     private List<Course> courses = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_Id", nullable = false)
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
 }

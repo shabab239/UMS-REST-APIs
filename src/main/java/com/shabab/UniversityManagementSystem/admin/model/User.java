@@ -1,7 +1,10 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -29,47 +30,61 @@ public class User implements UserDetails {
     private Long id;
 
     @NotBlank(message = "Name is required")
+    @Size(max = 100, message = "Max 100 Characters")
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @NotBlank(message = "Cell number is required")
     @Pattern(regexp = "^\\d{11}$", message = "Cell number must be 11 digits")
+    @Column(name = "cell", length = 11, nullable = false, unique = true)
     private String cell;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    private String email;
-
-    @NotNull(message = "Gender is required")
-    private Character gender;
-
-    @Size(max = 500, message = "Maximum 500 Characters")
-    private String address;
-
-    private byte[] avatar;
-
-    @NotNull(message = "Status is required")
-    private Integer status;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
-
-    private String bloodGroup;
-
-    @Temporal(TemporalType.DATE)
-    private Date joiningDate;
+    @NotBlank(message = "Status is required")
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private Role role;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_Id", nullable = false)
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
-    @Transient
-    String username;
+    /*Optional*/
+
+    @Email(message = "Invalid email format")
+    @Size(max = 100, message = "Max 100 Characters")
+    @Column(name = "email", length = 100, unique = true)
+    private String email;
+
+    @Column(name = "gender")
+    private Character gender;
+
+    @Size(max = 255, message = "Maximum 255 Characters")
+    @Column(name = "address", length = 255)
+    private String address;
+
+    @Lob
+    @Column(name = "avatar")
+    private byte[] avatar;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "blood_group")
+    private String bloodGroup;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "joining_date")
+    private Date joiningDate;
 
     @Transient
-    String password;
+    private String username;
+
+    @Transient
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,27 +110,5 @@ public class User implements UserDetails {
         TEACHER,
         STAFF
     }
-
-    public static final Map<String, String> GENDERS = new HashMap<String, String>() {{
-        put("M", "Male");
-        put("F", "Female");
-        put("O", "Other");
-    }};
-
-    public static final Map<String, String> STATUSES = new HashMap<String, String>() {{
-        put("1", "Active");
-        put("0", "Inactive");
-        put("2", "Suspended");
-    }};
-
-    public static final Map<String, String> BLOOD_GROUPS = new HashMap<String, String>() {{
-        put("A+", "A Positive");
-        put("A-", "A Negative");
-        put("B+", "B Positive");
-        put("B-", "B Negative");
-        put("AB+", "AB Positive");
-        put("AB-", "AB Negative");
-        put("O+", "O Positive");
-        put("O-", "O Negative");
-    }};
 }
+

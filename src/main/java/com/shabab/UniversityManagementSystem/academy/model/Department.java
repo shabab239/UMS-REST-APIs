@@ -3,6 +3,8 @@ package com.shabab.UniversityManagementSystem.academy.model;
 import com.shabab.UniversityManagementSystem.admin.model.University;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,15 +27,17 @@ public class Department {
     private Long id;
 
     @NotBlank(message = "Department name is required")
-    @Column(nullable = false, unique = true)
+    @Size(max = 100, message = "Max 100 Characters")
+    @Column(nullable = false, unique = true, length = 100)
     private String name;
 
+    @NotNull(message = "Faculty is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="faculty_id")
+    @JoinColumn(name="faculty_id", nullable = false)
     private Faculty faculty;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_Id", nullable = false)
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
 }

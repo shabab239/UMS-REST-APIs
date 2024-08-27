@@ -24,33 +24,34 @@ import java.util.*;
 @Data
 @Table(name = "acd_courses")
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
     @NotBlank(message = "Course name is required")
+    @Size(max = 60, message = "Max 60 Characters")
+    @Column(name = "name", length = 60, unique = true, nullable = false)
     private String name;
 
-    @Column(name = "code")
     @NotBlank(message = "Course code is required")
+    @Size(max = 5, message = "Max 5 Characters")
+    @Column(name = "code", length = 5, unique = true, nullable = false)
     private String code;
 
-    @Column(name = "credits")
+    @NotNull(message = "Course code is required")
     @Min(value = 1, message = "Credits must be a positive number")
+    @Column(name = "credits", nullable = false)
     private Integer credits;
 
-    @Column(name = "fee")
     @NotNull(message = "Course fee is required")
+    @Min(value = 1, message = "Fee must be a positive number")
+    @Column(name = "fee", nullable = false)
     private Double fee;
 
-    @Column(name = "description")
-    @NotBlank(message = "Course description is required")
-    private String description;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
     @NotNull(message = "Department is required")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -62,6 +63,12 @@ public class Course {
     private List<User> teachers = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_Id", nullable = false)
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
+
+    /*Optional*/
+
+    @Size(max = 200, message = "Max 200 Characters")
+    @Column(name = "description", length = 200)
+    private String description;
 }
