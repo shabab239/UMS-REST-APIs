@@ -15,7 +15,6 @@ import java.util.List;
  * Created on: 24/08/2024
  */
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/faculty")
 public class FacultyRestController {

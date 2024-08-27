@@ -1,7 +1,7 @@
-package com.shabab.UniversityManagementSystem.security.jwt;
+package com.shabab.UniversityManagementSystem.security.filter;
 
 import com.shabab.UniversityManagementSystem.admin.service.UserService;
-import io.jsonwebtoken.JwtException;
+import com.shabab.UniversityManagementSystem.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +43,9 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 username = jwtService.extractUsername(jwt);
             } catch (Exception e) {
-                throw new JwtException("Invalid JWT");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid Token. Please login again.");
+                return;
             }
         }
 
