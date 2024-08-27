@@ -35,8 +35,8 @@ public class Course {
     private String name;
 
     @NotBlank(message = "Course code is required")
-    @Size(max = 5, message = "Max 5 Characters")
-    @Column(name = "code", length = 5, nullable = false)
+    @Size(max = 10, message = "Max 10 Characters")
+    @Column(name = "code", length = 10, nullable = false)
     private String code;
 
     @NotNull(message = "Course code is required")

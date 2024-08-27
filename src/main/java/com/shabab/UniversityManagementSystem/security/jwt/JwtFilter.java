@@ -1,6 +1,8 @@
 package com.shabab.UniversityManagementSystem.security.jwt;
 
 import com.shabab.UniversityManagementSystem.admin.service.UserService;
+import com.shabab.UniversityManagementSystem.validation.InvalidCredentialsException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,23 +44,29 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 username = jwtService.extractUsername(jwt);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Invalid JWT");
-                return;
+                throw new JwtException("Invalid JWT");
             }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = applicationContext.getBean(UserService.class)
-                    .loadUserByUsername(username);
+            try {
+                UserDetails userDetails = applicationContext.getBean(UserService.class)
+                        .loadUserByUsername(username);
 
-            if (jwtService.validateJwt(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (jwtService.validateJwt(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (InvalidCredentialsException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Invalid username or password. Please try again.\"}");
+                return;
             }
+
         }
         filterChain.doFilter(request, response);
     }

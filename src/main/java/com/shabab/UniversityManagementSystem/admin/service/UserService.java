@@ -7,6 +7,7 @@ import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
 import com.shabab.UniversityManagementSystem.security.service.AuthService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.validation.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -114,11 +115,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws InvalidCredentialsException {
         Token token = authRepository.findByUsername(username);
 
         if (token == null || token.getUser() == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
+            throw new InvalidCredentialsException("Invalid username or password. Please try again.");
         }
 
         User user = token.getUser();
