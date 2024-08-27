@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -17,8 +18,8 @@ import java.util.List;
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
-    List<Faculty> findByUniversity(University university);
+    Optional<List<Faculty>> findByUniversity(University university);
 
-    Faculty findByIdAndUniversity(Long id, University university);
+    Optional<Faculty> findByIdAndUniversity(Long id, University university);
 
 }

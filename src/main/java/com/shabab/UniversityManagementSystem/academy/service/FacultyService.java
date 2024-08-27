@@ -30,7 +30,7 @@ public class FacultyService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Faculty> faculties = facultyRepository.findByUniversity(jwtUtil.getUniversity());
+            List<Faculty> faculties = facultyRepository.findByUniversity(jwtUtil.getUniversity()).orElseThrow();
             if (faculties.isEmpty()) {
                 return response.returnError("No faculty found");
             }
@@ -58,12 +58,11 @@ public class FacultyService {
     public ApiResponse update(Faculty faculty) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty dbFaculty = facultyRepository.findByIdAndUniversity(faculty.getId(), jwtUtil.getUniversity());
-            if (dbFaculty == null || dbFaculty.getId() == null) {
+            Faculty dbFaculty = facultyRepository.findByIdAndUniversity(faculty.getId(), jwtUtil.getUniversity()).orElseThrow();
+            if (dbFaculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }
 
-            faculty.setUniversity(jwtUtil.getUniversity());
             Faculty updatedFaculty = facultyRepository.save(faculty);
             response.setData("faculty", updatedFaculty);
             response.success("Updated Successfully");
@@ -76,8 +75,8 @@ public class FacultyService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(id, jwtUtil.getUniversity());
-            if (faculty == null || faculty.getId() == null) {
+            Faculty faculty = facultyRepository.findByIdAndUniversity(id, jwtUtil.getUniversity()).orElseThrow();
+            if (faculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }
             response.setData("faculty", faculty);
@@ -91,8 +90,8 @@ public class FacultyService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(id, jwtUtil.getUniversity());
-            if (faculty == null || faculty.getId() == null) {
+            Faculty faculty = facultyRepository.findByIdAndUniversity(id, jwtUtil.getUniversity()).orElseThrow();
+            if (faculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }
             facultyRepository.deleteById(id);

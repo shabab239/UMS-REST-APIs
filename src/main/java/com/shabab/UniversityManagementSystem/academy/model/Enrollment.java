@@ -53,8 +53,4 @@ public class Enrollment {
     )
     private List<Course> courses = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
-
 }

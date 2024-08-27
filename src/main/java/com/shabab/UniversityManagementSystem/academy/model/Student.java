@@ -27,7 +27,7 @@ public class Student {
     private Long id;
 
     @NotBlank(message = "ID Number is required")
-    @Column(name = "id_no", unique = true, nullable = false)
+    @Column(name = "id_no", nullable = false)
     private String idNo;
 
     @NotBlank(message = "Name is required")
@@ -63,10 +63,6 @@ public class Student {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
 
     /*Optional*/
 

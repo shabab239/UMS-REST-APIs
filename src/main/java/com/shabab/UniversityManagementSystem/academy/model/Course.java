@@ -31,12 +31,12 @@ public class Course {
 
     @NotBlank(message = "Course name is required")
     @Size(max = 60, message = "Max 60 Characters")
-    @Column(name = "name", length = 60, unique = true, nullable = false)
+    @Column(name = "name", length = 60, nullable = false)
     private String name;
 
     @NotBlank(message = "Course code is required")
     @Size(max = 5, message = "Max 5 Characters")
-    @Column(name = "code", length = 5, unique = true, nullable = false)
+    @Column(name = "code", length = 5, nullable = false)
     private String code;
 
     @NotNull(message = "Course code is required")
@@ -61,10 +61,6 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
     private List<User> teachers = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
 
     /*Optional*/
 

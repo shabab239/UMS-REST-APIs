@@ -27,11 +27,11 @@ public class Faculty {
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Max 100 Characters")
-    @Column(name = "name", length = 100, nullable = false, unique = true)
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @NotNull(message = "Dean of faculty is required")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dean_id", nullable = false)
     private User dean;
 

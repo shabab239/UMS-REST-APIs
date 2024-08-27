@@ -1,6 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
 import com.shabab.UniversityManagementSystem.admin.model.University;
+import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,16 +29,17 @@ public class Department {
 
     @NotBlank(message = "Department name is required")
     @Size(max = 100, message = "Max 100 Characters")
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
+
+    @NotNull(message = "Department head is required")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="head_id", nullable = false)
+    private User head;
 
     @NotNull(message = "Faculty is required")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="faculty_id", nullable = false)
     private Faculty faculty;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
 
 }

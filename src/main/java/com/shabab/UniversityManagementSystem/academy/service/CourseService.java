@@ -1,11 +1,10 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
-
+import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.academy.model.Department;
-import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
+import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
 import com.shabab.UniversityManagementSystem.security.jwt.JwtUtil;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,10 @@ import java.util.List;
  */
 
 @Service
-public class StudentService {
+public class CourseService {
 
     @Autowired
-    private StudentRepository studentRepository;
+    private CourseRepository courseRepository;
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -34,31 +33,31 @@ public class StudentService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAll(jwtUtil.getUniversityId()).orElseThrow();
-            if (students.isEmpty()) {
-                return response.returnError("No student found");
+            List<Course> courses = courseRepository.getAll(jwtUtil.getUniversityId()).orElseThrow();
+            if (courses.isEmpty()) {
+                return response.returnError("No course found");
             }
-            response.setData("students", students);
-            response.success("Students retrieved successfully");
+            response.setData("courses", courses);
+            response.success("Successfully retrieved all courses");
+            return response;
         } catch (Exception e) {
             return response.returnError(e);
         }
-        return response;
     }
 
-    public ApiResponse save(Student student) {
+    public ApiResponse save(Course course) {
         ApiResponse response = new ApiResponse();
         try {
             Department department = departmentRepository
-                    .getById(student.getDepartment().getId(), jwtUtil.getUniversityId())
+                    .getById(course.getDepartment().getId(), jwtUtil.getUniversityId())
                     .orElseThrow();
 
             if (department.getId() == null) {
                 return response.returnError("Wrong Department");
             }
 
-            Student savedStudent = studentRepository.save(student);
-            response.setData("student", savedStudent);
+            course = courseRepository.save(course);
+            response.setData("course", course);
             response.success("Saved Successfully");
         } catch (Exception e) {
             return response.returnError(e);
@@ -66,36 +65,32 @@ public class StudentService {
         return response;
     }
 
-
-    public ApiResponse update(Student student) {
+    public ApiResponse update(Course course) {
         ApiResponse response = new ApiResponse();
         try {
-            Student dbStudent = studentRepository.getById(student.getId(), jwtUtil.getUniversityId()).orElseThrow();
-
-            if (dbStudent.getId() == null) {
-                return response.returnError("Student not found");
+            Course dbCourse = courseRepository.getById(course.getId(), jwtUtil.getUniversityId()).orElseThrow();
+            if (dbCourse.getId() == null) {
+                return response.returnError("Course not found");
             }
 
-            Student updatedStudent = studentRepository.save(student);
-            response.setData("student", updatedStudent);
+            course = courseRepository.save(course);
+            response.setData("course", course);
             response.success("Updated Successfully");
+            return response;
         } catch (Exception e) {
             return response.returnError(e);
         }
-        return response;
     }
-
-
 
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
-            if (student.getId() == null) {
-                return response.returnError("Student not found");
+            Course course = courseRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
+            if (course.getId() == null) {
+                return response.returnError("Course not found");
             }
-            response.setData("student", student);
-            response.success("Successfully retrieved student");
+            response.setData("course", course);
+            response.success("Successfully retrieved course");
             return response;
         } catch (Exception e) {
             return response.returnError(e);
@@ -105,16 +100,16 @@ public class StudentService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
-            if (student.getId() == null) {
-                return response.returnError("Student not found");
+            Course course = courseRepository.getById(id, jwtUtil.getUniversityId()).orElseThrow();
+            if (course.getId() == null) {
+                return response.returnError("Course not found");
             }
-            studentRepository.delete(student);
+            courseRepository.deleteById(id);
             response.success("Deleted Successfully");
+            return response;
         } catch (Exception e) {
             return response.returnError(e);
         }
-        return response;
     }
 
 }
