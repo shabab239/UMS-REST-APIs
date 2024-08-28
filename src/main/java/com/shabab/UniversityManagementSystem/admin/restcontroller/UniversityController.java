@@ -1,7 +1,9 @@
 package com.shabab.UniversityManagementSystem.admin.restcontroller;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.service.UserService;
+import com.shabab.UniversityManagementSystem.admin.model.University;
+import com.shabab.UniversityManagementSystem.admin.model.University;
+import com.shabab.UniversityManagementSystem.admin.service.UniversityService;
+import com.shabab.UniversityManagementSystem.admin.service.UniversityService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,31 +20,31 @@ import org.springframework.web.bind.annotation.*;
 public class UniversityController {
 
     @Autowired
-    private UserService userService;
+    private UniversityService universityService;
 
     @GetMapping("/getAll")
     public ApiResponse getAll() {
-        return userService.getAll();
+        return universityService.getAll();
     }
 
     @GetMapping("/{id}")
     public ApiResponse getById(@PathVariable Long id) {
-        return userService.getById(id);
+        return universityService.getById(id);
     }
 
     @PostMapping("/save")
-    public ApiResponse save(@Valid @RequestBody User user) {
-        return userService.save(user);
+    public ApiResponse save(@Valid @RequestBody University university) {
+        return universityService.save(university);
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@Valid @RequestBody User user) {
-        return userService.update(user);
+    public ApiResponse update(@Valid @RequestBody University university) {
+        return universityService.update(university);
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse deleteById(@PathVariable Long id) {
-        return userService.deleteById(id);
+        return universityService.deleteById(id);
     }
 }
 
