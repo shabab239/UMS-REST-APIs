@@ -59,10 +59,10 @@ public class Student {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @NotNull(message = "Department is required")
+    @NotNull(message = "Semester is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    @JoinColumn(name = "semester_id", nullable = false)
+    private Semester semester;
 
     /*Optional*/
 

@@ -39,20 +39,15 @@ public class Course {
     @Column(name = "code", length = 10, nullable = false)
     private String code;
 
-    @NotNull(message = "Course code is required")
-    @Min(value = 1, message = "Credits must be a positive number")
-    @Column(name = "credits", nullable = false)
-    private Integer credits;
+    @NotNull(message = "Course credit is required")
+    @Min(value = 1, message = "Credit must be a positive number")
+    @Column(name = "credit", nullable = false)
+    private Integer credit;
 
-    @NotNull(message = "Course fee is required")
-    @Min(value = 1, message = "Fee must be a positive number")
-    @Column(name = "fee", nullable = false)
-    private Double fee;
-
-    @NotNull(message = "Department is required")
+    @NotNull(message = "Semester is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    @JoinColumn(name = "semester_id", nullable = false)
+    private Semester semester;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

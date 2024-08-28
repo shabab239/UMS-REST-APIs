@@ -32,9 +32,8 @@ public class Department {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @NotNull(message = "Department head is required")
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="head_id", nullable = false)
+    @JoinColumn(name="head_id")
     private User head;
 
     @NotNull(message = "Faculty is required")

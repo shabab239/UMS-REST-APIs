@@ -30,12 +30,11 @@ public class Faculty {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @NotNull(message = "Dean of faculty is required")
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "dean_id", nullable = false)
+    @JoinColumn(name = "dean_id")
     private User dean;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
