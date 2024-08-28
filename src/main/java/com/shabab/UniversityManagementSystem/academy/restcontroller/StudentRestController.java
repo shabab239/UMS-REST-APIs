@@ -35,7 +35,7 @@ public class StudentRestController {
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@RequestBody Student student) {
+    public ApiResponse update(@Valid @RequestBody Student student) {
         return studentService.update(student);
     }
 

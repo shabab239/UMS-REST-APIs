@@ -1,11 +1,9 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Course;
-import com.shabab.UniversityManagementSystem.academy.model.Department;
-import com.shabab.UniversityManagementSystem.academy.model.Student;
+import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
-import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +24,15 @@ public class CourseService {
     private CourseRepository courseRepository;
 
     @Autowired
-    private DepartmentRepository departmentRepository;
+    private SemesterRepository semesterRepository;
 
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Course> courses = courseRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
+            List<Course> courses = courseRepository.getAll(
+                    AuthUtil.getCurrentUniversityId()
+            ).orElseThrow();
             if (courses.isEmpty()) {
                 return response.returnError("No course found");
             }
@@ -47,14 +47,12 @@ public class CourseService {
     public ApiResponse save(Course course) {
         ApiResponse response = new ApiResponse();
         try {
-            Department department = departmentRepository
-                    .getById(course.getDepartment().getId(), AuthUtil.getCurrentUniversityId())
-                    .orElseThrow();
-
-            if (department.getId() == null) {
-                return response.returnError("Wrong Department");
+            Semester semester = semesterRepository.getById(
+                    course.getSemester().getId(), AuthUtil.getCurrentUniversityId()
+            ).orElseThrow();
+            if (semester.getId() == null) {
+                return response.returnError("Wrong Semester");
             }
-
             course = courseRepository.save(course);
             response.setData("course", course);
             response.success("Saved Successfully");
@@ -67,11 +65,12 @@ public class CourseService {
     public ApiResponse update(Course course) {
         ApiResponse response = new ApiResponse();
         try {
-            Course dbCourse = courseRepository.getById(course.getId(), AuthUtil.getCurrentUniversityId()).orElseThrow();
+            Course dbCourse = courseRepository.getById(
+                    course.getId(), AuthUtil.getCurrentUniversityId()
+            ).orElseThrow();
             if (dbCourse.getId() == null) {
                 return response.returnError("Course not found");
             }
-
             course = courseRepository.save(course);
             response.setData("course", course);
             response.success("Updated Successfully");
@@ -84,7 +83,9 @@ public class CourseService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Course course = courseRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
+            Course course = courseRepository.getById(
+                    id, AuthUtil.getCurrentUniversityId()
+            ).orElseThrow();
             if (course.getId() == null) {
                 return response.returnError("Course not found");
             }
@@ -99,7 +100,9 @@ public class CourseService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Course course = courseRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
+            Course course = courseRepository.getById(
+                    id, AuthUtil.getCurrentUniversityId()
+            ).orElseThrow();
             if (course.getId() == null) {
                 return response.returnError("Course not found");
             }

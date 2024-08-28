@@ -31,7 +31,7 @@ public class FeeRestController {
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@RequestBody Fee fee) {
+    public ApiResponse update(@Valid @RequestBody Fee fee) {
         return feeService.update(fee);
     }
 

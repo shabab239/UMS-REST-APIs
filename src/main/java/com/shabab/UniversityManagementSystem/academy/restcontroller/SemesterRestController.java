@@ -31,7 +31,7 @@ public class SemesterRestController {
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@RequestBody Semester semester) {
+    public ApiResponse update(@Valid @RequestBody Semester semester) {
         return semesterService.update(semester);
     }
 

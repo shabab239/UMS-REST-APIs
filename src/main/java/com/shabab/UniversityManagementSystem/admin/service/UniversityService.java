@@ -25,9 +25,6 @@ public class UniversityService {
     @Autowired
     private UniversityRepository universityRepository;
 
-    @Autowired
-    private AuthRepository authRepository;
-
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {

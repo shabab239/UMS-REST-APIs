@@ -31,7 +31,7 @@ public class ProgramRestController {
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@RequestBody Program program) {
+    public ApiResponse update(@Valid @RequestBody Program program) {
         return programService.update(program);
     }
 

@@ -4,6 +4,7 @@ import com.shabab.UniversityManagementSystem.admin.service.UserService;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.security.service.AuthService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class AuthRestController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ApiResponse login(@RequestBody Token token) {
+    public ApiResponse login(@Valid @RequestBody Token token) {
         return authService.authenticate(token);
     }
 
