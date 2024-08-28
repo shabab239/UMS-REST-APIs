@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class UserService implements UserDetailsService {
         try {
             List<User> users = userRepository.findByUniversity(
                     AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new ArrayList<>());
             if (users.isEmpty()) {
                 return response.returnError("No users found");
             }
@@ -66,7 +67,7 @@ public class UserService implements UserDetailsService {
         try {
             User dbUser = userRepository.findByIdAndUniversity(
                     user.getId(), AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new User());
             if (dbUser.getId() == null) {
                 return response.returnError("User not found");
             }
@@ -86,7 +87,7 @@ public class UserService implements UserDetailsService {
         try {
             User user = userRepository.findByIdAndUniversity(
                     id, AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new User());
             if (user.getId() == null) {
                 return response.returnError("User not found");
             }
@@ -103,7 +104,7 @@ public class UserService implements UserDetailsService {
         try {
             User user = userRepository.findByIdAndUniversity(
                     id, AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new User());
             if (user.getId() == null) {
                 return response.returnError("User not found");
             }

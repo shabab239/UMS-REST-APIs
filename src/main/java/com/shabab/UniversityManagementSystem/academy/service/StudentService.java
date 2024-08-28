@@ -10,6 +10,7 @@ import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,9 @@ public class StudentService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
+            List<Student> students = studentRepository.getAll(
+                    AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
             if (students.isEmpty()) {
                 return response.returnError("No student found");
             }
@@ -48,7 +51,7 @@ public class StudentService {
         try {
             Semester semester = semesterRepository.getById(
                     student.getSemester().getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Semester());
 
             if (semester.getId() == null) {
                 return response.returnError("Wrong Semester");
@@ -69,7 +72,7 @@ public class StudentService {
         try {
             Student dbStudent = studentRepository.getById(
                     student.getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Student());
 
             if (dbStudent.getId() == null) {
                 return response.returnError("Student not found");
@@ -90,7 +93,7 @@ public class StudentService {
         try {
             Student student = studentRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Student());
             if (student.getId() == null) {
                 return response.returnError("Student not found");
             }
@@ -107,7 +110,7 @@ public class StudentService {
         try {
             Student student = studentRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Student());
             if (student.getId() == null) {
                 return response.returnError("Student not found");
             }

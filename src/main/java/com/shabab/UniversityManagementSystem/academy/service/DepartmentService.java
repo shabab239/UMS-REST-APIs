@@ -34,9 +34,6 @@ public class DepartmentService {
             List<Department> departments = departmentRepository.findAllByFaculty_University(
                     AuthUtil.getCurrentUniversity()
             ).orElseThrow();
-            if (departments.isEmpty()) {
-                return response.returnError("No department found");
-            }
             response.setData("departments", departments);
             response.success("Successfully retrieved all departments");
             return response;

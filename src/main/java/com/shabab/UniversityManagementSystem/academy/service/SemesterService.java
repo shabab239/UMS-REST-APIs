@@ -12,6 +12,7 @@ import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class SemesterService {
         try {
             List<Semester> semesters = semesterRepository.getAll(
                     AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new ArrayList<>());
             if (semesters.isEmpty()) {
                 return response.returnError("No semesters found");
             }
@@ -50,7 +51,7 @@ public class SemesterService {
         try {
             Program program = programRepository.findByIdAndDepartment_Faculty_University(
                     semester.getProgram().getId(), AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new Program());
 
             if (program.getId() == null) {
                 return response.returnError("Invalid Program");
@@ -70,7 +71,7 @@ public class SemesterService {
         try {
             Semester dbSemester = semesterRepository.getById(
                     semester.getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Semester());
 
             if (dbSemester.getId() == null) {
                 return response.returnError("Semester not found");
@@ -90,7 +91,7 @@ public class SemesterService {
         try {
             Semester semester = semesterRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Semester());
             if (semester.getId() == null) {
                 return response.returnError("Semester not found");
             }
@@ -107,7 +108,7 @@ public class SemesterService {
         try {
             Semester semester = semesterRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Semester());
             if (semester.getId() == null) {
                 return response.returnError("Semester not found");
             }

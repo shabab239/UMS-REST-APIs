@@ -290,5 +290,5 @@ VALUES
 -- Data for auth_tokens
 INSERT INTO auth_tokens (username, PASSWORD, user_id)
 VALUES
-    ('admin1', '$2y$12$gyOTFHFiNEcMN0fEaUB2BOXQBaKu8wz.irM21ATMXtLEsaVnoNU0O', 1),
-    ('admin2', '$2y$12$gyOTFHFiNEcMN0fEaUB2BOXQBaKu8wz.irM21ATMXtLEsaVnoNU0O', 7);
+    ('admin1', '$2y$12$9sRJ.Ne61.H4KjdWFRwgeubstn6BShshqDwckD95LJVCqcYRVUzRy', 1),
+    ('admin2', '$2y$12$9sRJ.Ne61.H4KjdWFRwgeubstn6BShshqDwckD95LJVCqcYRVUzRy', 7);

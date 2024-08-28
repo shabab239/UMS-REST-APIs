@@ -9,6 +9,7 @@ import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class ProgramService {
         try {
             List<Program> programs = programRepository.findAllByDepartment_Faculty_University(
                     AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new ArrayList<>());
             if (programs.isEmpty()) {
                 return response.returnError("No program found");
             }
@@ -49,7 +50,7 @@ public class ProgramService {
         try {
             Department department = departmentRepository.findByIdAndFaculty_University(
                     program.getDepartment().getId(), AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new Department());
             if (department.getId() == null) {
                 return response.returnError("Wrong Department");
             }
@@ -67,7 +68,7 @@ public class ProgramService {
         try {
             Program dbProgram = programRepository.findByIdAndDepartment_Faculty_University(
                     program.getId(), AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new Program());
             if (dbProgram.getId() == null) {
                 return response.returnError("Program not found");
             }
@@ -85,7 +86,7 @@ public class ProgramService {
         try {
             Program program = programRepository.findByIdAndDepartment_Faculty_University(
                     id, AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new Program());
             if (program.getId() == null) {
                 return response.returnError("Program not found");
             }
@@ -102,7 +103,7 @@ public class ProgramService {
         try {
             Program program = programRepository.findByIdAndDepartment_Faculty_University(
                     id, AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            ).orElse(new Program());
             if (program.getId() == null) {
                 return response.returnError("Program not found");
             }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -65,6 +66,16 @@ public class GlobalExceptionHandler {
                 "Database constraint violation",
                 null,
                 Map.of("error", "Database constraint violation occurred. " + ex.getMessage()),
+                false
+        );
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ApiResponse handleNoSuchElementException(NoSuchElementException ex) {
+        return new ApiResponse(
+                "Not Found",
+                null,
+                null,
                 false
         );
     }

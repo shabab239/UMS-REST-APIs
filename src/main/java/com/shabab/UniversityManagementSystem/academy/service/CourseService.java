@@ -9,6 +9,7 @@ import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class CourseService {
         try {
             List<Course> courses = courseRepository.getAll(
                     AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new ArrayList<>());
             if (courses.isEmpty()) {
                 return response.returnError("No course found");
             }
@@ -49,7 +50,7 @@ public class CourseService {
         try {
             Semester semester = semesterRepository.getById(
                     course.getSemester().getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Semester());
             if (semester.getId() == null) {
                 return response.returnError("Wrong Semester");
             }
@@ -67,7 +68,7 @@ public class CourseService {
         try {
             Course dbCourse = courseRepository.getById(
                     course.getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Course());
             if (dbCourse.getId() == null) {
                 return response.returnError("Course not found");
             }
@@ -85,7 +86,7 @@ public class CourseService {
         try {
             Course course = courseRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Course());
             if (course.getId() == null) {
                 return response.returnError("Course not found");
             }
@@ -102,7 +103,7 @@ public class CourseService {
         try {
             Course course = courseRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Course());
             if (course.getId() == null) {
                 return response.returnError("Course not found");
             }

@@ -366,8 +366,8 @@ CREATE TABLE `auth_tokens` (
 /*Data for the table `auth_tokens` */
 
 insert  into `auth_tokens`(`id`,`password`,`username`,`user_id`) values 
-(1,'$2y$12$gyOTFHFiNEcMN0fEaUB2BOXQBaKu8wz.irM21ATMXtLEsaVnoNU0O','admin1',1),
-(2,'$2y$12$gyOTFHFiNEcMN0fEaUB2BOXQBaKu8wz.irM21ATMXtLEsaVnoNU0O','admin2',7);
+(1,'$2y$12$9sRJ.Ne61.H4KjdWFRwgeubstn6BShshqDwckD95LJVCqcYRVUzRy','admin1',1),
+(2,'$2y$12$9sRJ.Ne61.H4KjdWFRwgeubstn6BShshqDwckD95LJVCqcYRVUzRy','admin2',7);
 
 /*Table structure for table `course_teachers` */
 

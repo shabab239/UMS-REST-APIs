@@ -12,6 +12,7 @@ import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,9 @@ public class FeeService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Fee> fees = feeRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
+            List<Fee> fees = feeRepository.getAll(
+                    AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
             if (fees.isEmpty()) {
                 return response.returnError("No fees found");
             }
@@ -49,7 +52,7 @@ public class FeeService {
         try {
             Semester semester = semesterRepository.getById(
                     fee.getSemester().getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Semester());
 
             if (semester.getId() == null) {
                 return response.returnError("Invalid semester");
@@ -69,7 +72,7 @@ public class FeeService {
         try {
             Fee dbFee = feeRepository.getById(
                     fee.getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Fee());
 
             if (dbFee.getId() == null) {
                 return response.returnError("Fee not found");
@@ -89,7 +92,7 @@ public class FeeService {
         try {
             Fee fee = feeRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Fee());
             if (fee.getId() == null) {
                 return response.returnError("Fee not found");
             }
@@ -106,7 +109,7 @@ public class FeeService {
         try {
             Fee fee = feeRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
+            ).orElse(new Fee());
             if (fee.getId() == null) {
                 return response.returnError("Fee not found");
             }

@@ -57,7 +57,7 @@ public class UniversityService {
         try {
             University dbUniversity = universityRepository.findById(
                     university.getId()
-            ).orElseThrow();
+            ).orElse(new University());
             if (dbUniversity.getId() == null) {
                 return response.returnError("University not found");
             }
@@ -75,7 +75,7 @@ public class UniversityService {
         try {
             University university = universityRepository.findById(
                     id
-            ).orElseThrow();
+            ).orElse(new University());
             if (university.getId() == null) {
                 return response.returnError("University not found");
             }
@@ -92,7 +92,7 @@ public class UniversityService {
         try {
             University university = universityRepository.findById(
                     id
-            ).orElseThrow();
+            ).orElse(new University());
             if (university.getId() == null) {
                 return response.returnError("University not found");
             }
