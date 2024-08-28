@@ -31,7 +31,9 @@ public class DepartmentService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Department> departments = departmentRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
+            List<Department> departments = departmentRepository.findAllByFaculty_University(
+                    AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
             if (departments.isEmpty()) {
                 return response.returnError("No department found");
             }
@@ -46,13 +48,12 @@ public class DepartmentService {
     public ApiResponse save(Department department) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty =
-                    facultyRepository.findByIdAndUniversity(department.getFaculty().getId(), AuthUtil.getCurrentUniversity()).orElseThrow();
-
+            Faculty faculty = facultyRepository.findByIdAndUniversity(
+                    department.getFaculty().getId(), AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
             if (faculty.getId() == null) {
                 return response.returnError("Wrong Faculty");
             }
-
             department = departmentRepository.save(department);
             response.setData("department", department);
             response.success("Saved Successfully");
@@ -66,11 +67,12 @@ public class DepartmentService {
         ApiResponse response = new ApiResponse();
         try {
             Department dbDepartment =
-                    departmentRepository.getById(department.getId(), AuthUtil.getCurrentUniversityId()).orElseThrow();
+                    departmentRepository.findByIdAndFaculty_University(
+                            department.getId(), AuthUtil.getCurrentUniversity()
+                    ).orElseThrow();
             if (dbDepartment.getId() == null) {
                 return response.returnError("Department not found");
             }
-
             Department updatedDepartment = departmentRepository.save(department);
             response.setData("department", updatedDepartment);
             response.success("Updated Successfully");
@@ -83,7 +85,9 @@ public class DepartmentService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Department department = departmentRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
+            Department department = departmentRepository.findByIdAndFaculty_University(
+                    id,AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
             if (department.getId() == null) {
                 return response.returnError("Department not found");
             }
@@ -98,7 +102,9 @@ public class DepartmentService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Department department = departmentRepository.getById(id, AuthUtil.getCurrentUniversityId()).orElseThrow();
+            Department department = departmentRepository.findByIdAndFaculty_University(
+                    id, AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
             if (department.getId() == null) {
                 return response.returnError("Department not found");
             }

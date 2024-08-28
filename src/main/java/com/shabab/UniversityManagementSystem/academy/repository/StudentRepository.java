@@ -22,10 +22,11 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    @Query("SELECT s FROM Student s WHERE s.department.faculty.university.id = :universityId")
+
+    @Query("SELECT s FROM Student s WHERE s.semester.program.department.faculty.university.id = :universityId")
     Optional<List<Student>> getAll(@Param("universityId") Long universityId);
 
-    @Query("SELECT s FROM Student s WHERE s.id = :id AND s.department.faculty.university.id = :universityId")
+    @Query("SELECT s FROM Student s WHERE s.id = :id AND s.semester.program.department.faculty.university.id = :universityId")
     Optional<Student> getById(@Param("id") Long id, @Param("universityId") Long universityId);
     
 }

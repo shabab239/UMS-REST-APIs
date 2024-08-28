@@ -1,15 +1,11 @@
 package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
-import com.shabab.UniversityManagementSystem.academy.model.Student;
-import com.shabab.UniversityManagementSystem.academy.service.StudentService;
+import com.shabab.UniversityManagementSystem.academy.model.Semester;
+import com.shabab.UniversityManagementSystem.academy.service.SemesterService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -18,35 +14,35 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/student")
-public class StudentRestController {
+@RequestMapping("/api/semester")
+public class SemesterRestController {
 
     @Autowired
-    private StudentService studentService;
+    private SemesterService semesterService;
 
     @GetMapping("/getAll")
     public ApiResponse getAll() {
-        return studentService.getAll();
+        return semesterService.getAll();
     }
 
     @PostMapping("/save")
-    public ApiResponse save(@Valid @RequestBody Student student) {
-        return studentService.save(student);
+    public ApiResponse save(@Valid @RequestBody Semester semester) {
+        return semesterService.save(semester);
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@RequestBody Student student) {
-        return studentService.update(student);
+    public ApiResponse update(@RequestBody Semester semester) {
+        return semesterService.update(semester);
     }
 
     @GetMapping("/{id}")
     public ApiResponse getById(@PathVariable Long id) {
-        return studentService.getById(id);
+        return semesterService.getById(id);
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse deleteById(@PathVariable Long id) {
-        return studentService.deleteById(id);
+        return semesterService.deleteById(id);
     }
 
 }

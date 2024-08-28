@@ -34,7 +34,9 @@ public class UserService implements UserDetailsService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<User> users = userRepository.findByUniversity(AuthUtil.getCurrentUniversity());
+            List<User> users = userRepository.findByUniversity(
+                    AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
             if (users.isEmpty()) {
                 return response.returnError("No users found");
             }
@@ -49,9 +51,6 @@ public class UserService implements UserDetailsService {
     public ApiResponse save(User user) {
         ApiResponse response = new ApiResponse();
         try {
-            if (user.getRole() == null || user.getRole().equals("")) {
-                return response.returnError("Role is required");
-            }
             user.setUniversity(AuthUtil.getCurrentUniversity());
             User dbUser = userRepository.save(user);
             response.setData("user", dbUser);
@@ -65,8 +64,10 @@ public class UserService implements UserDetailsService {
     public ApiResponse update(User user) {
         ApiResponse response = new ApiResponse();
         try {
-            User dbUser = userRepository.findByIdAndUniversity(user.getId(), AuthUtil.getCurrentUniversity());
-            if (dbUser == null || dbUser.getId() == null) {
+            User dbUser = userRepository.findByIdAndUniversity(
+                    user.getId(), AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
+            if (dbUser.getId() == null) {
                 return response.returnError("User not found");
             }
             user.setRole(dbUser.getRole());
@@ -81,11 +82,12 @@ public class UserService implements UserDetailsService {
     }
 
     public ApiResponse getById(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ApiResponse response = new ApiResponse();
         try {
-            User user = userRepository.findByIdAndUniversity(id, AuthUtil.getCurrentUniversity());
-            if (user == null || user.getId() == null) {
+            User user = userRepository.findByIdAndUniversity(
+                    id, AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
+            if (user.getId() == null) {
                 return response.returnError("User not found");
             }
             response.setData("user", user);
@@ -99,8 +101,10 @@ public class UserService implements UserDetailsService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            User user = userRepository.findByIdAndUniversity(id, AuthUtil.getCurrentUniversity());
-            if (user == null || user.getId() == null) {
+            User user = userRepository.findByIdAndUniversity(
+                    id, AuthUtil.getCurrentUniversity()
+            ).orElseThrow();
+            if (user.getId() == null) {
                 return response.returnError("User not found");
             }
             userRepository.deleteById(id);

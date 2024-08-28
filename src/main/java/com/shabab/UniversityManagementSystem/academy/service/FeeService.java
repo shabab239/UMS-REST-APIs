@@ -1,8 +1,10 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 
+import com.shabab.UniversityManagementSystem.academy.model.Fee;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
+import com.shabab.UniversityManagementSystem.academy.repository.FeeRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
@@ -19,83 +21,80 @@ import java.util.List;
  */
 
 @Service
-public class StudentService {
+public class FeeService {
 
     @Autowired
-    private StudentRepository studentRepository;
+    private FeeRepository feeRepository;
 
     @Autowired
     private SemesterRepository semesterRepository;
 
-
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
-            if (students.isEmpty()) {
-                return response.returnError("No student found");
+            List<Fee> fees = feeRepository.getAll(AuthUtil.getCurrentUniversityId()).orElseThrow();
+            if (fees.isEmpty()) {
+                return response.returnError("No fees found");
             }
-            response.setData("students", students);
-            response.success("Students retrieved successfully");
+            response.setData("fees", fees);
+            response.success("Fees retrieved successfully");
         } catch (Exception e) {
             return response.returnError(e);
         }
         return response;
     }
 
-    public ApiResponse save(Student student) {
+    public ApiResponse save(Fee fee) {
         ApiResponse response = new ApiResponse();
         try {
             Semester semester = semesterRepository.getById(
-                    student.getSemester().getId(), AuthUtil.getCurrentUniversityId()
+                    fee.getSemester().getId(), AuthUtil.getCurrentUniversityId()
             ).orElseThrow();
 
             if (semester.getId() == null) {
-                return response.returnError("Wrong Semester");
+                return response.returnError("Invalid semester");
             }
 
-            Student savedStudent = studentRepository.save(student);
-            response.setData("student", savedStudent);
-            response.success("Saved Successfully");
+            Fee savedFee = feeRepository.save(fee);
+            response.setData("fee", savedFee);
+            response.success("Fee saved successfully");
         } catch (Exception e) {
             return response.returnError(e);
         }
         return response;
     }
 
-
-    public ApiResponse update(Student student) {
+    public ApiResponse update(Fee fee) {
         ApiResponse response = new ApiResponse();
         try {
-            Student dbStudent = studentRepository.getById(
-                    student.getId(), AuthUtil.getCurrentUniversityId()
+            Fee dbFee = feeRepository.getById(
+                    fee.getId(), AuthUtil.getCurrentUniversityId()
             ).orElseThrow();
 
-            if (dbStudent.getId() == null) {
-                return response.returnError("Student not found");
+            if (dbFee.getId() == null) {
+                return response.returnError("Fee not found");
             }
 
-            Student updatedStudent = studentRepository.save(student);
-            response.setData("student", updatedStudent);
-            response.success("Updated Successfully");
+            Fee updatedFee = feeRepository.save(fee);
+            response.setData("fee", updatedFee);
+            response.success("Fee updated successfully");
         } catch (Exception e) {
             return response.returnError(e);
         }
         return response;
     }
-
 
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(
+            Fee fee = feeRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElseThrow();
-            if (student.getId() == null) {
-                return response.returnError("Student not found");
+            if (fee.getId() == null) {
+                return response.returnError("Fee not found");
             }
-            response.setData("student", student);
-            response.success("Successfully retrieved student");
+            response.setData("fee", fee);
+            response.success("Successfully retrieved fee");
             return response;
         } catch (Exception e) {
             return response.returnError(e);
@@ -105,18 +104,18 @@ public class StudentService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(
+            Fee fee = feeRepository.getById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElseThrow();
-            if (student.getId() == null) {
-                return response.returnError("Student not found");
+            if (fee.getId() == null) {
+                return response.returnError("Fee not found");
             }
-            studentRepository.delete(student);
-            response.success("Deleted Successfully");
+            feeRepository.delete(fee);
+            response.success("Fee deleted successfully");
         } catch (Exception e) {
             return response.returnError(e);
         }
         return response;
     }
-
 }
+

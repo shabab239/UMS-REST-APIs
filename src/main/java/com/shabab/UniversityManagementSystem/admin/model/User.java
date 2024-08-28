@@ -1,10 +1,7 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,6 +40,7 @@ public class User implements UserDetails {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
@@ -65,9 +63,8 @@ public class User implements UserDetails {
     @Column(name = "address", length = 255)
     private String address;
 
-    @Lob
     @Column(name = "avatar")
-    private byte[] avatar;
+    private String avatar;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")

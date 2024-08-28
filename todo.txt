@@ -1,3 +1,6 @@
 eager loading causing unnecessary data to be fetched
+role validation, specially for university apis
 search feature
 check owasp later
+logout
+swagger documentation maker

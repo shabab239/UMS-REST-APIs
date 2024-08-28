@@ -1,12 +1,8 @@
 package com.shabab.UniversityManagementSystem.admin.repository;
 
 import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -15,10 +11,5 @@ import java.util.Optional;
  */
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    Optional<List<User>> findByUniversity(University university);
-
-    Optional<User> findByIdAndUniversity(Long id, University university);
-
+public interface UniversityRepository extends JpaRepository<University, Long> {
 }
