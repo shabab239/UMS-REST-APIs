@@ -56,8 +56,9 @@ public class User implements UserDetails {
     @Column(name = "email", length = 100, unique = true)
     private String email;
 
-    @Column(name = "gender")
-    private Character gender;
+    @Size(max = 10, message = "Max 10 Characters")
+    @Column(name = "gender", length = 10)
+    private String gender;
 
     @Size(max = 255, message = "Maximum 255 Characters")
     @Column(name = "address", length = 255)

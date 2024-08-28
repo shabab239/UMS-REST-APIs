@@ -42,7 +42,6 @@ public class Fee {
 
     public enum Type {
         SEMESTER,
-        HALL,
-        TRANSPORTATION
+        HALL
     }
 }

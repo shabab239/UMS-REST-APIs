@@ -66,7 +66,8 @@ public class Student {
 
     /*Optional*/
 
-    @Column(name = "gender")
+    @Size(max = 10, message = "Max 10 Characters")
+    @Column(name = "gender", length = 10)
     private String gender;
 
     @Temporal(TemporalType.DATE)
@@ -79,9 +80,8 @@ public class Student {
     @Column(name = "religion")
     private String religion;
 
-    @Lob
     @Column(name = "avatar")
-    private byte[] avatar;
+    private String avatar;
 
     @Size(max = 100, message = "Max 100 Characters")
     @Column(name = "father_name", length = 100)
