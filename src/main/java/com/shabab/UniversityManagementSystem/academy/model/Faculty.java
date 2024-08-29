@@ -1,5 +1,8 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.admin.model.University;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
@@ -15,6 +18,7 @@ import java.util.List;
  * Author: Shabab
  * Created on: 24/08/2024
  */
+
 
 @Entity
 @AllArgsConstructor
@@ -36,10 +40,12 @@ public class Faculty {
     @JoinColumn(name = "dean_id")
     private User dean;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Department> departments;
 

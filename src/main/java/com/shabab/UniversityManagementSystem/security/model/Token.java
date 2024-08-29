@@ -16,12 +16,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
  * Created on: 25/08/2024
  */
+
 
 @Entity
 @AllArgsConstructor

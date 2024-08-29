@@ -1,6 +1,8 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import jakarta.persistence.*;
@@ -20,6 +22,7 @@ import java.util.List;
  * Author: Shabab
  * Created on: 24/08/2024
  */
+
 
 @Entity
 @Table(name = "ad_users")
@@ -49,14 +52,16 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Token token;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "teachers")
     private List<Course> courses = new ArrayList<>();
 

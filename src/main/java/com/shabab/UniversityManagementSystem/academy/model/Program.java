@@ -1,5 +1,8 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 
 @Entity
 @AllArgsConstructor
@@ -37,6 +41,7 @@ public class Program {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "program", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Semester> semesters;
 

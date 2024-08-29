@@ -1,16 +1,24 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shabab.UniversityManagementSystem.academy.model.Faculty;
+import com.shabab.UniversityManagementSystem.academy.model.Program;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import java.util.List;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
  * Created on: 24/08/2024
  */
+
 
 @Entity
 @AllArgsConstructor
@@ -47,6 +55,10 @@ public class University {
     @Size(max = 255, message = "Max 255 Characters")
     @Column(name = "address", length = 255, nullable = false)
     private String address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "university", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Faculty> faculties;
 
     public static University init(Long id) {
         University university = new University();

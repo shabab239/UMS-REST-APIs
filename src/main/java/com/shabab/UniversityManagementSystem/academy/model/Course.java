@@ -1,6 +1,8 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.admin.model.University;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
@@ -17,6 +19,7 @@ import java.util.*;
  * Author: Shabab
  * Created on: 25/08/2024
  */
+
 
 @Entity
 @AllArgsConstructor
