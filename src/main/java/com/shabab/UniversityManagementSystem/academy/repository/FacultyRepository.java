@@ -22,4 +22,6 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
     Optional<Faculty> findByIdAndUniversity(Long id, University university);
 
+    Optional<Faculty> findByDean_Id(Long id);
+
 }

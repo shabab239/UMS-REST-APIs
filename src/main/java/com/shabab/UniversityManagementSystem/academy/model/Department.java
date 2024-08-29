@@ -35,7 +35,7 @@ public class Department {
 
     @NotBlank(message = "Department name is required")
     @Size(max = 100, message = "Max 100 Characters")
-    @Column(nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     @OneToOne(fetch = FetchType.EAGER)

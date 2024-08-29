@@ -24,7 +24,7 @@ public class StudentRestController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return studentService.getAll();
     }

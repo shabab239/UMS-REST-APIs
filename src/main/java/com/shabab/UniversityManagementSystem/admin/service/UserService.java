@@ -1,6 +1,10 @@
 package com.shabab.UniversityManagementSystem.admin.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Course;
+import com.shabab.UniversityManagementSystem.academy.model.Department;
+import com.shabab.UniversityManagementSystem.academy.model.Faculty;
+import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
+import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.security.model.Token;
@@ -32,6 +36,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AuthRepository authRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private FacultyRepository facultyRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -112,6 +122,22 @@ public class UserService implements UserDetailsService {
 
             for (Course course : user.getCourses()) {
                 course.getTeachers().remove(user);
+            }
+
+            Department department = departmentRepository.findByHead_Id(
+                    user.getId()
+            ).orElse(new Department());
+            if (department.getId() != null) {
+                department.setHead(null);
+                departmentRepository.save(department);
+            }
+
+            Faculty faculty = facultyRepository.findByDean_Id(
+                    user.getId()
+            ).orElse(new Faculty());
+            if (faculty.getId() != null) {
+                faculty.setDean(null);
+                facultyRepository.save(faculty);
             }
 
             userRepository.deleteById(id);

@@ -23,7 +23,6 @@ import java.util.List;
  * Created on: 24/08/2024
  */
 
-
 @Entity
 @Table(name = "ad_users")
 @Data
@@ -53,13 +52,13 @@ public class User implements UserDetails {
     private Role role;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Token token;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Token token;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "teachers")
@@ -94,35 +93,67 @@ public class User implements UserDetails {
     @Column(name = "joining_date")
     private Date joiningDate;
 
+    @JsonIgnore
     @Transient
     private String username;
 
+    @JsonIgnore
     @Transient
     private String password;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public String getIdString() {
-        return String.valueOf(id);
-    }
 
     public enum Role {
         ROLE_ADMIN,
         ROLE_TEACHER,
         ROLE_STAFF
+    }
+
+    /*overridden*/
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @JsonIgnore
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonIgnore
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @JsonIgnore
+    public String getIdString() {
+        return String.valueOf(id);
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }
 
