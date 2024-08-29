@@ -22,17 +22,23 @@ public class CustomAuthenticationFailureHandler implements Customizer<ExceptionH
     @Override
     public void customize(ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer) {
         httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
-            if (authException instanceof UsernameNotFoundException
-                    || authException instanceof InsufficientAuthenticationException
-            ) {
-                ApiResponse apiResponse = new ApiResponse(false, authException.getMessage());
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                ObjectMapper mapper = new ObjectMapper();
-                String json = mapper.writeValueAsString(apiResponse);
-                response.getWriter().write(json);
+            ApiResponse apiResponse;
+            int status = HttpServletResponse.SC_UNAUTHORIZED;
+
+            if (authException instanceof InsufficientAuthenticationException) {
+                apiResponse = new ApiResponse(false, "Not Authorized");
+            } else {
+                apiResponse = new ApiResponse(false, authException.getMessage());
             }
+
+            response.setStatus(status);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(apiResponse);
+            response.getWriter().write(json);
         });
     }
 }
+

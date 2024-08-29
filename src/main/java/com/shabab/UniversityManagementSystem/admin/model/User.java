@@ -120,9 +120,9 @@ public class User implements UserDetails {
     }
 
     public enum Role {
-        ADMIN,
-        TEACHER,
-        STAFF
+        ROLE_ADMIN,
+        ROLE_TEACHER,
+        ROLE_STAFF
     }
 }
 
