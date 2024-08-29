@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.admin.service;
 
+import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.security.model.Token;
@@ -108,6 +109,11 @@ public class UserService implements UserDetailsService {
             if (user.getId() == null) {
                 return response.returnError("User not found");
             }
+
+            for (Course course : user.getCourses()) {
+                course.getTeachers().remove(user);
+            }
+
             userRepository.deleteById(id);
             response.success("Deleted Successfully");
             return response;

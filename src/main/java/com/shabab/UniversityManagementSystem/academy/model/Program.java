@@ -37,5 +37,8 @@ public class Program {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @OneToMany(mappedBy = "program", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Semester> semesters;
+
 }
 

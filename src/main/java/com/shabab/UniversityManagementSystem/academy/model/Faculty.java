@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
@@ -34,9 +36,13 @@ public class Faculty {
     @JoinColumn(name = "dean_id")
     private User dean;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
+
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Department> departments;
+
 
     /*Optional*/
 

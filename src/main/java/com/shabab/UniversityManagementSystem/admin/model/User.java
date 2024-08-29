@@ -1,5 +1,8 @@
 package com.shabab.UniversityManagementSystem.admin.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shabab.UniversityManagementSystem.academy.model.Course;
+import com.shabab.UniversityManagementSystem.security.model.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -8,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,6 +52,13 @@ public class User implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private Token token;
+
+    @ManyToMany(mappedBy = "teachers")
+    private List<Course> courses = new ArrayList<>();
 
     /*Optional*/
 

@@ -49,7 +49,7 @@ public class Course {
     @JoinColumn(name = "semester_id", nullable = false)
     private Semester semester;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "course_teachers",
             joinColumns = @JoinColumn(name = "course_id"),

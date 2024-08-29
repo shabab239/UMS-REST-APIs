@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
@@ -40,5 +42,8 @@ public class Department {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="faculty_id", nullable = false)
     private Faculty faculty;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Program> programs;
 
 }

@@ -2,18 +2,13 @@ package com.shabab.UniversityManagementSystem.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -27,7 +22,9 @@ public class CustomAuthenticationFailureHandler implements Customizer<ExceptionH
     @Override
     public void customize(ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer) {
         httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
-            if (authException instanceof UsernameNotFoundException) {
+            if (authException instanceof UsernameNotFoundException
+                    || authException instanceof InsufficientAuthenticationException
+            ) {
                 ApiResponse apiResponse = new ApiResponse(false, authException.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");

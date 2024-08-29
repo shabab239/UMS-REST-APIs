@@ -27,7 +27,7 @@ public class Student {
     private Long id;
 
     @NotBlank(message = "ID Number is required")
-    @Column(name = "id_no", nullable = false)
+    @Column(name = "id_no", nullable = false, unique = true)
     private String idNo;
 
     @NotBlank(message = "Name is required")
