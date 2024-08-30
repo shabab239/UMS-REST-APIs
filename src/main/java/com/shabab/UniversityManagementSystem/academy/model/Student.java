@@ -105,4 +105,8 @@ public class Student {
     @Column(name = "permanent_address", length = 400)
     private String permanentAddress;
 
+    public Student(Long id) {
+        this.id = id;
+    }
+
 }

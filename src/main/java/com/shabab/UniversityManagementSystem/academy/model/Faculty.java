@@ -60,4 +60,8 @@ public class Faculty {
     @Column(name = "contact", length = 11, unique = true)
     private String contact;
 
+    public Faculty(Long id) {
+        this.id = id;
+    }
+
 }

@@ -60,6 +60,10 @@ public class University {
     @OneToMany(mappedBy = "university", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Faculty> faculties;
 
+    public University(Long id) {
+        this.id = id;
+    }
+
     public static University init(Long id) {
         University university = new University();
         university.setId(id);

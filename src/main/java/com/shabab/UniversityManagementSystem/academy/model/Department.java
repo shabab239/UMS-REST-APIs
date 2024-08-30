@@ -50,4 +50,8 @@ public class Department {
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Program> programs;
 
+    public Department(Long id) {
+        this.id = id;
+    }
+
 }

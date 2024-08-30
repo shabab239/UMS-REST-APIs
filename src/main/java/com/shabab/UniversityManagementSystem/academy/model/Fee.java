@@ -47,4 +47,8 @@ public class Fee {
         SEMESTER,
         HALL
     }
+
+    public Fee(Long id) {
+        this.id = id;
+    }
 }

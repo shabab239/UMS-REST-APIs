@@ -4,6 +4,8 @@ import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
+import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class CourseService {
 
     @Autowired
     private SemesterRepository semesterRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     public ApiResponse getAll() {
@@ -72,14 +77,33 @@ public class CourseService {
             if (dbCourse.getId() == null) {
                 return response.returnError("Course not found");
             }
-            course = courseRepository.save(course);
-            response.setData("course", course);
+
+            dbCourse.setName(course.getName());
+            dbCourse.setCode(course.getCode());
+            dbCourse.setCredit(course.getCredit());
+            dbCourse.setDescription(course.getDescription());
+            dbCourse.setSemester(course.getSemester());
+
+            if (course.getTeachers() != null) {
+                List<User> teachers = new ArrayList<>();
+                for (User teacher : course.getTeachers()) {
+                    User existingTeacher = userRepository.findById(teacher.getId())
+                            .orElseThrow(() -> new RuntimeException("Teacher with ID " + teacher.getId() + " not found"));
+                    teachers.add(existingTeacher);
+                }
+                dbCourse.setTeachers(teachers);
+            }
+
+            dbCourse = courseRepository.save(dbCourse);
+            response.setData("course", dbCourse);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {
-            return response.returnError(e);
+            response.returnError(e.getMessage());
+            return response;
         }
     }
+
 
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();

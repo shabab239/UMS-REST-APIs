@@ -66,7 +66,7 @@ public class FacultyService {
             if (dbFaculty.getId() == null) {
                 return response.returnError("Faculty not found");
             }
-
+            faculty.setUniversity(AuthUtil.getCurrentUniversity());
             Faculty updatedFaculty = facultyRepository.save(faculty);
             response.setData("faculty", updatedFaculty);
             response.success("Updated Successfully");

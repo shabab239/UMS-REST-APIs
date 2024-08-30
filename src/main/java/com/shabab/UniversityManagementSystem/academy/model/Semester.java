@@ -28,7 +28,7 @@ public class Semester {
     private String name;
 
     @NotBlank(message = "Session is required")
-    @Pattern(regexp = "^(19|20)\\\\d{2}-(19|20)\\\\d{2}$", message = "Invalid session")
+    @Pattern(regexp = "^(19|20)\\d{2}-(\\d{2})$", message = "(20XX-XX) format required")
     @Column(name = "session", length = 9, nullable = false)
     private String session;
 
@@ -53,6 +53,10 @@ public class Semester {
     @JsonIgnore
     @OneToMany(mappedBy = "semester", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Fee> fees;
+
+    public Semester(Long id) {
+        this.id = id;
+    }
 
 }
 

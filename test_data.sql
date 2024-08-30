@@ -11,37 +11,37 @@ VALUES
 -- Data for Patuakhali Science & Technology University
 INSERT INTO ad_users (id, NAME, cell, STATUS, ROLE, university_id, email, gender, address, date_of_birth, blood_group, joining_date)
 VALUES
-    (1, 'Dr. John Smith', '01700000001', 'ACTIVE', 'ROLE_ADMIN', 1, 'john.smith@email.com', 'Male', '123 University Rd, Patuakhali', '1970-05-15', 'O+', '2024-01-01'),
-    (2, 'Alice Johnson', '01700000002', 'ACTIVE', 'ROLE_STAFF', 1, 'alice.johnson@email.com', 'Female', '456 University St, Patuakhali', '1985-09-22', 'A-', '2024-02-01'),
-    (3, 'Robert Brown', '01700000003', 'ACTIVE', 'ROLE_STAFF', 1, 'robert.brown@email.com', 'Male', '789 University Ave, Patuakhali', '1990-12-05', 'B+', '2024-03-01'),
-    (4, 'Emily Davis', '01700000004', 'ACTIVE', 'ROLE_TEACHER', 1, 'emily.davis@email.com', 'Female', '101 University Blvd, Patuakhali', '1980-11-11', 'AB-', '2024-04-01'),
-    (5, 'Michael Wilson', '01700000005', 'ACTIVE', 'ROLE_TEACHER', 1, 'michael.wilson@email.com', 'Male', '202 University Park, Patuakhali', '1988-04-12', 'O-', '2024-05-01'),
-    (6, 'Jessica Taylor', '01700000006', 'ACTIVE', 'ROLE_TEACHER', 1, 'jessica.taylor@email.com', 'Female', '303 University Ln, Patuakhali', '1992-07-30', 'B-', '2024-06-01'),
+    (1, 'Dr. John Smith', '01700000001', 'Active', 'ROLE_ADMIN', 1, 'john.smith@email.com', 'Male', '123 University Rd, Patuakhali', '1970-05-15', 'O+', '2024-01-01'),
+    (2, 'Alice Johnson', '01700000002', 'Active', 'ROLE_STAFF', 1, 'alice.johnson@email.com', 'Female', '456 University St, Patuakhali', '1985-09-22', 'A-', '2024-02-01'),
+    (3, 'Robert Brown', '01700000003', 'Active', 'ROLE_STAFF', 1, 'robert.brown@email.com', 'Male', '789 University Ave, Patuakhali', '1990-12-05', 'B+', '2024-03-01'),
+    (4, 'Emily Davis', '01700000004', 'Active', 'ROLE_TEACHER', 1, 'emily.davis@email.com', 'Female', '101 University Blvd, Patuakhali', '1980-11-11', 'AB-', '2024-04-01'),
+    (5, 'Michael Wilson', '01700000005', 'Active', 'ROLE_TEACHER', 1, 'michael.wilson@email.com', 'Male', '202 University Park, Patuakhali', '1988-04-12', 'O-', '2024-05-01'),
+    (6, 'Jessica Taylor', '01700000006', 'Active', 'ROLE_TEACHER', 1, 'jessica.taylor@email.com', 'Female', '303 University Ln, Patuakhali', '1992-07-30', 'B-', '2024-06-01'),
 
 -- Data for Dhaka University
-    (7, 'Dr. Sarah Green', '01900000001', 'ACTIVE', 'ROLE_ADMIN', 2, 'sarah.green@email.com', 'Female', '12 Main Rd, Dhaka', '1968-03-10', 'A+', '2024-01-15'),
-    (8, 'David Lee', '01900000002', 'ACTIVE', 'ROLE_STAFF', 2, 'david.lee@email.com', 'Male', '34 Main St, Dhaka', '1982-08-20', 'O+', '2024-02-15'),
-    (9, 'Laura Martinez', '01900000003', 'ACTIVE', 'ROLE_STAFF', 2, 'laura.martinez@email.com', 'Female', '56 Main Ave, Dhaka', '1987-11-05', 'AB+', '2024-03-15'),
-    (10, 'James Clark', '01900000004', 'ACTIVE', 'ROLE_TEACHER', 2, 'james.clark@email.com', 'Male', '78 Main Blvd, Dhaka', '1975-04-22', 'B-', '2024-04-15'),
-    (11, 'Sophia White', '01900000005', 'ACTIVE', 'ROLE_TEACHER', 2, 'sophia.white@email.com', 'Female', '90 Main Ln, Dhaka', '1983-12-10', 'O+', '2024-05-15'),
-    (12, 'William Harris', '01900000006', 'ACTIVE', 'ROLE_TEACHER', 2, 'william.harris@email.com', 'Male', '101 Main Park, Dhaka', '1990-06-01', 'A-', '2024-06-15');
+    (7, 'Dr. Sarah Green', '01900000001', 'Active', 'ROLE_ADMIN', 2, 'sarah.green@email.com', 'Female', '12 Main Rd, Dhaka', '1968-03-10', 'A+', '2024-01-15'),
+    (8, 'David Lee', '01900000002', 'Active', 'ROLE_STAFF', 2, 'david.lee@email.com', 'Male', '34 Main St, Dhaka', '1982-08-20', 'O+', '2024-02-15'),
+    (9, 'Laura Martinez', '01900000003', 'Active', 'ROLE_STAFF', 2, 'laura.martinez@email.com', 'Female', '56 Main Ave, Dhaka', '1987-11-05', 'AB+', '2024-03-15'),
+    (10, 'James Clark', '01900000004', 'Active', 'ROLE_TEACHER', 2, 'james.clark@email.com', 'Male', '78 Main Blvd, Dhaka', '1975-04-22', 'B-', '2024-04-15'),
+    (11, 'Sophia White', '01900000005', 'Active', 'ROLE_TEACHER', 2, 'sophia.white@email.com', 'Female', '90 Main Ln, Dhaka', '1983-12-10', 'O+', '2024-05-15'),
+    (12, 'William Harris', '01900000006', 'Active', 'ROLE_TEACHER', 2, 'william.harris@email.com', 'Male', '101 Main Park, Dhaka', '1990-06-01', 'A-', '2024-06-15');
 -- Additional teachers for Patuakhali Science & Technology University
 INSERT INTO ad_users (id, NAME, cell, STATUS, ROLE, university_id, email, gender, address, date_of_birth, blood_group, joining_date)
 VALUES
-    (13, 'Anna Williams', '01700000007', 'ACTIVE', 'ROLE_TEACHER', 1, 'anna.williams@email.com', 'Female', '404 University St, Patuakhali', '1985-02-10', 'AB+', '2024-07-01'),
-    (14, 'Liam Adams', '01700000008', 'ACTIVE', 'ROLE_TEACHER', 1, 'liam.adams@email.com', 'Male', '505 University Ave, Patuakhali', '1991-10-15', 'B+', '2024-08-01'),
-    (15, 'Olivia Scott', '01700000009', 'ACTIVE', 'ROLE_TEACHER', 1, 'olivia.scott@email.com', 'Female', '606 University Blvd, Patuakhali', '1988-06-22', 'O+', '2024-09-01'),
-    (16, 'Ethan Harris', '01700000010', 'ACTIVE', 'ROLE_TEACHER', 1, 'ethan.harris@email.com', 'Male', '707 University Ln, Patuakhali', '1994-04-30', 'A-', '2024-10-01'),
-    (17, 'Sophia Miller', '01700000011', 'ACTIVE', 'ROLE_TEACHER', 1, 'sophia.miller@email.com', 'Female', '808 University Park, Patuakhali', '1992-01-12', 'B-', '2024-11-01'),
-    (18, 'Jacob Wilson', '01700000012', 'ACTIVE', 'ROLE_TEACHER', 1, 'jacob.wilson@email.com', 'Male', '909 University Dr, Patuakhali', '1990-07-08', 'AB-', '2024-12-01'),
+    (13, 'Anna Williams', '01700000007', 'Active', 'ROLE_TEACHER', 1, 'anna.williams@email.com', 'Female', '404 University St, Patuakhali', '1985-02-10', 'AB+', '2024-07-01'),
+    (14, 'Liam Adams', '01700000008', 'Active', 'ROLE_TEACHER', 1, 'liam.adams@email.com', 'Male', '505 University Ave, Patuakhali', '1991-10-15', 'B+', '2024-08-01'),
+    (15, 'Olivia Scott', '01700000009', 'Active', 'ROLE_TEACHER', 1, 'olivia.scott@email.com', 'Female', '606 University Blvd, Patuakhali', '1988-06-22', 'O+', '2024-09-01'),
+    (16, 'Ethan Harris', '01700000010', 'Active', 'ROLE_TEACHER', 1, 'ethan.harris@email.com', 'Male', '707 University Ln, Patuakhali', '1994-04-30', 'A-', '2024-10-01'),
+    (17, 'Sophia Miller', '01700000011', 'Active', 'ROLE_TEACHER', 1, 'sophia.miller@email.com', 'Female', '808 University Park, Patuakhali', '1992-01-12', 'B-', '2024-11-01'),
+    (18, 'Jacob Wilson', '01700000012', 'Active', 'ROLE_TEACHER', 1, 'jacob.wilson@email.com', 'Male', '909 University Dr, Patuakhali', '1990-07-08', 'AB-', '2024-12-01'),
 
 -- Additional teachers for Dhaka University
-    (19, 'Ava Brown', '01900000007', 'ACTIVE', 'ROLE_TEACHER', 2, 'ava.brown@email.com', 'Female', '112 Main Rd, Dhaka', '1983-05-16', 'O-', '2024-07-15'),
-    (20, 'Mason Green', '01900000008', 'ACTIVE', 'ROLE_TEACHER', 2, 'mason.green@email.com', 'Male', '223 Main St, Dhaka', '1989-09-24', 'A+', '2024-08-15'),
-    (21, 'Isabella Miller', '01900000009', 'ACTIVE', 'ROLE_TEACHER', 2, 'isabella.miller@email.com', 'Female', '334 Main Ave, Dhaka', '1990-11-30', 'B+', '2024-09-15'),
-    (22, 'James Smith', '01900000010', 'ACTIVE', 'ROLE_TEACHER', 2, 'james.smith@email.com', 'Male', '445 Main Blvd, Dhaka', '1984-04-18', 'AB+', '2024-10-15'),
-    (23, 'Mia Davis', '01900000011', 'ACTIVE', 'ROLE_TEACHER', 2, 'mia.davis@email.com', 'Female', '556 Main Ln, Dhaka', '1991-08-22', 'O+', '2024-11-15'),
-    (24, 'Benjamin Johnson', '01900000012', 'ACTIVE', 'ROLE_TEACHER', 2, 'benjamin.johnson@email.com', 'Male', '667 Main Park, Dhaka', '1987-12-05', 'A-', '2024-12-15');
+    (19, 'Ava Brown', '01900000007', 'Active', 'ROLE_TEACHER', 2, 'ava.brown@email.com', 'Female', '112 Main Rd, Dhaka', '1983-05-16', 'O-', '2024-07-15'),
+    (20, 'Mason Green', '01900000008', 'Active', 'ROLE_TEACHER', 2, 'mason.green@email.com', 'Male', '223 Main St, Dhaka', '1989-09-24', 'A+', '2024-08-15'),
+    (21, 'Isabella Miller', '01900000009', 'Active', 'ROLE_TEACHER', 2, 'isabella.miller@email.com', 'Female', '334 Main Ave, Dhaka', '1990-11-30', 'B+', '2024-09-15'),
+    (22, 'James Smith', '01900000010', 'Active', 'ROLE_TEACHER', 2, 'james.smith@email.com', 'Male', '445 Main Blvd, Dhaka', '1984-04-18', 'AB+', '2024-10-15'),
+    (23, 'Mia Davis', '01900000011', 'Active', 'ROLE_TEACHER', 2, 'mia.davis@email.com', 'Female', '556 Main Ln, Dhaka', '1991-08-22', 'O+', '2024-11-15'),
+    (24, 'Benjamin Johnson', '01900000012', 'Active', 'ROLE_TEACHER', 2, 'benjamin.johnson@email.com', 'Male', '667 Main Park, Dhaka', '1987-12-05', 'A-', '2024-12-15');
 
 
 

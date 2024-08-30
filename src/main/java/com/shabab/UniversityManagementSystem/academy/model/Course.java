@@ -51,7 +51,7 @@ public class Course {
     @JoinColumn(name = "semester_id", nullable = false)
     private Semester semester;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "course_teachers",
             joinColumns = @JoinColumn(name = "course_id"),
@@ -64,4 +64,8 @@ public class Course {
     @Size(max = 200, message = "Max 200 Characters")
     @Column(name = "description", length = 200)
     private String description;
+
+    public Course(Long id) {
+        this.id = id;
+    }
 }

@@ -44,5 +44,9 @@ public class Program {
     @OneToMany(mappedBy = "program", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Semester> semesters;
 
+    public Program(Long id) {
+        this.id = id;
+    }
+
 }
 
