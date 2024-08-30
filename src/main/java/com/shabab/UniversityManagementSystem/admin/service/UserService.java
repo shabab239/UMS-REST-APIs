@@ -12,15 +12,22 @@ import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -43,6 +50,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private FacultyRepository facultyRepository;
 
+    @Value("${avatar.user.dir}")
+    private String userAvatarDir;
+
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
@@ -60,9 +70,26 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public ApiResponse save(User user) {
+    public ApiResponse save(User user, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
+            if (avatar != null && !avatar.isEmpty()) {
+                Path directoryPath = Paths.get(userAvatarDir);
+                if (!Files.exists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
+
+                String originalFilename = avatar.getOriginalFilename();
+                String fileExtension = originalFilename != null ?
+                        originalFilename.substring(originalFilename.lastIndexOf('.')) : "";
+                String randomFileName = UUID.randomUUID() + fileExtension;
+                Path filePath = directoryPath.resolve(randomFileName);
+
+                Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                user.setAvatar("avatar/user/" + randomFileName);
+            }
+
             user.setUniversity(AuthUtil.getCurrentUniversity());
             User dbUser = userRepository.save(user);
             response.setData("user", dbUser);
@@ -73,7 +100,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public ApiResponse update(User user) {
+    public ApiResponse update(User user, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
             User dbUser = userRepository.findByIdAndUniversity(
@@ -82,7 +109,24 @@ public class UserService implements UserDetailsService {
             if (dbUser.getId() == null) {
                 return response.returnError("User not found");
             }
-            user.setRole(dbUser.getRole());
+
+            if (avatar != null && !avatar.isEmpty()) {
+                Path directoryPath = Paths.get(userAvatarDir);
+                if (!Files.exists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
+
+                String originalFilename = avatar.getOriginalFilename();
+                String fileExtension = originalFilename != null ?
+                        originalFilename.substring(originalFilename.lastIndexOf('.')) : "";
+                String randomFileName = UUID.randomUUID().toString() + fileExtension;
+                Path filePath = directoryPath.resolve(randomFileName);
+
+                Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                user.setAvatar("/avatars/user/" + randomFileName);
+            }
+
             user.setUniversity(AuthUtil.getCurrentUniversity());
             User updatedUser = userRepository.save(user);
             response.setData("user", updatedUser);

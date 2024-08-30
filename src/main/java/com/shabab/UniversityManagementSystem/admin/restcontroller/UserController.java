@@ -6,6 +6,7 @@ import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Created on: 26/08/2024
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -31,13 +33,16 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ApiResponse save(@Valid @RequestBody User user) {
-        return userService.save(user);
+    public ApiResponse save(@Valid @RequestPart("user") User user,
+                            @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        return userService.save(user, avatar);
     }
 
+
     @PutMapping("/update")
-    public ApiResponse update(@Valid @RequestBody User user) {
-        return userService.update(user);
+    public ApiResponse update(@Valid @RequestPart("user") User user,
+                              @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        return userService.update(user, avatar);
     }
 
     @DeleteMapping("/{id}")

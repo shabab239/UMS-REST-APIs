@@ -17,6 +17,7 @@ import java.util.List;
  * Created on: 24/08/2024
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/student")
 public class StudentRestController {

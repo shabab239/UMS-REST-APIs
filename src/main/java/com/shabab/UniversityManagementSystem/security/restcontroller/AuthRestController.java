@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Created on: 25/08/2024
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestController {

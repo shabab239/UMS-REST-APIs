@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * Created on: 24/08/2024
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/fee")
 public class FeeRestController {

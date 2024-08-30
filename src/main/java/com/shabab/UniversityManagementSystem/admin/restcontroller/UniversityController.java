@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * Created on: 26/08/2024
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/university")
 public class UniversityController {
