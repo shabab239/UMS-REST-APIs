@@ -23,7 +23,7 @@ public class DepartmentRestController {
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return departmentService.getAll();
     }

@@ -19,7 +19,6 @@ import java.util.List;
  * Created on: 24/08/2024
  */
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

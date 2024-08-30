@@ -21,7 +21,7 @@ public class SemesterRestController {
     @Autowired
     private SemesterService semesterService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return semesterService.getAll();
     }

@@ -2,12 +2,14 @@ package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.service.StudentService;
+import com.shabab.UniversityManagementSystem.admin.model.User;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,13 +33,15 @@ public class StudentRestController {
     }
 
     @PostMapping("/save")
-    public ApiResponse save(@Valid @RequestBody Student student) {
-        return studentService.save(student);
+    public ApiResponse save(@Valid @RequestPart("student") Student student,
+                            @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        return studentService.save(student, avatar);
     }
 
     @PutMapping("/update")
-    public ApiResponse update(@Valid @RequestBody Student student) {
-        return studentService.update(student);
+    public ApiResponse update(@Valid @RequestPart("student") Student student,
+                              @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        return studentService.update(student, avatar);
     }
 
     @GetMapping("/{id}")

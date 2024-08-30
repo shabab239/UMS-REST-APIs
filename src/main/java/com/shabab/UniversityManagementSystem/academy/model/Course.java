@@ -20,7 +20,6 @@ import java.util.*;
  * Created on: 25/08/2024
  */
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

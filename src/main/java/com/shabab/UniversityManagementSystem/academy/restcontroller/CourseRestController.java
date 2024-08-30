@@ -21,7 +21,7 @@ public class CourseRestController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return courseService.getAll();
     }

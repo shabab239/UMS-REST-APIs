@@ -8,10 +8,17 @@ import com.shabab.UniversityManagementSystem.academy.repository.StudentRepositor
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -28,6 +35,8 @@ public class StudentService {
     @Autowired
     private SemesterRepository semesterRepository;
 
+    @Value("${avatar.student.dir}")
+    private String studentAvatarDir;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -46,7 +55,7 @@ public class StudentService {
         return response;
     }
 
-    public ApiResponse save(Student student) {
+    public ApiResponse save(Student student, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
             Semester semester = semesterRepository.getById(
@@ -55,6 +64,23 @@ public class StudentService {
 
             if (semester.getId() == null) {
                 return response.returnError("Wrong Semester");
+            }
+
+            if (avatar != null && !avatar.isEmpty()) {
+                Path directoryPath = Paths.get(studentAvatarDir);
+                if (!Files.exists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
+
+                String originalFilename = avatar.getOriginalFilename();
+                String fileExtension = originalFilename != null ?
+                        originalFilename.substring(originalFilename.lastIndexOf('.')) : "";
+                String randomFileName = UUID.randomUUID() + fileExtension;
+                Path filePath = directoryPath.resolve(randomFileName);
+
+                Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                student.setAvatar("avatar/student/" + randomFileName);
             }
 
             Student savedStudent = studentRepository.save(student);
@@ -67,7 +93,7 @@ public class StudentService {
     }
 
 
-    public ApiResponse update(Student student) {
+    public ApiResponse update(Student student, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
             Student dbStudent = studentRepository.getById(
@@ -76,6 +102,23 @@ public class StudentService {
 
             if (dbStudent.getId() == null) {
                 return response.returnError("Student not found");
+            }
+
+            if (avatar != null && !avatar.isEmpty()) {
+                Path directoryPath = Paths.get(studentAvatarDir);
+                if (!Files.exists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
+
+                String originalFilename = avatar.getOriginalFilename();
+                String fileExtension = originalFilename != null ?
+                        originalFilename.substring(originalFilename.lastIndexOf('.')) : "";
+                String randomFileName = UUID.randomUUID() + fileExtension;
+                Path filePath = directoryPath.resolve(randomFileName);
+
+                Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                student.setAvatar("avatar/student/" + randomFileName);
             }
 
             Student updatedStudent = studentRepository.save(student);

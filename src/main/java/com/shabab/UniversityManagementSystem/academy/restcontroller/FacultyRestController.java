@@ -23,7 +23,7 @@ public class FacultyRestController {
     @Autowired
     private FacultyService facultyService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return facultyService.getAll();
     }

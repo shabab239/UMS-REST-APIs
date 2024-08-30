@@ -1,6 +1,6 @@
 /*
 SQLyog Professional v13.1.1 (64 bit)
-MySQL - 10.4.32-MariaDB : Database - ums
+MySQL - 10.4.11-MariaDB : Database - ums
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 10.4.32-MariaDB : Database - ums
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`ums` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`ums` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
 USE `ums`;
 
@@ -30,7 +30,7 @@ CREATE TABLE `acd_courses` (
   PRIMARY KEY (`id`),
   KEY `FKt1hlh6tdy3sg1y97q8fvcrqu0` (`semester_id`),
   CONSTRAINT `FKt1hlh6tdy3sg1y97q8fvcrqu0` FOREIGN KEY (`semester_id`) REFERENCES `acd_semesters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_courses` */
 
@@ -62,7 +62,7 @@ CREATE TABLE `acd_departments` (
   KEY `FKre2bf5hu2ks201qaaxo7q99qc` (`faculty_id`),
   CONSTRAINT `FK1an74rcvosng6shjvs4yhwb4s` FOREIGN KEY (`head_id`) REFERENCES `ad_users` (`id`),
   CONSTRAINT `FKre2bf5hu2ks201qaaxo7q99qc` FOREIGN KEY (`faculty_id`) REFERENCES `acd_faculties` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_departments` */
 
@@ -92,7 +92,7 @@ CREATE TABLE `acd_faculties` (
   KEY `FKtolvus2g3bkxy2eq3xwo0w83a` (`university_id`),
   CONSTRAINT `FKo915s62lqfemwjd03uc9g6xok` FOREIGN KEY (`dean_id`) REFERENCES `ad_users` (`id`),
   CONSTRAINT `FKtolvus2g3bkxy2eq3xwo0w83a` FOREIGN KEY (`university_id`) REFERENCES `ad_universities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_faculties` */
 
@@ -116,7 +116,7 @@ CREATE TABLE `acd_fees` (
   PRIMARY KEY (`id`),
   KEY `FKslfyhqflcp1ee8kmsq3ttrndn` (`semester_id`),
   CONSTRAINT `FKslfyhqflcp1ee8kmsq3ttrndn` FOREIGN KEY (`semester_id`) REFERENCES `acd_semesters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_fees` */
 
@@ -146,7 +146,7 @@ CREATE TABLE `acd_programs` (
   PRIMARY KEY (`id`),
   KEY `FKry1t9fs69jh5mol7s8wk9gler` (`department_id`),
   CONSTRAINT `FKry1t9fs69jh5mol7s8wk9gler` FOREIGN KEY (`department_id`) REFERENCES `acd_departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_programs` */
 
@@ -177,7 +177,7 @@ CREATE TABLE `acd_semesters` (
   PRIMARY KEY (`id`),
   KEY `FKg4jai87dr6w5u23m79r27e3br` (`program_id`),
   CONSTRAINT `FKg4jai87dr6w5u23m79r27e3br` FOREIGN KEY (`program_id`) REFERENCES `acd_programs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_semesters` */
 
@@ -229,7 +229,6 @@ CREATE TABLE `acd_students` (
   `permanent_address` varchar(400) DEFAULT NULL,
   `present_address` varchar(400) DEFAULT NULL,
   `religion` varchar(255) DEFAULT NULL,
-  `session` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `semester_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
@@ -237,41 +236,41 @@ CREATE TABLE `acd_students` (
   UNIQUE KEY `UKs5ijnt9v4yi0j4o1m72gkawc3` (`id_no`),
   KEY `FKonklf4rcdjtb6xp0be52gelim` (`semester_id`),
   CONSTRAINT `FKonklf4rcdjtb6xp0be52gelim` FOREIGN KEY (`semester_id`) REFERENCES `acd_semesters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `acd_students` */
 
-insert  into `acd_students`(`id`,`admission_date`,`avatar`,`blood_group`,`cell`,`date_of_birth`,`email`,`father_cell`,`father_name`,`gender`,`id_no`,`mother_cell`,`mother_name`,`name`,`permanent_address`,`present_address`,`religion`,`session`,`status`,`semester_id`) values 
-(1,'2022-01-15',NULL,'A+','01900000001','2002-05-15','john.doe@example.com','01900000011','Michael Doe','Male','23001','01900000021','Jane Doe','John Doe','456 Oak Avenue','123 Elm Street','Christian','2022-23','Active',1),
-(2,'2022-01-16',NULL,'B-','01900000002','2003-06-22','jane.smith@example.com','01900000012','Robert Smith','Female','23002','01900000022','Emily Smith','Jane Smith','101 Maple Avenue','789 Pine Street','Muslim','2022-23','Active',1),
-(3,'2022-01-17',NULL,'O+','01900000003','2002-07-30','michael.johnson@example.com','01900000013','David Johnson','Male','23003','01900000023','Linda Johnson','Michael Johnson','567 Cedar Avenue','234 Birch Street','Hindu','2022-23','Active',1),
-(4,'2022-01-18',NULL,'AB+','01900000004','2001-08-11','emily.davis@example.com','01900000014','William Davis','Female','23004','01900000024','Sarah Davis','Emily Davis','678 Spruce Avenue','345 Fir Street','Buddhist','2022-23','Active',1),
-(5,'2022-01-19',NULL,'A-','01900000005','2002-09-25','james.brown@example.com','01900000015','Charles Brown','Male','23005','01900000025','Laura Brown','James Brown','789 Willow Avenue','456 Maple Street','Sikh','2022-23','Active',1),
-(6,'2022-02-01',NULL,'B+','01900000006','2002-10-05','alice.green@example.com','01900000016','James Green','Female','23006','01900000026','Olivia Green','Alice Green','890 Pine Avenue','567 Oak Street','Christian','2022-23','Active',2),
-(7,'2022-02-02',NULL,'O-','01900000007','2003-11-12','robert.wilson@example.com','01900000017','Ethan Wilson','Male','23007','01900000027','Sophia Wilson','Robert Wilson','901 Cedar Avenue','678 Pine Street','Muslim','2022-23','Active',2),
-(8,'2022-02-03',NULL,'A-','01900000008','2002-12-20','sophia.martinez@example.com','01900000018','Daniel Martinez','Female','23008','01900000028','Emma Martinez','Sophia Martinez','912 Birch Avenue','789 Maple Street','Hindu','2022-23','Active',2),
-(9,'2022-02-04',NULL,'B+','01900000009','2001-01-15','daniel.garcia@example.com','01900000019','Mark Garcia','Male','23009','01900000029','Alice Garcia','Daniel Garcia','123 Willow Avenue','890 Elm Street','Buddhist','2022-23','Active',2),
-(10,'2022-02-05',NULL,'AB-','01900000010','2002-02-25','rachel.lee@example.com','01900000020','Andrew Lee','Female','23010','01900000030','Linda Lee','Rachel Lee','234 Pine Avenue','901 Oak Street','Sikh','2022-23','Active',2),
-(11,'2022-03-01',NULL,'A+','01900000011','2001-03-05','megan.taylor@example.com','01900000021','George Taylor','Female','23011','01900000031','Nancy Taylor','Megan Taylor','345 Oak Avenue','234 Elm Street','Christian','2022-23','Active',3),
-(12,'2022-03-02',NULL,'B-','01900000012','2002-04-15','william.anderson@example.com','01900000022','Frank Anderson','Male','23012','01900000032','Karen Anderson','William Anderson','456 Pine Avenue','345 Maple Street','Muslim','2022-23','Active',3),
-(13,'2022-03-03',NULL,'O+','01900000013','2002-05-20','emily.thomas@example.com','01900000023','Samuel Thomas','Female','23013','01900000033','Megan Thomas','Emily Thomas','567 Cedar Avenue','456 Oak Street','Hindu','2022-23','Active',3),
-(14,'2022-03-04',NULL,'AB+','01900000014','2003-06-10','michael.lewis@example.com','01900000024','Mark Lewis','Male','23014','01900000034','Alice Lewis','Michael Lewis','678 Birch Avenue','567 Pine Street','Buddhist','2022-23','Active',3),
-(15,'2022-03-05',NULL,'A-','01900000015','2002-07-25','olivia.robinson@example.com','01900000025','Philip Robinson','Female','23015','01900000035','Sandra Robinson','Olivia Robinson','789 Willow Avenue','678 Cedar Street','Sikh','2022-23','Active',3),
-(16,'2022-04-01',NULL,'B+','01900000016','2002-08-05','ethan.walker@example.com','01900000026','Brian Walker','Male','23016','01900000036','Emily Walker','Ethan Walker','890 Oak Avenue','789 Elm Street','Christian','2022-23','Active',4),
-(17,'2022-04-02',NULL,'O-','01900000017','2001-09-10','isabella.hall@example.com','01900000027','Albert Hall','Female','23017','01900000037','Alice Hall','Isabella Hall','901 Maple Avenue','890 Pine Street','Muslim','2022-23','Active',4),
-(18,'2022-04-03',NULL,'A-','01900000018','2003-10-20','aiden.young@example.com','01900000028','Henry Young','Male','23018','01900000038','Lily Young','Aiden Young','912 Cedar Avenue','901 Oak Street','Hindu','2022-23','Active',4),
-(19,'2022-04-04',NULL,'AB-','01900000019','2002-11-15','mia.hernandez@example.com','01900000029','David Hernandez','Female','23019','01900000039','Sarah Hernandez','Mia Hernandez','123 Willow Avenue','012 Birch Street','Buddhist','2022-23','Active',4),
-(20,'2022-04-05',NULL,'B+','01900000020','2002-12-25','logan.martinez@example.com','01900000030','Charles Martinez','Male','23020','01900000040','Laura Martinez','Logan Martinez','234 Oak Avenue','123 Maple Street','Sikh','2022-23','Active',4),
-(21,'2023-01-05',NULL,'O+','01900000021','2003-01-10','sophia.king@example.com','01900000031','James King','Female','24001','01900000041','Anna King','Sophia King','345 Oak Avenue','234 Elm Street','Christian','2023-24','Active',5),
-(22,'2023-01-06',NULL,'A-','01900000022','2002-02-20','liam.scott@example.com','01900000032','Robert Scott','Male','24002','01900000042','Olivia Scott','Liam Scott','456 Pine Avenue','345 Maple Street','Muslim','2023-24','Active',5),
-(23,'2023-01-07',NULL,'B+','01900000023','2002-03-25','mia.adams@example.com','01900000033','Daniel Adams','Female','24003','01900000043','Emma Adams','Mia Adams','567 Cedar Avenue','456 Oak Street','Hindu','2023-24','Active',5),
-(24,'2023-01-08',NULL,'AB-','01900000024','2003-04-30','noah.carter@example.com','01900000034','Paul Carter','Male','24004','01900000044','Sophia Carter','Noah Carter','678 Birch Avenue','567 Pine Street','Buddhist','2023-24','Active',5),
-(25,'2023-01-09',NULL,'A+','01900000025','2002-05-15','emma.turner@example.com','01900000035','Philip Turner','Female','24005','01900000045','Laura Turner','Emma Turner','789 Willow Avenue','678 Cedar Street','Sikh','2023-24','Active',5),
-(26,'2023-02-01',NULL,'B-','01900000026','2002-06-05','lucas.nelson@example.com','01900000036','Andrew Nelson','Male','24006','01900000046','Lily Nelson','Lucas Nelson','890 Oak Avenue','789 Elm Street','Christian','2023-24','Active',6),
-(27,'2023-02-02',NULL,'O+','01900000027','2001-07-10','olivia.parker@example.com','01900000037','David Parker','Female','24007','01900000047','Sarah Parker','Olivia Parker','901 Maple Avenue','890 Pine Street','Muslim','2023-24','Active',6),
-(28,'2023-02-03',NULL,'A-','01900000028','2002-08-15','ethan.roberts@example.com','01900000038','James Roberts','Male','24008','01900000048','Emma Roberts','Ethan Roberts','912 Cedar Avenue','901 Oak Street','Hindu','2023-24','Active',6),
-(29,'2023-02-04',NULL,'AB+','01900000029','2003-09-20','ava.campbell@example.com','01900000039','Robert Campbell','Female','24009','01900000049','Mia Campbell','Ava Campbell','123 Willow Avenue','012 Birch Street','Buddhist','2023-24','Active',6),
-(30,'2023-02-05',NULL,'B+','01900000030','2002-10-25','mason.mitchell@example.com','01900000040','George Mitchell','Male','24010','01900000050','Laura Mitchell','Mason Mitchell','234 Oak Avenue','123 Maple Street','Sikh','2023-24','Active',6);
+insert  into `acd_students`(`id`,`admission_date`,`avatar`,`blood_group`,`cell`,`date_of_birth`,`email`,`father_cell`,`father_name`,`gender`,`id_no`,`mother_cell`,`mother_name`,`name`,`permanent_address`,`present_address`,`religion`,`status`,`semester_id`) values 
+(1,'2022-01-15',NULL,'A+','01900000001','2002-05-15','john.doe@example.com','01900000011','Michael Doe','Male','23001','01900000021','Jane Doe','John Doe','456 Oak Avenue','123 Elm Street','Christian','Active',1),
+(2,'2022-01-16',NULL,'B-','01900000002','2003-06-22','jane.smith@example.com','01900000012','Robert Smith','Female','23002','01900000022','Emily Smith','Jane Smith','101 Maple Avenue','789 Pine Street','Muslim','Active',1),
+(3,'2022-01-17',NULL,'O+','01900000003','2002-07-30','michael.johnson@example.com','01900000013','David Johnson','Male','23003','01900000023','Linda Johnson','Michael Johnson','567 Cedar Avenue','234 Birch Street','Hindu','Active',1),
+(4,'2022-01-18',NULL,'AB+','01900000004','2001-08-11','emily.davis@example.com','01900000014','William Davis','Female','23004','01900000024','Sarah Davis','Emily Davis','678 Spruce Avenue','345 Fir Street','Buddhist','Active',1),
+(5,'2022-01-19',NULL,'A-','01900000005','2002-09-25','james.brown@example.com','01900000015','Charles Brown','Male','23005','01900000025','Laura Brown','James Brown','789 Willow Avenue','456 Maple Street','Sikh','Active',1),
+(6,'2022-02-01',NULL,'B+','01900000006','2002-10-05','alice.green@example.com','01900000016','James Green','Female','23006','01900000026','Olivia Green','Alice Green','890 Pine Avenue','567 Oak Street','Christian','Active',2),
+(7,'2022-02-02',NULL,'O-','01900000007','2003-11-12','robert.wilson@example.com','01900000017','Ethan Wilson','Male','23007','01900000027','Sophia Wilson','Robert Wilson','901 Cedar Avenue','678 Pine Street','Muslim','Active',2),
+(8,'2022-02-03',NULL,'A-','01900000008','2002-12-20','sophia.martinez@example.com','01900000018','Daniel Martinez','Female','23008','01900000028','Emma Martinez','Sophia Martinez','912 Birch Avenue','789 Maple Street','Hindu','Active',2),
+(9,'2022-02-04',NULL,'B+','01900000009','2001-01-15','daniel.garcia@example.com','01900000019','Mark Garcia','Male','23009','01900000029','Alice Garcia','Daniel Garcia','123 Willow Avenue','890 Elm Street','Buddhist','Active',2),
+(10,'2022-02-05',NULL,'AB-','01900000010','2002-02-25','rachel.lee@example.com','01900000020','Andrew Lee','Female','23010','01900000030','Linda Lee','Rachel Lee','234 Pine Avenue','901 Oak Street','Sikh','Active',2),
+(11,'2022-03-01',NULL,'A+','01900000011','2001-03-05','megan.taylor@example.com','01900000021','George Taylor','Female','23011','01900000031','Nancy Taylor','Megan Taylor','345 Oak Avenue','234 Elm Street','Christian','Active',3),
+(12,'2022-03-02',NULL,'B-','01900000012','2002-04-15','william.anderson@example.com','01900000022','Frank Anderson','Male','23012','01900000032','Karen Anderson','William Anderson','456 Pine Avenue','345 Maple Street','Muslim','Active',3),
+(13,'2022-03-03',NULL,'O+','01900000013','2002-05-20','emily.thomas@example.com','01900000023','Samuel Thomas','Female','23013','01900000033','Megan Thomas','Emily Thomas','567 Cedar Avenue','456 Oak Street','Hindu','Active',3),
+(14,'2022-03-04',NULL,'AB+','01900000014','2003-06-10','michael.lewis@example.com','01900000024','Mark Lewis','Male','23014','01900000034','Alice Lewis','Michael Lewis','678 Birch Avenue','567 Pine Street','Buddhist','Active',3),
+(15,'2022-03-05',NULL,'A-','01900000015','2002-07-25','olivia.robinson@example.com','01900000025','Philip Robinson','Female','23015','01900000035','Sandra Robinson','Olivia Robinson','789 Willow Avenue','678 Cedar Street','Sikh','Active',3),
+(16,'2022-04-01',NULL,'B+','01900000016','2002-08-05','ethan.walker@example.com','01900000026','Brian Walker','Male','23016','01900000036','Emily Walker','Ethan Walker','890 Oak Avenue','789 Elm Street','Christian','Active',4),
+(17,'2022-04-02',NULL,'O-','01900000017','2001-09-10','isabella.hall@example.com','01900000027','Albert Hall','Female','23017','01900000037','Alice Hall','Isabella Hall','901 Maple Avenue','890 Pine Street','Muslim','Active',4),
+(18,'2022-04-03',NULL,'A-','01900000018','2003-10-20','aiden.young@example.com','01900000028','Henry Young','Male','23018','01900000038','Lily Young','Aiden Young','912 Cedar Avenue','901 Oak Street','Hindu','Active',4),
+(19,'2022-04-04',NULL,'AB-','01900000019','2002-11-15','mia.hernandez@example.com','01900000029','David Hernandez','Female','23019','01900000039','Sarah Hernandez','Mia Hernandez','123 Willow Avenue','012 Birch Street','Buddhist','Active',4),
+(20,'2022-04-05',NULL,'B+','01900000020','2002-12-25','logan.martinez@example.com','01900000030','Charles Martinez','Male','23020','01900000040','Laura Martinez','Logan Martinez','234 Oak Avenue','123 Maple Street','Sikh','Active',4),
+(21,'2023-01-05',NULL,'O+','01900000021','2003-01-10','sophia.king@example.com','01900000031','James King','Female','24001','01900000041','Anna King','Sophia King','345 Oak Avenue','234 Elm Street','Christian','Active',5),
+(22,'2023-01-06',NULL,'A-','01900000022','2002-02-20','liam.scott@example.com','01900000032','Robert Scott','Male','24002','01900000042','Olivia Scott','Liam Scott','456 Pine Avenue','345 Maple Street','Muslim','Active',5),
+(23,'2023-01-07',NULL,'B+','01900000023','2002-03-25','mia.adams@example.com','01900000033','Daniel Adams','Female','24003','01900000043','Emma Adams','Mia Adams','567 Cedar Avenue','456 Oak Street','Hindu','Active',5),
+(24,'2023-01-08',NULL,'AB-','01900000024','2003-04-30','noah.carter@example.com','01900000034','Paul Carter','Male','24004','01900000044','Sophia Carter','Noah Carter','678 Birch Avenue','567 Pine Street','Buddhist','Active',5),
+(25,'2023-01-09',NULL,'A+','01900000025','2002-05-15','emma.turner@example.com','01900000035','Philip Turner','Female','24005','01900000045','Laura Turner','Emma Turner','789 Willow Avenue','678 Cedar Street','Sikh','Active',5),
+(26,'2023-02-01',NULL,'B-','01900000026','2002-06-05','lucas.nelson@example.com','01900000036','Andrew Nelson','Male','24006','01900000046','Lily Nelson','Lucas Nelson','890 Oak Avenue','789 Elm Street','Christian','Active',6),
+(27,'2023-02-02',NULL,'O+','01900000027','2001-07-10','olivia.parker@example.com','01900000037','David Parker','Female','24007','01900000047','Sarah Parker','Olivia Parker','901 Maple Avenue','890 Pine Street','Muslim','Active',6),
+(28,'2023-02-03',NULL,'A-','01900000028','2002-08-15','ethan.roberts@example.com','01900000038','James Roberts','Male','24008','01900000048','Emma Roberts','Ethan Roberts','912 Cedar Avenue','901 Oak Street','Hindu','Active',6),
+(29,'2023-02-04',NULL,'AB+','01900000029','2003-09-20','ava.campbell@example.com','01900000039','Robert Campbell','Female','24009','01900000049','Mia Campbell','Ava Campbell','123 Willow Avenue','012 Birch Street','Buddhist','Active',6),
+(30,'2023-02-05',NULL,'B+','01900000030','2002-10-25','mason.mitchell@example.com','01900000040','George Mitchell','Male','24010','01900000050','Laura Mitchell','Mason Mitchell','234 Oak Avenue','123 Maple Street','Sikh','Active',6);
 
 /*Table structure for table `ad_universities` */
 
@@ -288,7 +287,7 @@ CREATE TABLE `ad_universities` (
   UNIQUE KEY `UKghrx3c5fvxhg0jgbo7spq8ckw` (`contact`),
   UNIQUE KEY `UKe0mh2w988l7xfrjwgj8amohg5` (`email`),
   UNIQUE KEY `UK7qtoi1njyemr3j0y01y2a95ke` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `ad_universities` */
 
@@ -319,7 +318,7 @@ CREATE TABLE `ad_users` (
   UNIQUE KEY `UK8ldcumy42y3px57a0wjbuofk6` (`email`),
   KEY `FK3twl7cieh7wo0svjyy4tcvt1c` (`university_id`),
   CONSTRAINT `FK3twl7cieh7wo0svjyy4tcvt1c` FOREIGN KEY (`university_id`) REFERENCES `ad_universities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `ad_users` */
 
@@ -362,7 +361,7 @@ CREATE TABLE `auth_tokens` (
   UNIQUE KEY `UKgymtf40i213h1bo2f2aoiqdfg` (`username`),
   UNIQUE KEY `UK1cqfuii5jj5i9bqfwtq1i5x9w` (`user_id`),
   CONSTRAINT `FKdx4xxonjpxgjvsf7q9d04oiop` FOREIGN KEY (`user_id`) REFERENCES `ad_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `auth_tokens` */
 
@@ -381,7 +380,7 @@ CREATE TABLE `course_teachers` (
   KEY `FK2cul0iwvm9cxgpsqy33h1nk3s` (`course_id`),
   CONSTRAINT `FK2cul0iwvm9cxgpsqy33h1nk3s` FOREIGN KEY (`course_id`) REFERENCES `acd_courses` (`id`),
   CONSTRAINT `FKka1ep0uutppr6ifmvurny69e0` FOREIGN KEY (`teacher_id`) REFERENCES `ad_users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `course_teachers` */
 

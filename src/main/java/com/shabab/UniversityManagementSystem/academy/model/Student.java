@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * Created on: 24/08/2024
  */
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -53,10 +52,6 @@ public class Student {
     @Column(name = "admission_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date admissionDate;
-
-    @NotBlank(message = "Session is required")
-    @Column(name = "session", nullable = false)
-    private String session;
 
     @NotBlank(message = "Status is required")
     @Column(name = "status", nullable = false)

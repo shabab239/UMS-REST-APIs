@@ -21,7 +21,7 @@ public class FeeRestController {
     @Autowired
     private FeeService feeService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return feeService.getAll();
     }

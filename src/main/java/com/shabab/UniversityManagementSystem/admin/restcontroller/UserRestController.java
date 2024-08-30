@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/user")
-public class UserController {
+public class UserRestController {
 
     @Autowired
     private UserService userService;

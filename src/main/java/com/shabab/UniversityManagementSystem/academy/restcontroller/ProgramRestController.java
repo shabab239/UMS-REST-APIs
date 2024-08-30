@@ -21,7 +21,7 @@ public class ProgramRestController {
     @Autowired
     private ProgramService programService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return programService.getAll();
     }
