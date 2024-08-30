@@ -59,7 +59,15 @@ public class ApiResponse {
 
     public ApiResponse returnError(Exception e) {
         this.isSuccessful = false;
-        this.message = e.getMessage();
+        try {
+            this.message = e.getCause().getCause().getMessage();
+        } catch (Exception e1) {
+            try {
+                this.message = e.getCause().getMessage();
+            } catch (Exception e2) {
+                this.message = e.getMessage();
+            }
+        }
         return this;
     }
 

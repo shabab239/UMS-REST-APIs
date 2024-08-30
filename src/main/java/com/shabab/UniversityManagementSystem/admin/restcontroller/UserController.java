@@ -38,7 +38,6 @@ public class UserController {
         return userService.save(user, avatar);
     }
 
-
     @PutMapping("/update")
     public ApiResponse update(@Valid @RequestPart("user") User user,
                               @RequestPart(value = "avatar", required = false) MultipartFile avatar) {

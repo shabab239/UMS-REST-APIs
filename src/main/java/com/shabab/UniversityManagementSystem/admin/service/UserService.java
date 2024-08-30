@@ -124,7 +124,7 @@ public class UserService implements UserDetailsService {
 
                 Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-                user.setAvatar("/avatars/user/" + randomFileName);
+                user.setAvatar("avatar/user/" + randomFileName);
             }
 
             user.setUniversity(AuthUtil.getCurrentUniversity());
