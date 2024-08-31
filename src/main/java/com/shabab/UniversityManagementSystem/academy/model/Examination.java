@@ -46,7 +46,7 @@ public class Examination {
 
     @JsonIgnore
     @OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Result> results;
+    private List<Mark> marks;
 
     public Examination(Long id) {
         this.id = id;

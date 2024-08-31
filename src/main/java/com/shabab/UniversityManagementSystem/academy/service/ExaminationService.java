@@ -1,15 +1,10 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
-import com.shabab.UniversityManagementSystem.academy.model.Examination;
-import com.shabab.UniversityManagementSystem.academy.model.Examination;
-import com.shabab.UniversityManagementSystem.academy.model.Semester;
-import com.shabab.UniversityManagementSystem.academy.repository.ExaminationRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.ExaminationRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
+import com.shabab.UniversityManagementSystem.academy.model.*;
+import com.shabab.UniversityManagementSystem.academy.repository.*;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +26,15 @@ public class ExaminationService {
     @Autowired
     private SemesterRepository semesterRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private MarkRepository markRepository;
+
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -49,6 +53,7 @@ public class ExaminationService {
         }
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ApiResponse save(Examination examination) {
         ApiResponse response = new ApiResponse();
         try {
@@ -59,8 +64,27 @@ public class ExaminationService {
                 return response.returnError("Wrong Semester");
             }
             examination = examinationRepository.save(examination);
+
+            List<Student> students = studentRepository.getAllByExamination(
+                    examination.getId(), AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+
+            List<Course> courses = courseRepository.getAllByExamination(
+                    examination.getId(), AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+
+            for (Course course : courses) {
+                for (Student student : students) {
+                    Mark mark = new Mark();
+                    mark.setExamination(examination);
+                    mark.setStudent(student);
+                    mark.setCourse(course);
+                    markRepository.save(mark);
+                }
+            }
+
             response.setData("examination", examination);
-            response.success("Saved Successfully");
+            response.success("Saved Successfully. Marks Initiated");
         } catch (Exception e) {
             return response.returnError(e);
         }
@@ -120,6 +144,45 @@ public class ExaminationService {
         } catch (Exception e) {
             return response.returnError(e);
         }
+    }
+
+    public ApiResponse getAllMarksByExaminationAndCourse(Long examinationId, Long courseId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            List<Mark> marks = markRepository.getAllByExaminationAndCourse(
+                    examinationId, courseId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+            if (marks.isEmpty()) {
+                return response.returnError("No mark found");
+            }
+            response.setData("marks", marks);
+            response.success("Successfully retrieved all examinations");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+    }
+
+    public ApiResponse saveMarks(List<Mark> marks) {
+        ApiResponse response = new ApiResponse();
+        try {
+            //Validate later
+
+            for (Mark mark : marks) {
+                boolean success = mark.processMark();
+                if (!success) {
+                    return response.returnError("Full mark exceeded 100.");
+                }
+            }
+
+            List<Mark> savedMarks = markRepository.saveAll(marks);
+
+            response.setData("marks", savedMarks);
+            response.success("Saved Successfully");
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+        return response;
     }
 
 }

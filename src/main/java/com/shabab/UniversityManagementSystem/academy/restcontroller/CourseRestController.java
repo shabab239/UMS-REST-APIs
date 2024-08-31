@@ -46,4 +46,12 @@ public class CourseRestController {
         return courseService.deleteById(id);
     }
 
+    @GetMapping("/getAllByExamination")
+    public ApiResponse getAllByExamination(@RequestParam(required = false) Long examinationId) {
+        if (examinationId == null) {
+            return new ApiResponse(false, "Examination ID is required");
+        }
+        return courseService.getAllByExamination(examinationId);
+    }
+
 }

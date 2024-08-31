@@ -2,6 +2,7 @@ package com.shabab.UniversityManagementSystem.academy.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
+import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
 import com.shabab.UniversityManagementSystem.admin.model.User;
@@ -133,6 +134,23 @@ public class CourseService {
             }
             courseRepository.deleteById(id);
             response.success("Deleted Successfully");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+    }
+
+    public ApiResponse getAllByExamination(Long examinationId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            List<Course> courses = courseRepository.getAllByExamination(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+            if (courses.isEmpty()) {
+                return response.returnError("No course found for this examination");
+            }
+            response.setData("courses", courses);
+            response.success("Successfully retrieved all courses for this examination");
             return response;
         } catch (Exception e) {
             return response.returnError(e);

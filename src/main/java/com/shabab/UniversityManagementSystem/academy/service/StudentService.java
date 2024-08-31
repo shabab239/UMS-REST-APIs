@@ -1,7 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 
-import com.shabab.UniversityManagementSystem.academy.model.Result;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;

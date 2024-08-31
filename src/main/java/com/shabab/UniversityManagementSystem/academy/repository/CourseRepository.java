@@ -27,4 +27,11 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("SELECT c FROM Course c WHERE c.id = :id AND c.semester.program.department.faculty.university.id = :universityId")
     Optional<Course> getById(@Param("id") Long id, @Param("universityId") Long universityId);
 
+    @Query("SELECT c FROM Course c " +
+            "JOIN Semester sem on sem.id = c.semester.id " +
+            "JOIN Examination e on e.semester.id = sem.id " +
+            "WHERE e.id = :examinationId " +
+            "AND sem.program.department.faculty.university.id = :universityId")
+    Optional<List<Course>> getAllByExamination(@Param("examinationId") Long examinationId,
+                                                @Param("universityId") Long universityId);
 }

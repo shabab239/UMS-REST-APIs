@@ -1,13 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.repository;
 
-import com.shabab.UniversityManagementSystem.academy.model.Department;
-import com.shabab.UniversityManagementSystem.academy.model.Result;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.util.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -36,9 +30,9 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("SELECT s FROM Student s " +
             "JOIN Semester sem on sem.id = s.semester.id " +
             "JOIN Examination e on e.semester.id = sem.id " +
-            "WHERE s.semester.id = :semesterId " +
+            "WHERE e.id = :examinationId " +
             "AND sem.program.department.faculty.university.id = :universityId")
-    Optional<List<Student>> getAllByExamination(@Param("semesterId") Long semesterId,
+    Optional<List<Student>> getAllByExamination(@Param("examinationId") Long examinationId,
                                                 @Param("universityId") Long universityId);
 
 }
