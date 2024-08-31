@@ -54,4 +54,20 @@ public class StudentRestController {
         return studentService.deleteById(id);
     }
 
+    @GetMapping("/getAllBySemester")
+    public ApiResponse getAllBySemester(@RequestParam(required = false) Long semesterId) {
+        if (semesterId == null) {
+            return new ApiResponse(false, "Semester ID is required");
+        }
+        return studentService.getAllBySemester(semesterId);
+    }
+
+    @GetMapping("/getAllByExamination")
+    public ApiResponse getAllByExamination(@RequestParam(required = false) Long examinationId) {
+        if (examinationId == null) {
+            return new ApiResponse(false, "Examination ID is required");
+        }
+        return studentService.getAllByExamination(examinationId);
+    }
+
 }

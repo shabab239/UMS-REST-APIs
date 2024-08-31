@@ -1,6 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 
+import com.shabab.UniversityManagementSystem.academy.model.Result;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
@@ -53,6 +54,40 @@ public class StudentService {
             return response.returnError(e);
         }
         return response;
+    }
+
+    public ApiResponse getAllBySemester(Long semesterId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            List<Student> students = studentRepository.getAllBySemester(
+                    semesterId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+            if (students.isEmpty()) {
+                return response.returnError("No student found for this semester");
+            }
+            response.setData("students", students);
+            response.success("Successfully retrieved all results for this semester");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+    }
+
+    public ApiResponse getAllByExamination(Long examinationId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            List<Student> students = studentRepository.getAllByExamination(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+            if (students.isEmpty()) {
+                return response.returnError("No student found for this examination");
+            }
+            response.setData("students", students);
+            response.success("Successfully retrieved all results for this examination");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
     }
 
     public ApiResponse save(Student student, MultipartFile avatar) {
