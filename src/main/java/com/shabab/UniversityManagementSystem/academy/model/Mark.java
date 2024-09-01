@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "acd_marks")
+@Table(name = "exm_marks")
 public class Mark {
 
     @Id
@@ -62,6 +62,9 @@ public class Mark {
     @Column(name = "total_mark") //100
     private Double totalMark;
 
+    @Column(name = "gpa") //4.00, 3.50 etc
+    private Double gpa;
+
     @Column(name = "grade", length = 2) //A+, A- etc
     private String grade;
 
@@ -91,37 +94,48 @@ public class Mark {
         String status;
 
         if (totalMarks >= 80) {
+            gpa = 4.00;
             grade = "A+";
             status = "Passed";
         } else if (totalMarks >= 75) {
+            gpa = 3.75;
             grade = "A";
             status = "Passed";
         } else if (totalMarks >= 70) {
+            gpa = 3.50;
             grade = "A-";
             status = "Passed";
         } else if (totalMarks >= 65) {
+            gpa = 3.25;
             grade = "B+";
             status = "Passed";
         } else if (totalMarks >= 60) {
+            gpa = 3.00;
             grade = "B";
             status = "Passed";
         } else if (totalMarks >= 55) {
+            gpa = 2.75;
             grade = "B-";
             status = "Passed";
         } else if (totalMarks >= 50) {
+            gpa = 2.50;
             grade = "C+";
             status = "Passed";
         } else if (totalMarks >= 45) {
+            gpa = 2.25;
             grade = "C-";
             status = "Passed";
         } else if (totalMarks >= 40) {
+            gpa = 2.00;
             grade = "D";
             status = "Passed";
         } else {
+            gpa = 0.00;
             grade = "F";
             status = "Failed";
         }
 
+        this.setGpa(gpa);
         this.setGrade(grade);
         this.setStatus(status);
         this.setTotalMark(totalMarks);

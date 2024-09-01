@@ -61,8 +61,21 @@ public class ExaminationRestController {
     @PostMapping("/saveMarks")
     public ApiResponse saveMarks(
             @RequestBody(required = false) List<Mark> marks
-            ) {
+    ) {
         return examinationService.saveMarks(marks);
+    }
+
+    @PostMapping("/processExamination")
+    public ApiResponse processExamination(@RequestParam(required = false) Long examinationId) {
+        if (examinationId == null) {
+            return new ApiResponse().returnError("Examination ID is required");
+        }
+        return examinationService.processExamination(examinationId);
+    }
+
+    @GetMapping("/getResult/{studentId}")
+    public ApiResponse getResult(@PathVariable Long studentId) {
+        return examinationService.getResult(studentId);
     }
 
 }

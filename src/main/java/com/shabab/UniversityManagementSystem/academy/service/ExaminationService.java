@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -34,6 +36,9 @@ public class ExaminationService {
 
     @Autowired
     private MarkRepository markRepository;
+
+    @Autowired
+    private ResultRepository resultRepository;
 
 
     public ApiResponse getAll() {
@@ -183,6 +188,130 @@ public class ExaminationService {
             return response.returnError(e);
         }
         return response;
+    }
+
+    // Add the following method to ExaminationService.java
+
+    //write test for this method
+
+    @Transactional(rollbackOn = Exception.class)
+public ApiResponse processExamination(Long examinationId) {
+    ApiResponse response = new ApiResponse();
+    try {
+        Examination examination = examinationRepository.getById(
+                examinationId, AuthUtil.getCurrentUniversityId()
+        ).orElse(new Examination());
+
+        if (examination.getId() == null) {
+            return response.returnError("Examination not found");
+        }
+
+        List<Mark> marks = markRepository.getAllByExamination(
+                examinationId, AuthUtil.getCurrentUniversityId()
+        ).orElse(new ArrayList<>());
+
+        if (marks.isEmpty()) {
+            return response.returnError("No marks found for the examination");
+        }
+
+        for (Mark mark : marks) {
+            boolean success = mark.processMark();
+            if (!success) {
+                return response.returnError("Full mark exceeded 100 for student: " + mark.getStudent().getId());
+            }
+        }
+
+        List<Mark> savedMarks = markRepository.saveAll(marks);
+
+        Map<Student, List<Mark>> marksByStudent = savedMarks.stream()
+                .collect(Collectors.groupingBy(Mark::getStudent));
+
+        for (Map.Entry<Student, List<Mark>> entry : marksByStudent.entrySet()) {
+            Student student = entry.getKey();
+            List<Mark> studentMarks = entry.getValue();
+
+            Map<Course, List<Mark>> marksByCourse = studentMarks.stream()
+                    .collect(Collectors.groupingBy(Mark::getCourse));
+
+            double totalGradePoints = 0;
+            double totalCredits = 0;
+
+            for (Map.Entry<Course, List<Mark>> courseEntry : marksByCourse.entrySet()) {
+                Course course = courseEntry.getKey();
+                List<Mark> courseMarks = courseEntry.getValue();
+
+                double courseGradePoints = 0;
+                for (Mark mark : courseMarks) {
+                    courseGradePoints += mark.getGpa();
+                }
+                double averageGradePoints = courseGradePoints / courseMarks.size();
+                totalGradePoints += averageGradePoints * course.getCredit();
+                totalCredits += course.getCredit();
+            }
+
+            double cgpa = totalGradePoints / totalCredits;
+            cgpa = Double.parseDouble(String.format("%.2f", cgpa));
+
+            Result result = resultRepository.findByExaminationAndStudent(examination, student)
+                    .orElse(new Result());
+            result.setExamination(examination);
+            result.setStudent(student);
+            result.setCgpa(cgpa);
+            result.setGrade(getGrade(cgpa));
+            result.setStatus(cgpa >= 2.0 ? "Passed" : "Failed");
+            resultRepository.save(result);
+        }
+
+        response.success("Examination processed and results saved successfully");
+    } catch (Exception e) {
+        return response.returnError(e);
+    }
+    return response;
+}
+
+    public ApiResponse getResult(Long studentId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            Student student = studentRepository.getById(
+                    studentId, AuthUtil.getCurrentUniversityId()
+            ).orElse(null);
+            if (student == null) {
+                return response.returnError("Student not found");
+            }
+
+            List<Result> results = resultRepository.findAllByStudent(student);
+            if (results.isEmpty()) {
+                return response.returnError("No results found for the student");
+            }
+
+            response.setData("results", results);
+            response.success("Successfully retrieved all results for the student");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+    }
+
+    private String getGrade(double cgpa) {
+        if (cgpa >= 3.75) {
+            return "A";
+        } else if (cgpa >= 3.5) {
+            return "A-";
+        } else if (cgpa >= 3.25) {
+            return "B+";
+        } else if (cgpa >= 3.0) {
+            return "B";
+        } else if (cgpa >= 2.75) {
+            return "B-";
+        } else if (cgpa >= 2.5) {
+            return "C+";
+        } else if (cgpa >= 2.25) {
+            return "C";
+        } else if (cgpa >= 2.0) {
+            return "D";
+        } else {
+            return "F";
+        }
     }
 
 }

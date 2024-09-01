@@ -20,8 +20,14 @@ public interface MarkRepository extends JpaRepository<Mark, Long> {
             "AND mark.course.id = :courseId " +
             "AND mark.examination.semester.program.department.faculty.university.id = :universityId")
     Optional<List<Mark>> getAllByExaminationAndCourse(@Param("examinationId") Long examinationId,
-                                @Param("courseId") Long courseId,
-                                @Param("universityId") Long universityId);
+                                                      @Param("courseId") Long courseId,
+                                                      @Param("universityId") Long universityId);
+
+    @Query("SELECT mark FROM Mark mark WHERE mark.examination.id = :examinationId " +
+            "AND mark.examination.semester.program.department.faculty.university.id = :universityId")
+    Optional<List<Mark>> getAllByExamination(@Param("examinationId") Long examinationId,
+                                             @Param("universityId") Long universityId);
+
 
     /*@Query("SELECT mark FROM Mark mark WHERE mark.examination.id = :examinationId " +
             "AND mark.student.id = :studentId " +
