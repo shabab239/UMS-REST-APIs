@@ -50,8 +50,9 @@ public class SemesterRestController {
     }
 
     @PostMapping("/saveFees")
-    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees) {
-        return semesterService.saveFees(fees);
+    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees,
+                                @RequestParam(required = false) Long semesterId) {
+        return semesterService.saveFees(semesterId, fees);
     }
 
 }
