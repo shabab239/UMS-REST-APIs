@@ -5,6 +5,8 @@ import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
+import com.shabab.UniversityManagementSystem.accounting.Account;
+import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class StudentService {
 
     @Value("${avatar.student.dir}")
     private String studentAvatarDir;
+    @Autowired
+    private AccountRepository accountRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -118,8 +122,15 @@ public class StudentService {
             }
 
             Student savedStudent = studentRepository.save(student);
+
+            Account account = new Account();
+            account.setName(savedStudent.getName() + " Cash A/C");
+            account.setBalance(0.0);
+            account = accountRepository.save(account);
+            savedStudent.setAccount(account);
+
             response.setData("student", savedStudent);
-            response.success("Saved Successfully");
+            response.success("Saved Successfully. Account Created");
         } catch (Exception e) {
             return response.returnError(e);
         }

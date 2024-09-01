@@ -1,23 +1,18 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
-import java.util.*;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
  * Created on: 25/08/2024
  */
-
 
 @Entity
 @AllArgsConstructor
@@ -30,6 +25,7 @@ public class Fee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Fee type is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private Fee.Type type;
@@ -38,6 +34,7 @@ public class Fee {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Semester is required")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "semester_id", nullable = false)

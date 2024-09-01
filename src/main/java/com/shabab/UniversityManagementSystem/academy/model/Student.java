@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.shabab.UniversityManagementSystem.accounting.Account;
 import com.shabab.UniversityManagementSystem.admin.model.University;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -61,6 +62,10 @@ public class Student {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "semester_id", nullable = false)
     private Semester semester;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     /*Optional*/
 

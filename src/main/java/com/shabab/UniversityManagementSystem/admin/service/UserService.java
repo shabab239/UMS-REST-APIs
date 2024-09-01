@@ -5,12 +5,15 @@ import com.shabab.UniversityManagementSystem.academy.model.Department;
 import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
+import com.shabab.UniversityManagementSystem.accounting.Account;
+import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -52,6 +55,8 @@ public class UserService implements UserDetailsService {
 
     @Value("${avatar.user.dir}")
     private String userAvatarDir;
+    @Autowired
+    private AccountRepository accountRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -70,6 +75,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ApiResponse save(User user, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
@@ -92,8 +98,15 @@ public class UserService implements UserDetailsService {
 
             user.setUniversity(AuthUtil.getCurrentUniversity());
             User dbUser = userRepository.save(user);
+
+            Account account = new Account();
+            account.setName(dbUser.getName() + " Cash A/C");
+            account.setBalance(0.0);
+            account = accountRepository.save(account);
+            dbUser.setAccount(account);
+
             response.setData("user", dbUser);
-            response.success("Saved Successfully");
+            response.success("Saved Successfully. Account created");
             return response;
         } catch (Exception e) {
             return response.returnError(e);

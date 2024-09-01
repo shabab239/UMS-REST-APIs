@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.academy.model.Course;
+import com.shabab.UniversityManagementSystem.accounting.Account;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -49,6 +50,10 @@ public class User implements UserDetails {
     @NotBlank(message = "Status is required")
     @Column(name = "status", nullable = false)
     private String status;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)

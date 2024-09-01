@@ -80,5 +80,15 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(Exception.class)
+    public ApiResponse handleException(Exception ex) {
+        return new ApiResponse(
+                ex.getMessage(),
+                null,
+                null,
+                false
+        );
+    }
+
 }
 

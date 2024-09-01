@@ -1,12 +1,12 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 
+import com.shabab.UniversityManagementSystem.academy.model.Fee;
 import com.shabab.UniversityManagementSystem.academy.model.Program;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
-import com.shabab.UniversityManagementSystem.academy.model.Student;
+import com.shabab.UniversityManagementSystem.academy.repository.FeeRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.ProgramRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ public class SemesterService {
 
     @Autowired
     private ProgramRepository programRepository;
+    @Autowired
+    private FeeRepository feeRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -114,6 +116,17 @@ public class SemesterService {
             }
             semesterRepository.delete(semester);
             response.success("Semester deleted successfully");
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+        return response;
+    }
+
+    public ApiResponse saveFees(List<Fee> fees) {
+        ApiResponse response = new ApiResponse();
+        try {
+            feeRepository.saveAll(fees);
+            response.success("Saved successfully");
         } catch (Exception e) {
             return response.returnError(e);
         }

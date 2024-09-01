@@ -1,11 +1,14 @@
 package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
+import com.shabab.UniversityManagementSystem.academy.model.Fee;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.service.SemesterService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -44,6 +47,11 @@ public class SemesterRestController {
     @DeleteMapping("/{id}")
     public ApiResponse deleteById(@PathVariable Long id) {
         return semesterService.deleteById(id);
+    }
+
+    @PostMapping("/saveFees")
+    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees) {
+        return semesterService.saveFees(fees);
     }
 
 }
