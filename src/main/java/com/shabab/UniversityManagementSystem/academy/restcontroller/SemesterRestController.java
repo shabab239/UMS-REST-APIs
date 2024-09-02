@@ -49,10 +49,4 @@ public class SemesterRestController {
         return semesterService.deleteById(id);
     }
 
-    @PostMapping("/saveFees")
-    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees,
-                                @RequestParam(required = false) Long semesterId) {
-        return semesterService.saveFees(semesterId, fees);
-    }
-
 }

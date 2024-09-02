@@ -123,30 +123,5 @@ public class SemesterService {
         return response;
     }
 
-    public ApiResponse saveFees(Long semesterId, List<Fee> fees) {
-        ApiResponse response = new ApiResponse();
-        try {
-            if (semesterId == null) {
-                return response.returnError("Semester ID not found");
-            }
-            List<Long> newFeeIds = fees.stream().map(Fee::getId).toList();
-
-            List<Fee> existingFees = feeRepository.findAllBySemesterId(
-                    semesterId
-            ).orElse(new ArrayList<>());
-
-            List<Fee> feesToDelete = existingFees.stream()
-                    .filter(existingFee -> !newFeeIds.contains(existingFee.getId()))
-                    .collect(Collectors.toList());
-
-            feeRepository.deleteAll(feesToDelete);
-
-            feeRepository.saveAll(fees);
-            response.success("Saved successfully");
-        } catch (Exception e) {
-            return response.returnError(e);
-        }
-        return response;
-    }
 }
 

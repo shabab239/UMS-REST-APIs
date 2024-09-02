@@ -264,31 +264,23 @@ VALUES
 
 
 
--- Data for acd_fees
--- Semester 2022-23
-INSERT INTO acd_fees (TYPE, amount, semester_id)
-VALUES
-    ('SEMESTER', 5000.00, 1), -- Semester fee for L1S1 2022-23
-    ('HALL', 2000.00, 1),      -- Hall fee for L1S1 2022-23
-    ('SEMESTER', 5000.00, 2), -- Semester fee for L1S2 2022-23
-    ('HALL', 2000.00, 2),      -- Hall fee for L1S2 2022-23
-    ('SEMESTER', 5000.00, 3), -- Semester fee for L2S1 2022-23
-    ('HALL', 2000.00, 3),      -- Hall fee for L2S1 2022-23
-    ('SEMESTER', 5000.00, 4), -- Semester fee for L2S2 2022-23
-    ('HALL', 2000.00, 4);      -- Hall fee for L2S2 2022-23
-
--- Semester 2023-24
-INSERT INTO acd_fees (TYPE, amount, semester_id)
-VALUES
-    ('SEMESTER', 5000.00, 5), -- Semester fee for L1S1 2023-24
-    ('HALL', 2000.00, 5),      -- Hall fee for L1S1 2023-24
-    ('SEMESTER', 5000.00, 6), -- Semester fee for L1S2 2023-24
-    ('HALL', 2000.00, 6);      -- Hall fee for L1S2 2023-24
-
-
 
 -- Data for auth_tokens
 INSERT INTO auth_tokens (username, PASSWORD, user_id)
 VALUES
     ('admin1', '$2y$12$9sRJ.Ne61.H4KjdWFRwgeubstn6BShshqDwckD95LJVCqcYRVUzRy', 1),
     ('admin2', '$2y$12$9sRJ.Ne61.H4KjdWFRwgeubstn6BShshqDwckD95LJVCqcYRVUzRy', 7);
+
+
+
+
+
+-- Insert accounts for all students
+INSERT INTO acc_accounts (NAME, balance)
+SELECT CONCAT(s.name, ' Cash A/C'), 0.0
+FROM acd_students s;
+
+-- Insert accounts for all users
+INSERT INTO acc_accounts (NAME, balance)
+SELECT CONCAT(u.name, ' Cash A/C'), 0.0
+FROM ad_users u;

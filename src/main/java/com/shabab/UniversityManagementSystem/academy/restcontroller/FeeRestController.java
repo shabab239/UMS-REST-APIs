@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
@@ -44,6 +46,12 @@ public class FeeRestController {
     @DeleteMapping("/{id}")
     public ApiResponse deleteById(@PathVariable Long id) {
         return feeService.deleteById(id);
+    }
+
+    @PostMapping("/saveFees")
+    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees,
+                                @RequestParam(required = false) Long semesterId) {
+        return feeService.saveFees(semesterId, fees);
     }
 
 }

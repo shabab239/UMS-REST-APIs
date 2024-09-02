@@ -103,7 +103,9 @@ public class UserService implements UserDetailsService {
             account.setName(dbUser.getName() + " Cash A/C");
             account.setBalance(0.0);
             account = accountRepository.save(account);
+
             dbUser.setAccount(account);
+            dbUser = userRepository.save(user);
 
             response.setData("user", dbUser);
             response.success("Saved Successfully. Account created");

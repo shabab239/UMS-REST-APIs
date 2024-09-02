@@ -127,7 +127,11 @@ public class StudentService {
             account.setName(savedStudent.getName() + " Cash A/C");
             account.setBalance(0.0);
             account = accountRepository.save(account);
+
+            //TODO IMPOSE FEES
+
             savedStudent.setAccount(account);
+            savedStudent = studentRepository.save(student);
 
             response.setData("student", savedStudent);
             response.success("Saved Successfully. Account Created");
