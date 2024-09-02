@@ -154,6 +154,29 @@ public class ExaminationService {
     public ApiResponse getAllMarksByExaminationAndCourse(Long examinationId, Long courseId) {
         ApiResponse response = new ApiResponse();
         try {
+            List<Student> students = studentRepository.getAllByExamination(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+
+            List<Course> courses = courseRepository.getAllByExamination(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+
+            for (Course course : courses) {
+                for (Student student : students) {
+                    Mark existingMark = markRepository.getByStudentAndCourse(
+                            student.getId() , courseId, AuthUtil.getCurrentUniversityId()
+                    ).orElse(null);
+                    if (existingMark == null) {
+                        Mark mark = new Mark();
+                        mark.setExamination(new Examination(examinationId));
+                        mark.setStudent(student);
+                        mark.setCourse(course);
+                        markRepository.save(mark);
+                    }
+                }
+            }
+
             List<Mark> marks = markRepository.getAllByExaminationAndCourse(
                     examinationId, courseId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
@@ -161,7 +184,7 @@ public class ExaminationService {
                 return response.returnError("No mark found");
             }
             response.setData("marks", marks);
-            response.success("Successfully retrieved all examinations");
+            response.success("Successfully retrieved all marks");
             return response;
         } catch (Exception e) {
             return response.returnError(e);
@@ -195,79 +218,79 @@ public class ExaminationService {
     //write test for this method
 
     @Transactional(rollbackOn = Exception.class)
-public ApiResponse processExamination(Long examinationId) {
-    ApiResponse response = new ApiResponse();
-    try {
-        Examination examination = examinationRepository.getById(
-                examinationId, AuthUtil.getCurrentUniversityId()
-        ).orElse(new Examination());
+    public ApiResponse processExamination(Long examinationId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            Examination examination = examinationRepository.getById(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new Examination());
 
-        if (examination.getId() == null) {
-            return response.returnError("Examination not found");
-        }
-
-        List<Mark> marks = markRepository.getAllByExamination(
-                examinationId, AuthUtil.getCurrentUniversityId()
-        ).orElse(new ArrayList<>());
-
-        if (marks.isEmpty()) {
-            return response.returnError("No marks found for the examination");
-        }
-
-        for (Mark mark : marks) {
-            boolean success = mark.processMark();
-            if (!success) {
-                return response.returnError("Full mark exceeded 100 for student: " + mark.getStudent().getId());
+            if (examination.getId() == null) {
+                return response.returnError("Examination not found");
             }
-        }
 
-        List<Mark> savedMarks = markRepository.saveAll(marks);
+            List<Mark> marks = markRepository.getAllByExamination(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
 
-        Map<Student, List<Mark>> marksByStudent = savedMarks.stream()
-                .collect(Collectors.groupingBy(Mark::getStudent));
+            if (marks.isEmpty()) {
+                return response.returnError("No marks found for the examination");
+            }
 
-        for (Map.Entry<Student, List<Mark>> entry : marksByStudent.entrySet()) {
-            Student student = entry.getKey();
-            List<Mark> studentMarks = entry.getValue();
-
-            Map<Course, List<Mark>> marksByCourse = studentMarks.stream()
-                    .collect(Collectors.groupingBy(Mark::getCourse));
-
-            double totalGradePoints = 0;
-            double totalCredits = 0;
-
-            for (Map.Entry<Course, List<Mark>> courseEntry : marksByCourse.entrySet()) {
-                Course course = courseEntry.getKey();
-                List<Mark> courseMarks = courseEntry.getValue();
-
-                double courseGradePoints = 0;
-                for (Mark mark : courseMarks) {
-                    courseGradePoints += mark.getGpa();
+            for (Mark mark : marks) {
+                boolean success = mark.processMark();
+                if (!success) {
+                    return response.returnError("Full mark exceeded 100 for student: " + mark.getStudent().getId());
                 }
-                double averageGradePoints = courseGradePoints / courseMarks.size();
-                totalGradePoints += averageGradePoints * course.getCredit();
-                totalCredits += course.getCredit();
             }
 
-            double cgpa = totalGradePoints / totalCredits;
-            cgpa = Double.parseDouble(String.format("%.2f", cgpa));
+            List<Mark> savedMarks = markRepository.saveAll(marks);
 
-            Result result = resultRepository.findByExaminationAndStudent(examination, student)
-                    .orElse(new Result());
-            result.setExamination(examination);
-            result.setStudent(student);
-            result.setCgpa(cgpa);
-            result.setGrade(getGrade(cgpa));
-            result.setStatus(cgpa >= 2.0 ? "Passed" : "Failed");
-            resultRepository.save(result);
+            Map<Student, List<Mark>> marksByStudent = savedMarks.stream()
+                    .collect(Collectors.groupingBy(Mark::getStudent));
+
+            for (Map.Entry<Student, List<Mark>> entry : marksByStudent.entrySet()) {
+                Student student = entry.getKey();
+                List<Mark> studentMarks = entry.getValue();
+
+                Map<Course, List<Mark>> marksByCourse = studentMarks.stream()
+                        .collect(Collectors.groupingBy(Mark::getCourse));
+
+                double totalGradePoints = 0;
+                double totalCredits = 0;
+
+                for (Map.Entry<Course, List<Mark>> courseEntry : marksByCourse.entrySet()) {
+                    Course course = courseEntry.getKey();
+                    List<Mark> courseMarks = courseEntry.getValue();
+
+                    double courseGradePoints = 0;
+                    for (Mark mark : courseMarks) {
+                        courseGradePoints += mark.getGpa();
+                    }
+                    double averageGradePoints = courseGradePoints / courseMarks.size();
+                    totalGradePoints += averageGradePoints * course.getCredit();
+                    totalCredits += course.getCredit();
+                }
+
+                double cgpa = totalGradePoints / totalCredits;
+                cgpa = Double.parseDouble(String.format("%.2f", cgpa));
+
+                Result result = resultRepository.findByExaminationAndStudent(examination, student)
+                        .orElse(new Result());
+                result.setExamination(examination);
+                result.setStudent(student);
+                result.setCgpa(cgpa);
+                result.setGrade(getGrade(cgpa));
+                result.setStatus(cgpa >= 2.0 ? "Passed" : "Failed");
+                resultRepository.save(result);
+            }
+
+            response.success("Examination processed and results saved successfully");
+        } catch (Exception e) {
+            return response.returnError(e);
         }
-
-        response.success("Examination processed and results saved successfully");
-    } catch (Exception e) {
-        return response.returnError(e);
+        return response;
     }
-    return response;
-}
 
     public ApiResponse getResult(Long studentId) {
         ApiResponse response = new ApiResponse();
@@ -286,6 +309,31 @@ public ApiResponse processExamination(Long examinationId) {
 
             response.setData("results", results);
             response.success("Successfully retrieved all results for the student");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+    }
+
+    public ApiResponse getResultsByExamination(Long examinationId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            Examination examination = examinationRepository.getById(
+                    examinationId, AuthUtil.getCurrentUniversityId()
+            ).orElse(null);
+            if (examination == null) {
+                return response.returnError("Examination not found");
+            }
+
+            List<Result> results = resultRepository.findByExamination(
+                    examination
+            ).orElse(new ArrayList<>());
+            if (results.isEmpty()) {
+                return response.returnError("No results found. Process the examination first");
+            }
+
+            response.setData("results", results);
+            response.success("Successfully retrieved all results for the examination");
             return response;
         } catch (Exception e) {
             return response.returnError(e);

@@ -78,4 +78,8 @@ public class ExaminationRestController {
         return examinationService.getResult(studentId);
     }
 
+    @GetMapping("/getResultsByExamination/{examinationId}")
+    public ApiResponse getResultsByExamination(@PathVariable Long examinationId) {
+        return examinationService.getResultsByExamination(examinationId);
+    }
 }
