@@ -205,6 +205,7 @@ public class FeeService {
                         transaction.setTransactionType(Transaction.TransactionType.DEBIT);
                         transaction.setTimestamp(LocalDateTime.now());
                         transaction.setDescription("Fee imposed for " + fee.getType());
+                        transaction.setUniversity(AuthUtil.getCurrentUniversity());
                         transactionRepository.save(transaction);
 
                         studentAccount.setBalance(studentAccount.getBalance() - feeImposed.getAmount());
@@ -216,6 +217,7 @@ public class FeeService {
                         userTransaction.setTransactionType(Transaction.TransactionType.CREDIT);
                         userTransaction.setTimestamp(LocalDateTime.now());
                         userTransaction.setDescription("Fee imposed for " + fee.getType() + " for " + student.getName());
+                        transaction.setUniversity(AuthUtil.getCurrentUniversity());
                         transactionRepository.save(userTransaction);
 
                         totalFees += feeImposed.getAmount();

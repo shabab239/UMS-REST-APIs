@@ -63,7 +63,7 @@ public class Student {
     @JoinColumn(name = "semester_id", nullable = false)
     private Semester semester;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private Account account;
 

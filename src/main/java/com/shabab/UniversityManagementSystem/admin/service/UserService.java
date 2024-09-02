@@ -61,7 +61,7 @@ public class UserService implements UserDetailsService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<User> users = userRepository.findByUniversity(
+            List<User> users = userRepository.findAllByUniversity(
                     AuthUtil.getCurrentUniversity()
             ).orElse(new ArrayList<>());
             if (users.isEmpty()) {

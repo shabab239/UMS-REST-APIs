@@ -1,5 +1,7 @@
 package com.shabab.UniversityManagementSystem.accounting;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shabab.UniversityManagementSystem.admin.model.University;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +43,11 @@ public class Transaction {
 
     @Column(name = "description")
     private String description;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_id", nullable = false)
+    private University university;
 
     public enum TransactionType {
         CREDIT,

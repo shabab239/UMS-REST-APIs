@@ -1,12 +1,20 @@
 package com.shabab.UniversityManagementSystem.accounting;
 
+import com.shabab.UniversityManagementSystem.academy.model.Student;
+import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
+import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
+import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -23,7 +31,13 @@ public class AccountService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public ApiResponse recordTransaction(Long accountId, Double amount, String description) {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    /*public ApiResponse recordTransaction(Long accountId, Double amount, String description) {
         ApiResponse apiResponse = new ApiResponse(false);
         try {
             Account account = accountRepository.findById(accountId)
@@ -54,6 +68,92 @@ public class AccountService {
             apiResponse.setMessage(e.getMessage());
             return apiResponse;
         }
+    }*/
+
+    @Transactional(readOnly = true)
+    public ApiResponse getJournal() {
+        ApiResponse apiResponse = new ApiResponse(true);
+        try {
+            List<Transaction> transactions = transactionRepository.findByUniversityId(
+                    AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+
+            List<Map<String, Object>> journalEntries = transactions.stream().map(transaction -> {
+                Map<String, Object> entry = new HashMap<>();
+                entry.put("date", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").format(transaction.getTimestamp()));
+                entry.put("accountName", transaction.getAccount().getName());
+                entry.put("description", transaction.getDescription());
+                if (transaction.getTransactionType() == Transaction.TransactionType.DEBIT) {
+                    entry.put("debit", transaction.getAmount());
+                    entry.put("credit", 0.0);
+                } else {
+                    entry.put("debit", 0.0);
+                    entry.put("credit", transaction.getAmount());
+                }
+                return entry;
+            }).collect(Collectors.toList());
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("journalEntries", journalEntries);
+
+            apiResponse.setData(data);
+            apiResponse.setMessage("Journal entries generated successfully");
+        } catch (Exception e) {
+            apiResponse.setSuccessful(false);
+            apiResponse.setMessage(e.getMessage());
+        }
+        return apiResponse;
     }
+
+    @Transactional(readOnly = true)
+    public ApiResponse getBalanceSheet() {
+        ApiResponse response = new ApiResponse(true);
+        try {
+            List<User> allUsers = userRepository.findAllByUniversity(
+                    AuthUtil.getCurrentUniversity()
+            ).orElse(new ArrayList<>());
+
+            List<Student> allStudents = studentRepository.getAll(
+                    AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>());
+
+            List<Account> allAccounts = new ArrayList<>();
+            allUsers.forEach(user -> {
+                if (user.getAccount() != null) {
+                    allAccounts.add(user.getAccount());
+                }
+            });
+            allStudents.forEach(student -> {
+                if (student.getAccount() != null) {
+                    allAccounts.add(student.getAccount());
+                }
+            });
+
+            double totalCashAssets = allAccounts.stream()
+                    .mapToDouble(Account::getBalance)
+                    .sum();
+
+            List<Account> leftSideAccounts = allAccounts.stream()
+                    .filter(account -> account.getBalance() >= 0)
+                    .collect(Collectors.toList());
+
+            List<Account> rightSideAccounts = allAccounts.stream()
+                    .filter(account -> account.getBalance() < 0)
+                    .collect(Collectors.toList());
+
+            Map<String, Object> balanceSheetData = new HashMap<>();
+            balanceSheetData.put("totalCashAssets", totalCashAssets);
+            balanceSheetData.put("leftSide", leftSideAccounts);
+            balanceSheetData.put("rightSide", rightSideAccounts);
+
+            response.setData(balanceSheetData);
+            response.setMessage("Balance sheet generated successfully");
+        } catch (Exception e) {
+            response.setSuccessful(false);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+    }
+
 
 }
