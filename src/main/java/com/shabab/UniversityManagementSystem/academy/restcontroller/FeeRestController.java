@@ -54,4 +54,10 @@ public class FeeRestController {
         return feeService.saveFees(semesterId, fees);
     }
 
+    @PostMapping("/collectFees")
+    public ApiResponse collectFees(@Valid @RequestBody List<Fee> fees,
+                                @RequestParam(required = false) Long semesterId) {
+        return feeService.collectFees(semesterId, fees);
+    }
+
 }

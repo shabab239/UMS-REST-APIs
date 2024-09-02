@@ -30,7 +30,7 @@ public class FacultyService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Faculty> faculties = facultyRepository.findByUniversity(
+            List<Faculty> faculties = facultyRepository.findAllByUniversity(
                     AuthUtil.getCurrentUniversity()
             ).orElse(new ArrayList<>());
             if (faculties.isEmpty()) {
