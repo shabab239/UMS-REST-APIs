@@ -3,6 +3,7 @@ package com.shabab.UniversityManagementSystem.academy.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.*;
 import lombok.NoArgsConstructor;
 
 /**
@@ -14,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "acd_collected_fees")
 public class FeeCollected {
 

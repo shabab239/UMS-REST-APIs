@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import lombok.*;
 import java.time.LocalDateTime;
 
 /**
@@ -19,7 +20,8 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "acc_transactions")
 public class Transaction {
 

@@ -8,6 +8,7 @@ import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "acd_faculties")
 public class Faculty {
 

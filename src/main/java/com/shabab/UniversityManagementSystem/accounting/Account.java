@@ -4,6 +4,7 @@ import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.*;
 import lombok.NoArgsConstructor;
 
 /**
@@ -15,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "acc_accounts")
 public class Account {
 

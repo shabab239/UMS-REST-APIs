@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.*;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -16,7 +17,8 @@ import java.util.Map;
  * Created on: 25/08/2024
  */
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiResponse {

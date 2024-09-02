@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.util.*;
+import lombok.*;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -23,7 +24,8 @@ import java.util.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "acd_courses")
 public class Course {
 

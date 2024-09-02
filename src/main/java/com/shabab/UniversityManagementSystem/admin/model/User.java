@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import lombok.*;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -30,7 +31,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "ad_users")
-@Data
+@Getter
+@Setter
 public class User implements UserDetails {
 
     @Id

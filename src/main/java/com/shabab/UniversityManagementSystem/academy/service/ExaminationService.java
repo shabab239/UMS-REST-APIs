@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -246,8 +247,18 @@ public class ExaminationService {
 
             List<Mark> savedMarks = markRepository.saveAll(marks);
 
-            Map<Student, List<Mark>> marksByStudent = savedMarks.stream()
-                    .collect(Collectors.groupingBy(Mark::getStudent));
+            Map<Student, List<Mark>> marksByStudent = new HashMap<>();
+
+            for (Mark mark : savedMarks) {
+                Student student = mark.getStudent();
+
+                // Initialize the list if the student is not yet in the map
+                marksByStudent.computeIfAbsent(student, k -> new ArrayList<>());
+
+                // Add the mark to the student's list
+                marksByStudent.get(student).add(mark);
+            }
+
 
             for (Map.Entry<Student, List<Mark>> entry : marksByStudent.entrySet()) {
                 Student student = entry.getKey();

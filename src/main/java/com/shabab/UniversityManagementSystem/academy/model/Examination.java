@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.util.List;
+import lombok.*;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -21,7 +22,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "acd_exams")
 public class Examination {
 
