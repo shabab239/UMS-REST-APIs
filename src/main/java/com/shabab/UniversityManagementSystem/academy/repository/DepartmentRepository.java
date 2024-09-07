@@ -1,8 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.repository;
 
 import com.shabab.UniversityManagementSystem.academy.model.Department;
-import com.shabab.UniversityManagementSystem.academy.model.Student;
-import com.shabab.UniversityManagementSystem.admin.model.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,11 +18,21 @@ import java.util.Optional;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
-    Optional<List<Department>> findAllByFaculty_University(University university);
+    @Query("SELECT d FROM Department d " +
+            "WHERE d.universityId = :universityId")
+    Optional<List<Department>> findAll(@Param("universityId") Long universityId);
 
-    Optional<Department> findByIdAndFaculty_University(Long id, University university);
+    @Query("SELECT d FROM Department d " +
+            "WHERE d.id = :departmentId " +
+            "AND d.universityId = :universityId")
+    Optional<Department> findById(@Param("departmentId") Long departmentId,
+                                  @Param("universityId") Long universityId);
 
-    Optional<Department> findByHead_Id(Long id);
+    @Query("SELECT d FROM Department d " +
+            "WHERE d.head.id = :headId " +
+            "AND d.universityId = :universityId")
+    Optional<Department> findByHeadId(@Param("headId") Long headId,
+                                      @Param("universityId") Long universityId);
 
 
 }

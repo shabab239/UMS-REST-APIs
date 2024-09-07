@@ -48,8 +48,8 @@ public class ProgramService {
     public ApiResponse save(Program program) {
         ApiResponse response = new ApiResponse();
         try {
-            Department department = departmentRepository.findByIdAndFaculty_University(
-                    program.getDepartment().getId(), AuthUtil.getCurrentUniversity()
+            Department department = departmentRepository.findById(
+                    program.getDepartment().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Department());
             if (department.getId() == null) {
                 return response.returnError("Wrong Department");

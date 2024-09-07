@@ -2,7 +2,6 @@ package com.shabab.UniversityManagementSystem.academy.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Department;
 import com.shabab.UniversityManagementSystem.academy.model.Faculty;
-import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
@@ -27,13 +26,15 @@ public class DepartmentService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Department> departments = departmentRepository.findAllByFaculty_University(
-                    AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
+            List<Department> departments = departmentRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
+            ).orElse(null);
+            if (departments == null) {
+                return response.returnError("No department found");
+            }
             response.setData("departments", departments);
             response.success("Successfully retrieved all departments");
             return response;
@@ -47,10 +48,11 @@ public class DepartmentService {
         try {
             Faculty faculty = facultyRepository.findById(
                     department.getFaculty().getId(), AuthUtil.getCurrentUniversityId()
-            ).orElseThrow();
-            if (faculty.getId() == null) {
+            ).orElse(null);
+            if (faculty == null) {
                 return response.returnError("Wrong Faculty");
             }
+            department.setUniversityId(AuthUtil.getCurrentUniversityId());
             department = departmentRepository.save(department);
             response.setData("department", department);
             response.success("Saved Successfully");
@@ -64,14 +66,15 @@ public class DepartmentService {
         ApiResponse response = new ApiResponse();
         try {
             Department dbDepartment =
-                    departmentRepository.findByIdAndFaculty_University(
-                            department.getId(), AuthUtil.getCurrentUniversity()
-                    ).orElseThrow();
-            if (dbDepartment.getId() == null) {
+                    departmentRepository.findById(
+                            department.getId(), AuthUtil.getCurrentUniversityId()
+                    ).orElse(null);
+            if (dbDepartment == null) {
                 return response.returnError("Department not found");
             }
-            Department updatedDepartment = departmentRepository.save(department);
-            response.setData("department", updatedDepartment);
+            department.setUniversityId(AuthUtil.getCurrentUniversityId());
+            department = departmentRepository.save(department);
+            response.setData("department", department);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {
@@ -82,10 +85,10 @@ public class DepartmentService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Department department = departmentRepository.findByIdAndFaculty_University(
-                    id,AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
-            if (department.getId() == null) {
+            Department department = departmentRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
+            ).orElse(null);
+            if (department == null) {
                 return response.returnError("Department not found");
             }
             response.setData("department", department);
@@ -99,10 +102,10 @@ public class DepartmentService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Department department = departmentRepository.findByIdAndFaculty_University(
-                    id, AuthUtil.getCurrentUniversity()
-            ).orElseThrow();
-            if (department.getId() == null) {
+            Department department = departmentRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
+            ).orElse(null);
+            if (department == null) {
                 return response.returnError("Department not found");
             }
             departmentRepository.deleteById(id);

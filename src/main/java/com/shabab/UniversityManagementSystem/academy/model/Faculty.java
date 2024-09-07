@@ -51,6 +51,7 @@ public class Faculty {
     @JoinColumn(name = "dean_id")
     private User dean;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;

@@ -26,7 +26,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "acd_departments")
 public class Department {
@@ -48,6 +47,9 @@ public class Department {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="faculty_id", nullable = false)
     private Faculty faculty;
+
+    @Column(name = "university_id", nullable = false)
+    private Long universityId; // Loose relation with University
 
     @JsonIgnore
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

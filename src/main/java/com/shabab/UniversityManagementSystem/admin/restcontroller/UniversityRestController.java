@@ -1,8 +1,6 @@
 package com.shabab.UniversityManagementSystem.admin.restcontroller;
 
 import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.service.UniversityService;
 import com.shabab.UniversityManagementSystem.admin.service.UniversityService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
@@ -18,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/university")
-public class UniversityController {
+public class UniversityRestController {
 
     @Autowired
     private UniversityService universityService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ApiResponse getAll() {
         return universityService.getAll();
     }

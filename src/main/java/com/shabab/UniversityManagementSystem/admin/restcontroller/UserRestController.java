@@ -2,6 +2,7 @@ package com.shabab.UniversityManagementSystem.admin.restcontroller;
 
 import com.shabab.UniversityManagementSystem.admin.model.User;
 import com.shabab.UniversityManagementSystem.admin.service.UserService;
+import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,11 @@ public class UserRestController {
     @DeleteMapping("/{id}")
     public ApiResponse deleteById(@PathVariable Long id) {
         return userService.deleteById(id);
+    }
+
+    @PostMapping("/saveToken")
+    public ApiResponse saveToken(@Valid @RequestBody Token token) {
+        return userService.saveToken(token);
     }
 }
 

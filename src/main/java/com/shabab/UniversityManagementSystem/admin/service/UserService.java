@@ -3,6 +3,7 @@ package com.shabab.UniversityManagementSystem.admin.service;
 import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.academy.model.Department;
 import com.shabab.UniversityManagementSystem.academy.model.Faculty;
+import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.DepartmentRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
 import com.shabab.UniversityManagementSystem.accounting.Account;
@@ -16,11 +17,10 @@ import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +41,9 @@ import java.util.UUID;
 @Service
 public class UserService implements UserDetailsService {
 
+    @Value("${avatar.user.dir}")
+    private String userAvatarDir;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -53,19 +56,20 @@ public class UserService implements UserDetailsService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-    @Value("${avatar.user.dir}")
-    private String userAvatarDir;
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<User> users = userRepository.findAllByUniversity(
-                    AuthUtil.getCurrentUniversity()
+            List<User> users = userRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (users.isEmpty()) {
-                return response.returnError("No users found");
+                return response.returnError("No user found");
             }
             response.setData("users", users);
             response.success("Successfully retrieved all users");
@@ -97,17 +101,17 @@ public class UserService implements UserDetailsService {
             }
 
             user.setUniversity(AuthUtil.getCurrentUniversity());
-            User dbUser = userRepository.save(user);
+            user = userRepository.save(user);
 
             Account account = new Account();
-            account.setName(dbUser.getName() + " Cash A/C");
+            account.setName(user.getName() + " Cash A/C");
             account.setBalance(0.0);
             account = accountRepository.save(account);
 
-            dbUser.setAccount(account);
-            dbUser = userRepository.save(user);
+            user.setAccount(account);
+            user = userRepository.save(user);
 
-            response.setData("user", dbUser);
+            response.setData("user", user);
             response.success("Saved Successfully. Account created");
             return response;
         } catch (Exception e) {
@@ -118,8 +122,8 @@ public class UserService implements UserDetailsService {
     public ApiResponse update(User user, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
-            User dbUser = userRepository.findByIdAndUniversity(
-                    user.getId(), AuthUtil.getCurrentUniversity()
+            User dbUser = userRepository.findById(
+                    user.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new User());
             if (dbUser.getId() == null) {
                 return response.returnError("User not found");
@@ -155,8 +159,8 @@ public class UserService implements UserDetailsService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            User user = userRepository.findByIdAndUniversity(
-                    id, AuthUtil.getCurrentUniversity()
+            User user = userRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
             ).orElse(new User());
             if (user.getId() == null) {
                 return response.returnError("User not found");
@@ -172,19 +176,23 @@ public class UserService implements UserDetailsService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            User user = userRepository.findByIdAndUniversity(
-                    id, AuthUtil.getCurrentUniversity()
+            User user = userRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
             ).orElse(new User());
             if (user.getId() == null) {
                 return response.returnError("User not found");
             }
 
-            for (Course course : user.getCourses()) {
+            List<Course> courses = courseRepository.findByTeacherId(
+                    user.getId(), AuthUtil.getCurrentUniversityId()
+            ).orElse(new ArrayList<>()); //TODO: Check if this is correct
+
+            for (Course course : courses) {
                 course.getTeachers().remove(user);
             }
 
-            Department department = departmentRepository.findByHead_Id(
-                    user.getId()
+            Department department = departmentRepository.findByHeadId(
+                    user.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Department());
             if (department.getId() != null) {
                 department.setHead(null);
@@ -207,12 +215,31 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional(rollbackOn = Exception.class)
+    public ApiResponse saveToken(Token token) {
+        ApiResponse response = new ApiResponse();
+        try {
+            if (token.getUser() == null || token.getUser().getId() == null) {
+                return response.returnError("User is required");
+            }
+            token.setPassword(
+                    new BCryptPasswordEncoder(12).encode(token.getPassword())
+            );
+            authRepository.save(token);
+
+            response.success("Saved Successfully");
+            return response;
+        } catch (Exception e) {
+            return response.returnError(e);
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Token token = authRepository.findByUsername(username);
 
         if (token == null || token.getUser() == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
+            throw new UsernameNotFoundException("Invalid username or password");
         }
 
         User user = token.getUser();

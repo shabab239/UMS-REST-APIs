@@ -149,8 +149,8 @@ public class FeeService {
                 return response.returnError("Semester ID not found");
             }
 
-            User user = userRepository.findByIdAndUniversity(
-                    AuthUtil.getCurrentUserId(), AuthUtil.getCurrentUniversity()
+            User user = userRepository.findById(
+                    AuthUtil.getCurrentUserId(), AuthUtil.getCurrentUniversityId()
             ).orElse(null);
 
             if (user == null) {

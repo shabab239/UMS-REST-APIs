@@ -58,8 +58,8 @@ public class AdminService {
     public ApiResponse dashboard() {
         ApiResponse response = new ApiResponse();
         try {
-            List<User> users = userRepository.findAllByUniversity(
-                    AuthUtil.getCurrentUniversity()
+            List<User> users = userRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
             List<Student> students = studentRepository.getAll(

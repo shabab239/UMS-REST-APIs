@@ -109,8 +109,8 @@ public class AccountService {
     public ApiResponse getBalanceSheet() {
         ApiResponse response = new ApiResponse(true);
         try {
-            List<User> allUsers = userRepository.findAllByUniversity(
-                    AuthUtil.getCurrentUniversity()
+            List<User> allUsers = userRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
             List<Student> allStudents = studentRepository.getAll(

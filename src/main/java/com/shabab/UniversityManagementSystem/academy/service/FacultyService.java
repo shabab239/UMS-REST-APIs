@@ -31,8 +31,8 @@ public class FacultyService {
         try {
             List<Faculty> faculties = facultyRepository.findAll(
                     AuthUtil.getCurrentUniversityId()
-            ).orElse(new ArrayList<>());
-            if (faculties.isEmpty()) {
+            ).orElse(null);
+            if (faculties == null) {
                 return response.returnError("No faculty found");
             }
             response.setData("faculties", faculties);
@@ -61,8 +61,8 @@ public class FacultyService {
         try {
             Faculty dbFaculty = facultyRepository.findById(
                     faculty.getId(), AuthUtil.getCurrentUniversityId()
-            ).orElse(new Faculty());
-            if (dbFaculty.getId() == null) {
+            ).orElse(null);
+            if (dbFaculty == null) {
                 return response.returnError("Faculty not found");
             }
             faculty.setUniversity(AuthUtil.getCurrentUniversity());
@@ -80,8 +80,8 @@ public class FacultyService {
         try {
             Faculty faculty = facultyRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElse(new Faculty());
-            if (faculty.getId() == null) {
+            ).orElse(null);
+            if (faculty == null) {
                 return response.returnError("Faculty not found");
             }
             response.setData("faculty", faculty);
@@ -97,8 +97,8 @@ public class FacultyService {
         try {
             Faculty faculty = facultyRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
-            ).orElse(new Faculty());
-            if (faculty.getId() == null) {
+            ).orElse(null);
+            if (faculty == null) {
                 return response.returnError("Faculty not found");
             }
             facultyRepository.deleteById(id);
