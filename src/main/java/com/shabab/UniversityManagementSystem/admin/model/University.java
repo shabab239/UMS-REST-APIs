@@ -20,12 +20,12 @@ import java.util.List;
  * Created on: 24/08/2024
  */
 
-
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Entity
 @Table(name = "ad_universities")
 public class University {
 

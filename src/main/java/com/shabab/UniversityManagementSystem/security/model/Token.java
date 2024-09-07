@@ -27,11 +27,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  */
 
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Entity
 @Table(name = "auth_tokens")
 public class Token {
 

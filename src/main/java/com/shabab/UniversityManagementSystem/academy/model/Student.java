@@ -17,11 +17,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * Created on: 24/08/2024
  */
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Entity
 @Table(name = "acd_students")
 public class Student {
 

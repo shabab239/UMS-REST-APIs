@@ -15,11 +15,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Entity
 @Table(name = "acd_programs")
 public class Program {
 

@@ -26,12 +26,11 @@ public class FacultyService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Faculty> faculties = facultyRepository.findAllByUniversity(
-                    AuthUtil.getCurrentUniversity()
+            List<Faculty> faculties = facultyRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (faculties.isEmpty()) {
                 return response.returnError("No faculty found");
@@ -60,8 +59,8 @@ public class FacultyService {
     public ApiResponse update(Faculty faculty) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty dbFaculty = facultyRepository.findByIdAndUniversity(
-                    faculty.getId(), AuthUtil.getCurrentUniversity()
+            Faculty dbFaculty = facultyRepository.findById(
+                    faculty.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Faculty());
             if (dbFaculty.getId() == null) {
                 return response.returnError("Faculty not found");
@@ -79,8 +78,8 @@ public class FacultyService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(
-                    id, AuthUtil.getCurrentUniversity()
+            Faculty faculty = facultyRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Faculty());
             if (faculty.getId() == null) {
                 return response.returnError("Faculty not found");
@@ -96,8 +95,8 @@ public class FacultyService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(
-                    id, AuthUtil.getCurrentUniversity()
+            Faculty faculty = facultyRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Faculty());
             if (faculty.getId() == null) {
                 return response.returnError("Faculty not found");

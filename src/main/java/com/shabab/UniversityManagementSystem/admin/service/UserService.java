@@ -191,8 +191,8 @@ public class UserService implements UserDetailsService {
                 departmentRepository.save(department);
             }
 
-            Faculty faculty = facultyRepository.findByDean_Id(
-                    user.getId()
+            Faculty faculty = facultyRepository.findByDeanId(
+                    user.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Faculty());
             if (faculty.getId() != null) {
                 faculty.setDean(null);

@@ -45,8 +45,8 @@ public class DepartmentService {
     public ApiResponse save(Department department) {
         ApiResponse response = new ApiResponse();
         try {
-            Faculty faculty = facultyRepository.findByIdAndUniversity(
-                    department.getFaculty().getId(), AuthUtil.getCurrentUniversity()
+            Faculty faculty = facultyRepository.findById(
+                    department.getFaculty().getId(), AuthUtil.getCurrentUniversityId()
             ).orElseThrow();
             if (faculty.getId() == null) {
                 return response.returnError("Wrong Faculty");

@@ -66,8 +66,8 @@ public class AdminService {
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
-            List<Faculty> faculties = facultyRepository.findAllByUniversity(
-                    AuthUtil.getCurrentUniversity()
+            List<Faculty> faculties = facultyRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
             List<Program> programs = programRepository.findAllByDepartment_Faculty_University(

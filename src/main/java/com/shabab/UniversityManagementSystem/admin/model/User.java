@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.academy.model.Course;
+import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.accounting.Account;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import jakarta.persistence.*;
@@ -27,12 +28,13 @@ import lombok.*;
  * Created on: 24/08/2024
  */
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ad_users")
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Entity
+@Table(name = "ad_users")
 public class User implements UserDetails {
 
     @Id
@@ -66,14 +68,9 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Token token;
 
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "teachers")
-    private List<Course> courses = new ArrayList<>();
 
     /*Optional*/
 

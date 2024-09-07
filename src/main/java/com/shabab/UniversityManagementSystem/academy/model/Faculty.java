@@ -2,6 +2,7 @@ package com.shabab.UniversityManagementSystem.academy.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.admin.model.University;
 import com.shabab.UniversityManagementSystem.admin.model.User;
@@ -20,11 +21,11 @@ import java.util.List;
  * Created on: 24/08/2024
  */
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 @Table(name = "acd_faculties")
 public class Faculty {
 
@@ -37,22 +38,6 @@ public class Faculty {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "dean_id")
-    private User dean;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Department> departments;
-
-
-    /*Optional*/
-
     @Email(message = "Invalid email format")
     @Size(max = 100, message = "Max 100 Characters")
     @Column(name = "email", length = 100, unique = true)
@@ -61,6 +46,18 @@ public class Faculty {
     @Pattern(regexp = "^\\d{11}$", message = "Cell number must be 11 digits")
     @Column(name = "contact", length = 11, unique = true)
     private String contact;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dean_id")
+    private User dean;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_id", nullable = false)
+    private University university;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Department> departments;
 
     public Faculty(Long id) {
         this.id = id;
