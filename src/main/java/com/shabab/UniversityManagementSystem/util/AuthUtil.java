@@ -1,7 +1,7 @@
 package com.shabab.UniversityManagementSystem.util;
 
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.shabab.UniversityManagementSystem.academy.model.University;
+import com.shabab.UniversityManagementSystem.security.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

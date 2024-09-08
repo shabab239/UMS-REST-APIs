@@ -1,23 +1,19 @@
-package com.shabab.UniversityManagementSystem.admin.model;
+package com.shabab.UniversityManagementSystem.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.shabab.UniversityManagementSystem.academy.model.Course;
-import com.shabab.UniversityManagementSystem.academy.model.Faculty;
+import com.shabab.UniversityManagementSystem.academy.model.University;
 import com.shabab.UniversityManagementSystem.accounting.Account;
-import com.shabab.UniversityManagementSystem.security.model.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.*;
@@ -34,7 +30,7 @@ import lombok.*;
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
-@Table(name = "ad_users")
+@Table(name = "sec_users")
 public class User implements UserDetails {
 
     @Id
@@ -54,25 +50,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Status is required")
     @Column(name = "status", nullable = false)
     private String status;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
-    @NotNull(message = "Role is required")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private Role role;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Token token;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
-
-    /*Optional*/
 
     @Email(message = "Invalid email format")
     @Size(max = 100, message = "Max 100 Characters")
@@ -101,17 +78,26 @@ public class User implements UserDetails {
     @Column(name = "joining_date")
     private Date joiningDate;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    @NotNull(message = "Role is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_id", nullable = false)
+    private University university;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Token token;
+
     public User(Long id) {
         this.id = id;
     }
-
-    @JsonIgnore
-    @Transient
-    private String username;
-
-    @JsonIgnore
-    @Transient
-    private String password;
 
     public enum Role {
         ROLE_ADMIN,
@@ -130,42 +116,14 @@ public class User implements UserDetails {
     @JsonIgnore
     @Override
     public String getPassword() {
-        return password;
+        return token.getPassword();
     }
 
     @JsonIgnore
     @Override
     public String getUsername() {
-        return username;
+        return token.getUsername();
     }
 
-    @JsonIgnore
-    public String getIdString() {
-        return String.valueOf(id);
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
 }
 

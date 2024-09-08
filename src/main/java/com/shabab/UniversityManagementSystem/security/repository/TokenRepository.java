@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface AuthRepository extends JpaRepository<Token, Long> {
+public interface TokenRepository extends JpaRepository<Token, Long> {
 
     Token findByUsername(String username);
 

@@ -1,6 +1,6 @@
-package com.shabab.UniversityManagementSystem.admin.repository;
+package com.shabab.UniversityManagementSystem.academy.repository;
 
-import com.shabab.UniversityManagementSystem.admin.model.University;
+import com.shabab.UniversityManagementSystem.academy.model.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

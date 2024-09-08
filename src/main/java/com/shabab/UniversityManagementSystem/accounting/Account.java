@@ -1,9 +1,7 @@
 package com.shabab.UniversityManagementSystem.accounting;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.*;
 import lombok.NoArgsConstructor;
 

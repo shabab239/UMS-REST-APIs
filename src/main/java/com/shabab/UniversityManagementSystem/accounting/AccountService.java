@@ -2,16 +2,14 @@ package com.shabab.UniversityManagementSystem.accounting;
 
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
+import com.shabab.UniversityManagementSystem.security.model.User;
+import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;

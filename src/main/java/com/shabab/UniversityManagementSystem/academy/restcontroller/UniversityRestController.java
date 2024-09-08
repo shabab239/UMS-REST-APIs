@@ -1,7 +1,7 @@
-package com.shabab.UniversityManagementSystem.admin.restcontroller;
+package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.service.UniversityService;
+import com.shabab.UniversityManagementSystem.academy.model.University;
+import com.shabab.UniversityManagementSystem.academy.service.UniversityService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

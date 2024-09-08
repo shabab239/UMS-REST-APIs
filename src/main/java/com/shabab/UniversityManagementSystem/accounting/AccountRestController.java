@@ -1,6 +1,5 @@
 package com.shabab.UniversityManagementSystem.accounting;
 
-import com.shabab.UniversityManagementSystem.admin.service.UserService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

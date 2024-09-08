@@ -2,27 +2,13 @@ package com.shabab.UniversityManagementSystem.admin.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.*;
 import com.shabab.UniversityManagementSystem.academy.repository.*;
-import com.shabab.UniversityManagementSystem.accounting.Account;
-import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
-import com.shabab.UniversityManagementSystem.security.model.Token;
-import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
+import com.shabab.UniversityManagementSystem.security.model.User;
+import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 /**

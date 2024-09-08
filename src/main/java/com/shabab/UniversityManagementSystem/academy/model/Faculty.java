@@ -1,16 +1,11 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.shabab.UniversityManagementSystem.security.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.*;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;

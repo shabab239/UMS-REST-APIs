@@ -2,11 +2,10 @@ package com.shabab.UniversityManagementSystem.academy.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
-import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.CourseRepository;
 import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
+import com.shabab.UniversityManagementSystem.security.model.User;
+import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,17 +2,12 @@ package com.shabab.UniversityManagementSystem.academy.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Faculty;
 import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot

@@ -1,6 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.config;
 
-import com.shabab.UniversityManagementSystem.admin.service.UserService;
+import com.shabab.UniversityManagementSystem.security.service.UserService;
 import com.shabab.UniversityManagementSystem.security.filter.JwtFilter;
 import com.shabab.UniversityManagementSystem.security.handler.CustomAuthenticationFailureHandler;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-
-import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

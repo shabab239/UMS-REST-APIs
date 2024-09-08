@@ -1,22 +1,12 @@
 package com.shabab.UniversityManagementSystem.security.model;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Collection;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -33,7 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
-@Table(name = "auth_tokens")
+@Table(name = "sec_tokens")
 public class Token {
 
     @Id

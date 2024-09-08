@@ -1,17 +1,12 @@
-package com.shabab.UniversityManagementSystem.admin.service;
+package com.shabab.UniversityManagementSystem.academy.service;
 
-import com.shabab.UniversityManagementSystem.admin.model.University;
-import com.shabab.UniversityManagementSystem.admin.repository.UniversityRepository;
-import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
+import com.shabab.UniversityManagementSystem.academy.model.University;
+import com.shabab.UniversityManagementSystem.academy.repository.UniversityRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
-import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot

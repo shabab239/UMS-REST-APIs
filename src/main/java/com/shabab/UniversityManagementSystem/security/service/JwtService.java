@@ -1,6 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.service;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.shabab.UniversityManagementSystem.security.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

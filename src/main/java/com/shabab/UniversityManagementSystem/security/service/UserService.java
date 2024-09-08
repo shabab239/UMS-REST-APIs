@@ -1,4 +1,4 @@
-package com.shabab.UniversityManagementSystem.admin.service;
+package com.shabab.UniversityManagementSystem.security.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Course;
 import com.shabab.UniversityManagementSystem.academy.model.Department;
@@ -8,10 +8,10 @@ import com.shabab.UniversityManagementSystem.academy.repository.DepartmentReposi
 import com.shabab.UniversityManagementSystem.academy.repository.FacultyRepository;
 import com.shabab.UniversityManagementSystem.accounting.Account;
 import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.repository.UserRepository;
+import com.shabab.UniversityManagementSystem.security.model.User;
+import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.security.model.Token;
-import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
+import com.shabab.UniversityManagementSystem.security.repository.TokenRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import jakarta.transaction.Transactional;
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private AuthRepository authRepository;
+    private TokenRepository authRepository;
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -242,9 +242,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password");
         }
 
-        User user = token.getUser();
-        user.setUsername(token.getUsername());
-        user.setPassword(token.getPassword());
         return token.getUser();
     }
 

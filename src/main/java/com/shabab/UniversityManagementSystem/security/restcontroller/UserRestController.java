@@ -1,7 +1,7 @@
-package com.shabab.UniversityManagementSystem.admin.restcontroller;
+package com.shabab.UniversityManagementSystem.security.restcontroller;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
-import com.shabab.UniversityManagementSystem.admin.service.UserService;
+import com.shabab.UniversityManagementSystem.security.model.User;
+import com.shabab.UniversityManagementSystem.security.service.UserService;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;

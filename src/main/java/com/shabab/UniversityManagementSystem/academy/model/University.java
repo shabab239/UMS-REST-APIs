@@ -1,12 +1,9 @@
-package com.shabab.UniversityManagementSystem.admin.model;
+package com.shabab.UniversityManagementSystem.academy.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.shabab.UniversityManagementSystem.academy.model.Faculty;
-import com.shabab.UniversityManagementSystem.academy.model.Program;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -26,7 +23,7 @@ import java.util.List;
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
-@Table(name = "ad_universities")
+@Table(name = "acd_universities")
 public class University {
 
     @Id

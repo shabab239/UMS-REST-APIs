@@ -1,6 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.filter;
 
-import com.shabab.UniversityManagementSystem.admin.service.UserService;
+import com.shabab.UniversityManagementSystem.security.service.UserService;
 import com.shabab.UniversityManagementSystem.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

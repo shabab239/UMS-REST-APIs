@@ -1,8 +1,8 @@
 package com.shabab.UniversityManagementSystem.security.service;
 
-import com.shabab.UniversityManagementSystem.admin.model.User;
+import com.shabab.UniversityManagementSystem.security.model.User;
 import com.shabab.UniversityManagementSystem.security.model.Token;
-import com.shabab.UniversityManagementSystem.security.repository.AuthRepository;
+import com.shabab.UniversityManagementSystem.security.repository.TokenRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class AuthService {
 
     @Autowired
-    private AuthRepository authRepository;
+    private TokenRepository authRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -36,28 +36,29 @@ public class AuthService {
     public ApiResponse authenticate(Token token) {
         ApiResponse apiResponse = new ApiResponse();
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(token.getUsername(), token.getPassword())
-        );
-        if (authentication != null && authentication.isAuthenticated()) {
-            User user = (User) authentication.getPrincipal();
-            if (user != null && user.getId() != null) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(token.getUsername(), token.getPassword())
+            );
+            if (authentication != null && authentication.isAuthenticated()) {
+                User user = (User) authentication.getPrincipal();
+                if (user != null && user.getId() != null) {
 
-                Map<String, Object> map = new HashMap<>();
-                String jwt = jwtService.generateJwt(user);
-                map.put("jwt", jwt);
+                    Map<String, Object> map = new HashMap<>();
+                    String jwt = jwtService.generateJwt(user);
+                    map.put("jwt", jwt);
 
-                user.setUsername(null);
-                user.setPassword(null);
-                map.put("user", user);
+                    user.setToken(null);
+                    map.put("user", user);
 
-                apiResponse.setData(map);
-                apiResponse.success("User authenticated");
-                return apiResponse;
+                    apiResponse.setData(map);
+                    apiResponse.success("User authenticated");
+                    return apiResponse;
+                }
             }
+        } catch (Exception e) {
+            apiResponse.setMessage("Invalid username or password");
         }
-
-        apiResponse.setMessage("Wrong username or password");
         return apiResponse;
     }
 

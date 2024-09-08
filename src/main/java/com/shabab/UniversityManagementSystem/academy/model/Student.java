@@ -1,13 +1,12 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
 import com.shabab.UniversityManagementSystem.accounting.Account;
-import com.shabab.UniversityManagementSystem.admin.model.University;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.sql.Date;
-import lombok.*;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 

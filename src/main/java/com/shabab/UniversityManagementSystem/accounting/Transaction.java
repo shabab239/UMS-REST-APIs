@@ -1,13 +1,11 @@
 package com.shabab.UniversityManagementSystem.accounting;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.shabab.UniversityManagementSystem.admin.model.University;
+import com.shabab.UniversityManagementSystem.academy.model.University;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import lombok.*;
 import java.time.LocalDateTime;
 
