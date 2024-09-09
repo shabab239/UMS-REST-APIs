@@ -53,7 +53,7 @@ public class CourseService {
     public ApiResponse save(Course course) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester semester = semesterRepository.getById(
+            Semester semester = semesterRepository.findById(
                     course.getSemester().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
             if (semester.getId() == null) {

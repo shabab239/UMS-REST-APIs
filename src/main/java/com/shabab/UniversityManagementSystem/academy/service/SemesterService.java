@@ -1,7 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 
-import com.shabab.UniversityManagementSystem.academy.model.Fee;
 import com.shabab.UniversityManagementSystem.academy.model.Program;
 import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import com.shabab.UniversityManagementSystem.academy.repository.FeeRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -29,13 +27,14 @@ public class SemesterService {
 
     @Autowired
     private ProgramRepository programRepository;
+
     @Autowired
     private FeeRepository feeRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Semester> semesters = semesterRepository.getAll(
+            List<Semester> semesters = semesterRepository.findAll(
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (semesters.isEmpty()) {
@@ -55,13 +54,12 @@ public class SemesterService {
             Program program = programRepository.findById(
                     semester.getProgram().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Program());
-
             if (program.getId() == null) {
-                return response.returnError("Invalid Program");
+                return response.returnError("Wrong Program");
             }
-
-            Semester savedSemester = semesterRepository.save(semester);
-            response.setData("semester", savedSemester);
+            semester.setUniversityId(AuthUtil.getCurrentUniversityId());
+            semesterRepository.save(semester);
+            response.setData("semester", semester);
             response.success("Semester saved successfully");
         } catch (Exception e) {
             return response.returnError(e);
@@ -72,16 +70,16 @@ public class SemesterService {
     public ApiResponse update(Semester semester) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester dbSemester = semesterRepository.getById(
+            Semester dbSemester = semesterRepository.findById(
                     semester.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
 
             if (dbSemester.getId() == null) {
                 return response.returnError("Semester not found");
             }
-
-            Semester updatedSemester = semesterRepository.save(semester);
-            response.setData("semester", updatedSemester);
+            semester.setUniversityId(AuthUtil.getCurrentUniversityId());
+            semesterRepository.save(semester);
+            response.setData("semester", semester);
             response.success("Semester updated successfully");
         } catch (Exception e) {
             return response.returnError(e);
@@ -92,7 +90,7 @@ public class SemesterService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester semester = semesterRepository.getById(
+            Semester semester = semesterRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
             if (semester.getId() == null) {
@@ -109,7 +107,7 @@ public class SemesterService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester semester = semesterRepository.getById(
+            Semester semester = semesterRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
             if (semester.getId() == null) {

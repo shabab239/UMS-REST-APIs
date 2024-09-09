@@ -55,7 +55,7 @@ public class ProgramService {
                 return response.returnError("Wrong Department");
             }
             program.setUniversityId(AuthUtil.getCurrentUniversityId());
-            program = programRepository.save(program);
+            programRepository.save(program);
             response.setData("program", program);
             response.success("Saved Successfully");
             return response;
@@ -74,7 +74,7 @@ public class ProgramService {
                 return response.returnError("Program not found");
             }
             program.setUniversityId(AuthUtil.getCurrentUniversityId());
-            program = programRepository.save(program);
+            programRepository.save(program);
             response.setData("program", program);
             response.success("Updated Successfully");
             return response;

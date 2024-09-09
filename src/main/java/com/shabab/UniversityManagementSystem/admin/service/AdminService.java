@@ -60,7 +60,7 @@ public class AdminService {
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
-            List<Semester> semesters = semesterRepository.getAll(
+            List<Semester> semesters = semesterRepository.findAll(
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 

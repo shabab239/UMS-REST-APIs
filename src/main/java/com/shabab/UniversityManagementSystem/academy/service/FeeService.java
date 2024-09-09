@@ -70,7 +70,7 @@ public class FeeService {
     public ApiResponse save(Fee fee) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester semester = semesterRepository.getById(
+            Semester semester = semesterRepository.findById(
                     fee.getSemester().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
 

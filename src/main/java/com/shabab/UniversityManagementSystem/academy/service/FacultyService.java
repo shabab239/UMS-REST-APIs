@@ -42,8 +42,8 @@ public class FacultyService {
         ApiResponse response = new ApiResponse();
         try {
             faculty.setUniversity(AuthUtil.getCurrentUniversity());
-            Faculty dbFaculty = facultyRepository.save(faculty);
-            response.setData("faculty", dbFaculty);
+            facultyRepository.save(faculty);
+            response.setData("faculty", faculty);
             response.success("Saved Successfully");
             return response;
         } catch (Exception e) {
@@ -61,8 +61,8 @@ public class FacultyService {
                 return response.returnError("Faculty not found");
             }
             faculty.setUniversity(AuthUtil.getCurrentUniversity());
-            Faculty updatedFaculty = facultyRepository.save(faculty);
-            response.setData("faculty", updatedFaculty);
+            facultyRepository.save(faculty);
+            response.setData("faculty", faculty);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {

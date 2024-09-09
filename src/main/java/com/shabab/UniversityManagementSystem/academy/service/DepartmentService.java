@@ -53,7 +53,7 @@ public class DepartmentService {
                 return response.returnError("Wrong Faculty");
             }
             department.setUniversityId(AuthUtil.getCurrentUniversityId());
-            department = departmentRepository.save(department);
+            departmentRepository.save(department);
             response.setData("department", department);
             response.success("Saved Successfully");
             return response;
@@ -73,7 +73,7 @@ public class DepartmentService {
                 return response.returnError("Department not found");
             }
             department.setUniversityId(AuthUtil.getCurrentUniversityId());
-            department = departmentRepository.save(department);
+            departmentRepository.save(department);
             response.setData("department", department);
             response.success("Updated Successfully");
             return response;

@@ -63,7 +63,7 @@ public class ExaminationService {
     public ApiResponse save(Examination examination) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester semester = semesterRepository.getById(
+            Semester semester = semesterRepository.findById(
                     examination.getSemester().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
             if (semester.getId() == null) {

@@ -96,7 +96,7 @@ public class StudentService {
     public ApiResponse save(Student student, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
-            Semester semester = semesterRepository.getById(
+            Semester semester = semesterRepository.findById(
                     student.getSemester().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Semester());
 

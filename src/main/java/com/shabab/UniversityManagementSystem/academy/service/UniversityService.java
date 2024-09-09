@@ -38,8 +38,8 @@ public class UniversityService {
     public ApiResponse save(University university) {
         ApiResponse response = new ApiResponse();
         try {
-            University dbUniversity = universityRepository.save(university);
-            response.setData("university", dbUniversity);
+            universityRepository.save(university);
+            response.setData("university", university);
             response.success("Saved Successfully");
             return response;
         } catch (Exception e) {
@@ -56,8 +56,8 @@ public class UniversityService {
             if (dbUniversity.getId() == null) {
                 return response.returnError("University not found");
             }
-            University updatedUniversity = universityRepository.save(university);
-            response.setData("university", updatedUniversity);
+            universityRepository.save(university);
+            response.setData("university", university);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {
