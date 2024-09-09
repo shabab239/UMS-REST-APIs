@@ -43,6 +43,9 @@ public class Program {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @Column(name = "university_id", nullable = false)
+    private Long universityId; // Loose relation with University
+
     @JsonIgnore
     @OneToMany(mappedBy = "program", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Semester> semesters;

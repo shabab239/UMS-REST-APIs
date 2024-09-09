@@ -31,8 +31,8 @@ public class ProgramService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Program> programs = programRepository.findAllByDepartment_Faculty_University(
-                    AuthUtil.getCurrentUniversity()
+            List<Program> programs = programRepository.findAll(
+                    AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (programs.isEmpty()) {
                 return response.returnError("No program found");
@@ -54,6 +54,7 @@ public class ProgramService {
             if (department.getId() == null) {
                 return response.returnError("Wrong Department");
             }
+            program.setUniversityId(AuthUtil.getCurrentUniversityId());
             program = programRepository.save(program);
             response.setData("program", program);
             response.success("Saved Successfully");
@@ -66,14 +67,15 @@ public class ProgramService {
     public ApiResponse update(Program program) {
         ApiResponse response = new ApiResponse();
         try {
-            Program dbProgram = programRepository.findByIdAndDepartment_Faculty_University(
-                    program.getId(), AuthUtil.getCurrentUniversity()
+            Program dbProgram = programRepository.findById(
+                    program.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Program());
             if (dbProgram.getId() == null) {
                 return response.returnError("Program not found");
             }
-            Program updatedProgram = programRepository.save(program);
-            response.setData("program", updatedProgram);
+            program.setUniversityId(AuthUtil.getCurrentUniversityId());
+            program = programRepository.save(program);
+            response.setData("program", program);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {
@@ -84,8 +86,8 @@ public class ProgramService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Program program = programRepository.findByIdAndDepartment_Faculty_University(
-                    id, AuthUtil.getCurrentUniversity()
+            Program program = programRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Program());
             if (program.getId() == null) {
                 return response.returnError("Program not found");
@@ -101,8 +103,8 @@ public class ProgramService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Program program = programRepository.findByIdAndDepartment_Faculty_University(
-                    id, AuthUtil.getCurrentUniversity()
+            Program program = programRepository.findById(
+                    id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Program());
             if (program.getId() == null) {
                 return response.returnError("Program not found");

@@ -52,8 +52,8 @@ public class SemesterService {
     public ApiResponse save(Semester semester) {
         ApiResponse response = new ApiResponse();
         try {
-            Program program = programRepository.findByIdAndDepartment_Faculty_University(
-                    semester.getProgram().getId(), AuthUtil.getCurrentUniversity()
+            Program program = programRepository.findById(
+                    semester.getProgram().getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Program());
 
             if (program.getId() == null) {
