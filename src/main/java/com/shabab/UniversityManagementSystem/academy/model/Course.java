@@ -46,6 +46,10 @@ public class Course {
     @Column(name = "credit", nullable = false)
     private Integer credit;
 
+    @Size(max = 200, message = "Max 200 Characters")
+    @Column(name = "description", length = 200)
+    private String description;
+
     @NotNull(message = "Semester is required")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "semester_id", nullable = false)
@@ -53,17 +57,11 @@ public class Course {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "course_teachers",
+            name = "acd_course_teachers",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
     private List<User> teachers = new ArrayList<>();
-
-    /*Optional*/
-
-    @Size(max = 200, message = "Max 200 Characters")
-    @Column(name = "description", length = 200)
-    private String description;
 
     public Course(Long id) {
         this.id = id;

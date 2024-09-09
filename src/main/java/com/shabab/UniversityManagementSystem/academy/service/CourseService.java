@@ -36,7 +36,7 @@ public class CourseService {
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Course> courses = courseRepository.getAll(
+            List<Course> courses = courseRepository.findAll(
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (courses.isEmpty()) {
@@ -59,7 +59,7 @@ public class CourseService {
             if (semester.getId() == null) {
                 return response.returnError("Wrong Semester");
             }
-            course = courseRepository.save(course);
+            courseRepository.save(course);
             response.setData("course", course);
             response.success("Saved Successfully");
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class CourseService {
     public ApiResponse update(Course course) {
         ApiResponse response = new ApiResponse();
         try {
-            Course dbCourse = courseRepository.getById(
+            Course dbCourse = courseRepository.findById(
                     course.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Course());
             if (dbCourse.getId() == null) {
@@ -94,13 +94,12 @@ public class CourseService {
                 dbCourse.setTeachers(teachers);
             }
 
-            dbCourse = courseRepository.save(dbCourse);
+            courseRepository.save(dbCourse);
             response.setData("course", dbCourse);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {
-            response.returnError(e.getMessage());
-            return response;
+            return response.returnError(e.getMessage());
         }
     }
 
@@ -108,7 +107,7 @@ public class CourseService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Course course = courseRepository.getById(
+            Course course = courseRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Course());
             if (course.getId() == null) {
@@ -125,7 +124,7 @@ public class CourseService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Course course = courseRepository.getById(
+            Course course = courseRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Course());
             if (course.getId() == null) {
@@ -142,7 +141,7 @@ public class CourseService {
     public ApiResponse getAllByExamination(Long examinationId) {
         ApiResponse response = new ApiResponse();
         try {
-            List<Course> courses = courseRepository.getAllByExamination(
+            List<Course> courses = courseRepository.findAllByExamination(
                     examinationId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (courses.isEmpty()) {

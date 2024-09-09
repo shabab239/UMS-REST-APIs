@@ -75,7 +75,7 @@ public class ExaminationService {
                     examination.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
-            List<Course> courses = courseRepository.getAllByExamination(
+            List<Course> courses = courseRepository.findAllByExamination(
                     examination.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
@@ -159,7 +159,7 @@ public class ExaminationService {
                     examinationId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
-            List<Course> courses = courseRepository.getAllByExamination(
+            List<Course> courses = courseRepository.findAllByExamination(
                     examinationId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
