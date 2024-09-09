@@ -53,21 +53,6 @@ public class Student {
     @Temporal(TemporalType.DATE)
     private Date admissionDate;
 
-    @NotBlank(message = "Status is required")
-    @Column(name = "status", nullable = false)
-    private String status;
-
-    @NotNull(message = "Semester is required")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "semester_id", nullable = false)
-    private Semester semester;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
-    /*Optional*/
-
     @Size(max = 10, message = "Max 10 Characters")
     @Column(name = "gender", length = 10)
     private String gender;
@@ -108,6 +93,19 @@ public class Student {
     @Size(max = 400, message = "Max 400 Characters")
     @Column(name = "permanent_address", length = 400)
     private String permanentAddress;
+
+    @NotBlank(message = "Status is required")
+    @Column(name = "status", nullable = false)
+    private String status;
+
+    @NotNull(message = "Semester is required")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "semester_id", nullable = false)
+    private Semester semester;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     public Student(Long id) {
         this.id = id;

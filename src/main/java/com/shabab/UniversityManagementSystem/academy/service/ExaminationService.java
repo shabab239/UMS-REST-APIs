@@ -71,7 +71,7 @@ public class ExaminationService {
             }
             examination = examinationRepository.save(examination);
 
-            List<Student> students = studentRepository.getAllByExamination(
+            List<Student> students = studentRepository.findAllByExamination(
                     examination.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
@@ -155,7 +155,7 @@ public class ExaminationService {
     public ApiResponse getAllMarksByExaminationAndCourse(Long examinationId, Long courseId) {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAllByExamination(
+            List<Student> students = studentRepository.findAllByExamination(
                     examinationId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
@@ -306,7 +306,7 @@ public class ExaminationService {
     public ApiResponse getResult(Long studentId) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(
+            Student student = studentRepository.findById(
                     studentId, AuthUtil.getCurrentUniversityId()
             ).orElse(null);
             if (student == null) {

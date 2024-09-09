@@ -9,6 +9,7 @@ import com.shabab.UniversityManagementSystem.accounting.Account;
 import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,21 +32,22 @@ import java.util.UUID;
 @Service
 public class StudentService {
 
+    @Value("${avatar.student.dir}")
+    private String studentAvatarDir;
+
     @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
     private SemesterRepository semesterRepository;
 
-    @Value("${avatar.student.dir}")
-    private String studentAvatarDir;
     @Autowired
     private AccountRepository accountRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAll(
+            List<Student> students = studentRepository.findAll(
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (students.isEmpty()) {
@@ -62,7 +64,7 @@ public class StudentService {
     public ApiResponse getAllBySemester(Long semesterId) {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAllBySemester(
+            List<Student> students = studentRepository.findAllBySemester(
                     semesterId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (students.isEmpty()) {
@@ -79,7 +81,7 @@ public class StudentService {
     public ApiResponse getAllByExamination(Long examinationId) {
         ApiResponse response = new ApiResponse();
         try {
-            List<Student> students = studentRepository.getAllByExamination(
+            List<Student> students = studentRepository.findAllByExamination(
                     examinationId, AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
             if (students.isEmpty()) {
@@ -93,6 +95,7 @@ public class StudentService {
         }
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ApiResponse save(Student student, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
@@ -121,19 +124,17 @@ public class StudentService {
                 student.setAvatar("avatar/student/" + randomFileName);
             }
 
-            Student savedStudent = studentRepository.save(student);
-
             Account account = new Account();
-            account.setName(savedStudent.getName() + " Cash A/C");
+            account.setName(student.getName() + " Cash A/C");
             account.setBalance(0.0);
             account = accountRepository.save(account);
 
             //TODO IMPOSE FEES
 
-            savedStudent.setAccount(account);
-            savedStudent = studentRepository.save(student);
+            student.setAccount(account);
+            studentRepository.save(student);
 
-            response.setData("student", savedStudent);
+            response.setData("student", student);
             response.success("Saved Successfully. Account Created");
         } catch (Exception e) {
             return response.returnError(e);
@@ -145,12 +146,20 @@ public class StudentService {
     public ApiResponse update(Student student, MultipartFile avatar) {
         ApiResponse response = new ApiResponse();
         try {
-            Student dbStudent = studentRepository.getById(
+            Student dbStudent = studentRepository.findById(
                     student.getId(), AuthUtil.getCurrentUniversityId()
             ).orElse(new Student());
 
             if (dbStudent.getId() == null) {
                 return response.returnError("Student not found");
+            }
+
+            Semester semester = semesterRepository.findById(
+                    student.getSemester().getId(), AuthUtil.getCurrentUniversityId()
+            ).orElse(new Semester());
+
+            if (semester.getId() == null) {
+                return response.returnError("Wrong Semester");
             }
 
             if (avatar != null && !avatar.isEmpty()) {
@@ -170,8 +179,9 @@ public class StudentService {
                 student.setAvatar("avatar/student/" + randomFileName);
             }
 
-            Student updatedStudent = studentRepository.save(student);
-            response.setData("student", updatedStudent);
+            student.setAccount(dbStudent.getAccount());
+            studentRepository.save(student);
+            response.setData("student", student);
             response.success("Updated Successfully");
         } catch (Exception e) {
             return response.returnError(e);
@@ -183,7 +193,7 @@ public class StudentService {
     public ApiResponse getById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(
+            Student student = studentRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Student());
             if (student.getId() == null) {
@@ -200,7 +210,7 @@ public class StudentService {
     public ApiResponse deleteById(Long id) {
         ApiResponse response = new ApiResponse();
         try {
-            Student student = studentRepository.getById(
+            Student student = studentRepository.findById(
                     id, AuthUtil.getCurrentUniversityId()
             ).orElse(new Student());
             if (student.getId() == null) {

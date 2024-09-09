@@ -111,7 +111,7 @@ public class AccountService {
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 
-            List<Student> allStudents = studentRepository.getAll(
+            List<Student> allStudents = studentRepository.findAll(
                     AuthUtil.getCurrentUniversityId()
             ).orElse(new ArrayList<>());
 

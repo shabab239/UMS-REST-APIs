@@ -175,7 +175,7 @@ public class FeeService {
             double totalFees = 0.0;
 
             for (Fee fee : fees) {
-                List<Student> students = studentRepository.getAllBySemester(
+                List<Student> students = studentRepository.findAllBySemester(
                         fee.getSemester().getId(), AuthUtil.getCurrentUniversityId()
                 ).orElse(null);
 

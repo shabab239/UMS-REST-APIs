@@ -100,8 +100,6 @@ public class UserService implements UserDetailsService {
                 user.setAvatar("avatar/user/" + randomFileName);
             }
 
-            user.setUniversity(AuthUtil.getCurrentUniversity());
-            user = userRepository.save(user);
 
             Account account = new Account();
             account.setName(user.getName() + " Cash A/C");
@@ -109,7 +107,8 @@ public class UserService implements UserDetailsService {
             account = accountRepository.save(account);
 
             user.setAccount(account);
-            user = userRepository.save(user);
+            user.setUniversity(AuthUtil.getCurrentUniversity());
+            userRepository.save(user);
 
             response.setData("user", user);
             response.success("Saved Successfully. Account created");
@@ -146,9 +145,10 @@ public class UserService implements UserDetailsService {
                 user.setAvatar("avatar/user/" + randomFileName);
             }
 
+            user.setAccount(dbUser.getAccount());
             user.setUniversity(AuthUtil.getCurrentUniversity());
-            User updatedUser = userRepository.save(user);
-            response.setData("user", updatedUser);
+            userRepository.save(user);
+            response.setData("user", user);
             response.success("Updated Successfully");
             return response;
         } catch (Exception e) {
