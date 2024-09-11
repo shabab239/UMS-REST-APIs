@@ -43,6 +43,10 @@ public class Student {
     @Column(name = "email", length = 100, unique = true, nullable = false)
     private String email;
 
+    @Min(value = 6, message = "Minimum 6 Characters")
+    @Column(name = "password")
+    private String password;
+
     @NotBlank(message = "Cell is required")
     @Pattern(regexp = "^\\d{11}$", message = "Cell number must be 11 digits")
     @Column(name = "cell", length = 11, nullable = false)

@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.config;
 
+import com.shabab.UniversityManagementSystem.security.service.CustomUserDetailsService;
 import com.shabab.UniversityManagementSystem.security.service.UserService;
 import com.shabab.UniversityManagementSystem.security.filter.JwtFilter;
 import com.shabab.UniversityManagementSystem.security.handler.CustomAuthenticationFailureHandler;
@@ -33,7 +34,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     @Autowired
-    private UserService userService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     private JwtFilter jwtFilter;
@@ -65,7 +66,7 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-        authProvider.setUserDetailsService(userService);
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setHideUserNotFoundExceptions(false);
         return authProvider;
     }

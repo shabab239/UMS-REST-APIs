@@ -4,6 +4,8 @@ import com.shabab.UniversityManagementSystem.security.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
@@ -13,6 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
-    Token findByUsername(String username);
+    Optional<Token> findByUsername(String username);
 
 }

@@ -30,7 +30,7 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "sec_users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,26 +102,6 @@ public class User implements UserDetails {
         ROLE_ADMIN,
         ROLE_TEACHER,
         ROLE_STAFF
-    }
-
-    /*overridden*/
-
-    @JsonIgnore
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @JsonIgnore
-    @Override
-    public String getPassword() {
-        return token.getPassword();
-    }
-
-    @JsonIgnore
-    @Override
-    public String getUsername() {
-        return token.getUsername();
     }
 
 }

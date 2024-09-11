@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.service;
 
+import com.shabab.UniversityManagementSystem.security.model.CustomUserDetails;
 import com.shabab.UniversityManagementSystem.security.model.User;
 import com.shabab.UniversityManagementSystem.security.model.Token;
 import com.shabab.UniversityManagementSystem.security.repository.TokenRepository;
@@ -41,15 +42,20 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(token.getUsername(), token.getPassword())
             );
             if (authentication != null && authentication.isAuthenticated()) {
-                User user = (User) authentication.getPrincipal();
-                if (user != null && user.getId() != null) {
+                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+                if (userDetails != null) {
 
                     Map<String, Object> map = new HashMap<>();
-                    String jwt = jwtService.generateJwt(user);
+                    String jwt = jwtService.generateJwt(userDetails);
                     map.put("jwt", jwt);
 
-                    user.setToken(null);
-                    map.put("user", user);
+                    if (userDetails.getUser() != null) {
+                        User user = userDetails.getUser();
+                        user.setToken(null);
+                        map.put("user", user);
+                    } else {
+                        map.put("student", userDetails.getStudent());
+                    }
 
                     apiResponse.setData(map);
                     apiResponse.success("User authenticated");

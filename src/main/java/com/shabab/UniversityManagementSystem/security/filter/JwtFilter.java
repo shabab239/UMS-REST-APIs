@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.filter;
 
+import com.shabab.UniversityManagementSystem.security.service.CustomUserDetailsService;
 import com.shabab.UniversityManagementSystem.security.service.UserService;
 import com.shabab.UniversityManagementSystem.security.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -51,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = applicationContext.getBean(UserService.class)
+            UserDetails userDetails = applicationContext.getBean(CustomUserDetailsService.class)
                     .loadUserByUsername(username);
 
             if (jwtService.validateJwt(jwt, userDetails)) {

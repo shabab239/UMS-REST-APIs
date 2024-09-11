@@ -39,7 +39,7 @@ import java.util.UUID;
  */
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Value("${avatar.user.dir}")
     private String userAvatarDir;
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private TokenRepository authRepository;
+    private TokenRepository tokenRepository;
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -225,24 +225,13 @@ public class UserService implements UserDetailsService {
             token.setPassword(
                     new BCryptPasswordEncoder(12).encode(token.getPassword())
             );
-            authRepository.save(token);
+            tokenRepository.save(token);
 
             response.success("Saved Successfully");
             return response;
         } catch (Exception e) {
             return response.returnError(e);
         }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Token token = authRepository.findByUsername(username);
-
-        if (token == null || token.getUser() == null) {
-            throw new UsernameNotFoundException("Invalid username or password");
-        }
-
-        return token.getUser();
     }
 
 }

@@ -28,6 +28,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findById(@Param("studentId") Long studentId,
                                @Param("universityId") Long universityId);
 
+    Optional<Student> findByEmail(String email);
+
     @Query("SELECT s FROM Student s " +
             "WHERE s.semester.id = :semesterId " +
             "AND s.semester.universityId = :universityId")

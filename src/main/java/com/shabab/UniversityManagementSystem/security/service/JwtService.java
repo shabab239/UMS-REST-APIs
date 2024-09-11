@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.service;
 
+import com.shabab.UniversityManagementSystem.security.model.CustomUserDetails;
 import com.shabab.UniversityManagementSystem.security.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -37,16 +38,14 @@ public class JwtService {
         }
     }
 
-    public String generateJwt(User user) {
+    public String generateJwt(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<String, Object>();
-        claims.put("userId", user.getId());
-        claims.put("universityId", user.getUniversity().getId());
 
         Date now = new Date();
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(user.getUsername())
+                .subject(userDetails.getUsername())
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + 30 * 60 * 1000))
                 .and()
