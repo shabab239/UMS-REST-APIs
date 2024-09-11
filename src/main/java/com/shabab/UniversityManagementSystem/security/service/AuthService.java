@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.security.service;
 
+import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.security.model.CustomUserDetails;
 import com.shabab.UniversityManagementSystem.security.model.User;
 import com.shabab.UniversityManagementSystem.security.model.Token;
@@ -54,7 +55,9 @@ public class AuthService {
                         user.setToken(null);
                         map.put("user", user);
                     } else {
-                        map.put("student", userDetails.getStudent());
+                        Student student = userDetails.getStudent();
+                        student.setPassword(null);
+                        map.put("student", student);
                     }
 
                     apiResponse.setData(map);

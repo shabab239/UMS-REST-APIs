@@ -1,6 +1,7 @@
 package com.shabab.UniversityManagementSystem.util;
 
 import com.shabab.UniversityManagementSystem.academy.model.University;
+import com.shabab.UniversityManagementSystem.security.model.CustomUserDetails;
 import com.shabab.UniversityManagementSystem.security.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,22 +19,23 @@ public class AuthUtil {
     }
 
     public static User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customUserDetails.getUser();
     }
 
     public static Long getCurrentUserId() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getId();
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customUserDetails.getUser().getId();
     }
 
     public static University getCurrentUniversity() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUniversity();
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customUserDetails.getUser().getUniversity();
     }
 
     public static Long getCurrentUniversityId() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUniversity().getId();
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customUserDetails.getUser().getUniversity().getId();
     }
 
 }
