@@ -28,36 +28,27 @@ public class FeeRestController {
         return feeService.getAll();
     }
 
-    @PostMapping("/save")
-    public ApiResponse save(@Valid @RequestBody Fee fee) {
-        return feeService.save(fee);
-    }
-
-    @PutMapping("/update")
-    public ApiResponse update(@Valid @RequestBody Fee fee) {
-        return feeService.update(fee);
-    }
-
     @GetMapping("/{id}")
     public ApiResponse getById(@PathVariable Long id) {
         return feeService.getById(id);
     }
 
-    @DeleteMapping("/{id}")
-    public ApiResponse deleteById(@PathVariable Long id) {
-        return feeService.deleteById(id);
+    @GetMapping("/getImposedFees")
+    public ApiResponse getImposedFees(@RequestParam(required = false) Long studentId) {
+        if (studentId == null) {
+            return new ApiResponse().returnError("Student id is required");
+        }
+        return feeService.getImposedFees(studentId);
     }
 
     @PostMapping("/saveFees")
-    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees,
-                                @RequestParam(required = false) Long semesterId) {
-        return feeService.saveFees(semesterId, fees);
+    public ApiResponse saveFees(@Valid @RequestBody List<Fee> fees) {
+        return feeService.saveFees(fees);
     }
 
     @PostMapping("/collectFees")
-    public ApiResponse collectFees(@Valid @RequestBody List<Fee> fees,
-                                @RequestParam(required = false) Long semesterId) {
-        return feeService.collectFees(semesterId, fees);
+    public ApiResponse collectFees(@Valid @RequestBody List<Fee> fees) {
+        return feeService.collectFees(fees);
     }
 
 }

@@ -19,11 +19,21 @@ import java.util.Optional;
 @Repository
 public interface FeeImposedRepository extends JpaRepository<FeeImposed, Long> {
 
-    @Query("SELECT f FROM FeeImposed f WHERE f.fee.semester.program.department.faculty.university.id = :universityId")
+    @Query("SELECT f FROM FeeImposed f WHERE f.fee.semester.universityId = :universityId")
     Optional<List<FeeImposed>> getAll(@Param("universityId") Long universityId);
 
-    @Query("SELECT f FROM FeeImposed f WHERE f.id = :id AND f.fee.semester.program.department.faculty.university.id = :universityId")
-    Optional<FeeImposed> getById(@Param("id") Long id, @Param("universityId") Long universityId);
+    @Query("SELECT f FROM FeeImposed f WHERE f.id = :id AND f.fee.semester.universityId = :universityId")
+    Optional<FeeImposed> getById(@Param("id") Long id,
+                                 @Param("universityId") Long universityId);
+
+    //findByStudentAndFee
+    @Query("""
+            SELECT f FROM FeeImposed f 
+            WHERE f.student.id = :studentId 
+            AND f.fee.id = :feeId
+            """)
+    Optional<FeeImposed> findByStudentAndFee(@Param("studentId") Long studentId,
+                                             @Param("feeId") Long feeId);
 
     Optional<List<FeeImposed>> findAllByStudentId(Long studentId);
     
