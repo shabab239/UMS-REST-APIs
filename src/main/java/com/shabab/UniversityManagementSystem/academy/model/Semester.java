@@ -56,7 +56,6 @@ public class Semester {
     @OneToMany(mappedBy = "semester", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Course> courses;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "semester", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Fee> fees;
 

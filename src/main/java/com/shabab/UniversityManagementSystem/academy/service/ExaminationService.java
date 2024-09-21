@@ -166,7 +166,7 @@ public class ExaminationService {
             for (Course course : courses) {
                 for (Student student : students) {
                     Mark existingMark = markRepository.getByStudentAndCourse(
-                            student.getId(), courseId, AuthUtil.getCurrentUniversityId()
+                            student.getId(), course.getId(), AuthUtil.getCurrentUniversityId()
                     ).orElse(null);
                     if (existingMark == null) {
                         Mark mark = new Mark();

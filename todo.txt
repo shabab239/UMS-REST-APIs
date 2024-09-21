@@ -4,3 +4,4 @@ search feature
 check owasp later
 logout
 swagger documentation maker
+student and department/course relation
