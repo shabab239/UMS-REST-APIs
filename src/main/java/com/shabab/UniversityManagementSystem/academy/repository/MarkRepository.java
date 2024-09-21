@@ -18,20 +18,20 @@ public interface MarkRepository extends JpaRepository<Mark, Long> {
 
     @Query("SELECT mark FROM Mark mark WHERE mark.examination.id = :examinationId " +
             "AND mark.course.id = :courseId " +
-            "AND mark.examination.semester.program.department.faculty.university.id = :universityId")
+            "AND mark.examination.semester.universityId = :universityId")
     Optional<List<Mark>> getAllByExaminationAndCourse(@Param("examinationId") Long examinationId,
                                                       @Param("courseId") Long courseId,
                                                       @Param("universityId") Long universityId);
 
     @Query("SELECT mark FROM Mark mark WHERE mark.student.id = :studentId " +
             "AND mark.course.id = :courseId " +
-            "AND mark.examination.semester.program.department.faculty.university.id = :universityId")
+            "AND mark.examination.semester.universityId = :universityId")
     Optional<Mark> getByStudentAndCourse(@Param("studentId") Long studentId,
                                                       @Param("courseId") Long courseId,
                                                       @Param("universityId") Long universityId);
 
     @Query("SELECT mark FROM Mark mark WHERE mark.examination.id = :examinationId " +
-            "AND mark.examination.semester.program.department.faculty.university.id = :universityId")
+            "AND mark.examination.semester.universityId = :universityId")
     Optional<List<Mark>> getAllByExamination(@Param("examinationId") Long examinationId,
                                              @Param("universityId") Long universityId);
 
@@ -44,7 +44,7 @@ public interface MarkRepository extends JpaRepository<Mark, Long> {
                                 @Param("universityId") Long universityId);*/
 
     @Query("SELECT mark FROM Mark mark WHERE mark.id = :id " +
-            "AND mark.examination.semester.program.department.faculty.university.id = :universityId")
+            "AND mark.examination.semester.universityId = :universityId")
     Optional<Mark> getById(@Param("id") Long id, @Param("universityId") Long universityId);
 
     Optional<Mark> findByExaminationIdAndCourseIdAndStudentId(Long examinationId, Long courseId, Long studentId);

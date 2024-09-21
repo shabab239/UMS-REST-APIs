@@ -166,7 +166,7 @@ public class ExaminationService {
             for (Course course : courses) {
                 for (Student student : students) {
                     Mark existingMark = markRepository.getByStudentAndCourse(
-                            student.getId() , courseId, AuthUtil.getCurrentUniversityId()
+                            student.getId(), courseId, AuthUtil.getCurrentUniversityId()
                     ).orElse(null);
                     if (existingMark == null) {
                         Mark mark = new Mark();
@@ -197,14 +197,29 @@ public class ExaminationService {
         try {
             //Validate later
 
+            List<Mark> finalMarks = new ArrayList<>();
+            boolean success;
             for (Mark mark : marks) {
-                boolean success = mark.processMark();
+                Mark existingMark = markRepository.findByExaminationIdAndCourseIdAndStudentId(
+                        mark.getExamination().getId(), mark.getCourse().getId(), mark.getStudent().getId()
+                ).orElse(null);
+                if (existingMark != null) {
+                    existingMark.setMarkMid(mark.getMarkMid());
+                    existingMark.setMarkAttendance(mark.getMarkAttendance());
+                    existingMark.setMarkWritten(mark.getMarkWritten());
+                    existingMark.setMarkSessional(mark.getMarkSessional());
+                    success = existingMark.processMark();
+                    finalMarks.add(existingMark);
+                } else {
+                    success = mark.processMark();
+                    finalMarks.add(mark);
+                }
                 if (!success) {
                     return response.returnError("Full mark exceeded 100.");
                 }
             }
 
-            List<Mark> savedMarks = markRepository.saveAll(marks);
+            List<Mark> savedMarks = markRepository.saveAll(finalMarks);
 
             response.setData("marks", savedMarks);
             response.success("Saved Successfully");

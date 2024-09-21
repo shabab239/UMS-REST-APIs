@@ -73,8 +73,11 @@ public class ExaminationRestController {
         return examinationService.processExamination(examinationId);
     }
 
-    @GetMapping("/getResult/{studentId}")
-    public ApiResponse getResult(@PathVariable Long studentId) {
+    @GetMapping("/getResult")
+    public ApiResponse getResult(@RequestParam(required = false) Long studentId) {
+        if (studentId == null) {
+            return new ApiResponse().returnError("Student ID is required");
+        }
         return examinationService.getResult(studentId);
     }
 
