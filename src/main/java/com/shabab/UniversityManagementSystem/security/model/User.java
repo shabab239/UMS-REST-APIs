@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.academy.model.University;
 import com.shabab.UniversityManagementSystem.accounting.Account;
+import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
+import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -102,6 +104,17 @@ public class User {
         ROLE_ADMIN,
         ROLE_TEACHER,
         ROLE_STAFF
+    }
+
+    public Account createAccount(AccountRepository accountRepository, UserRepository userRepository) {
+        Account account = new Account();
+        account.setName(name + " Cash A/C");
+        account.setBalance(0.0);
+        accountRepository.save(account);
+
+        this.account = account;
+        userRepository.save(this);
+        return account;
     }
 
 }

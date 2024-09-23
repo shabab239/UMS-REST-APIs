@@ -122,14 +122,7 @@ public class FeeService {
             //Imposing fees
             Account userAccount = user.getAccount();
             if (userAccount == null) {
-                Account account = new Account();
-                account.setName(user.getName() + " Cash A/C");
-                account.setBalance(0.0);
-                account = accountRepository.save(account);
-
-                user.setAccount(account);
-                user = userRepository.save(user);
-                userAccount = user.getAccount();
+                userAccount = user.createAccount(accountRepository, userRepository);
             }
 
             double totalFees = 0.0;

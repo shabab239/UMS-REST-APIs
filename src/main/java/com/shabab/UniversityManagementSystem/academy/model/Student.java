@@ -1,14 +1,16 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
+import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
 import com.shabab.UniversityManagementSystem.accounting.Account;
+import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -115,4 +117,14 @@ public class Student {
         this.id = id;
     }
 
+    public Account createAccount(AccountRepository accountRepository, StudentRepository studentRepository) {
+        Account account = new Account();
+        account.setName(name + " Cash A/C");
+        account.setBalance(0.0);
+        accountRepository.save(account);
+
+        this.account = account;
+        studentRepository.save(this);
+        return account;
+    }
 }
