@@ -28,8 +28,8 @@ public interface FeeImposedRepository extends JpaRepository<FeeImposed, Long> {
 
     //findByStudentAndFee
     @Query("""
-            SELECT f FROM FeeImposed f 
-            WHERE f.student.id = :studentId 
+            SELECT f FROM FeeImposed f
+            WHERE f.student.id = :studentId
             AND f.fee.id = :feeId
             """)
     Optional<FeeImposed> findByStudentAndFee(@Param("studentId") Long studentId,

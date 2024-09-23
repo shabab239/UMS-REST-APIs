@@ -32,7 +32,6 @@ public class FeeImposed {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fee_id", nullable = false)
     private Fee fee;

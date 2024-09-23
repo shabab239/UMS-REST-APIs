@@ -1,6 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
 import com.shabab.UniversityManagementSystem.academy.model.Fee;
+import com.shabab.UniversityManagementSystem.academy.model.FeeImposed;
 import com.shabab.UniversityManagementSystem.academy.service.FeeService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;
@@ -47,8 +48,8 @@ public class FeeRestController {
     }
 
     @PostMapping("/collectFees")
-    public ApiResponse collectFees(@Valid @RequestBody List<Fee> fees) {
-        return feeService.collectFees(fees);
+    public ApiResponse collectFees(@Valid @RequestBody List<FeeImposed> imposedFees) {
+        return feeService.collectFees(imposedFees);
     }
 
 }

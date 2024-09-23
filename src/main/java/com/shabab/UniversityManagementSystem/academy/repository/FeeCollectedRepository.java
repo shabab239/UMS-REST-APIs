@@ -1,6 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.repository;
 
 import com.shabab.UniversityManagementSystem.academy.model.Fee;
+import com.shabab.UniversityManagementSystem.academy.model.FeeCollected;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,15 +17,13 @@ import java.util.Optional;
  */
 
 @Repository
-public interface FeeCollectedRepository extends JpaRepository<Fee, Long> {
+public interface FeeCollectedRepository extends JpaRepository<FeeCollected, Long> {
 
-    @Query("SELECT f FROM Fee f WHERE f.semester.program.department.faculty.university.id = :universityId")
-    Optional<List<Fee>> getAll(@Param("universityId") Long universityId);
+    @Query("SELECT f FROM Fee f WHERE f.semester.universityId = :universityId")
+    Optional<List<FeeCollected>> getAll(@Param("universityId") Long universityId);
 
-    @Query("SELECT f FROM Fee f WHERE f.id = :id AND f.semester.program.department.faculty.university.id = :universityId")
-    Optional<Fee> getById(@Param("id") Long id, @Param("universityId") Long universityId);
-
-    Optional<List<Fee>> findAllBySemesterId(Long semesterId);
+    @Query("SELECT f FROM Fee f WHERE f.id = :id AND f.semester.universityId = :universityId")
+    Optional<FeeCollected> getById(@Param("id") Long id, @Param("universityId") Long universityId);
     
 }
 

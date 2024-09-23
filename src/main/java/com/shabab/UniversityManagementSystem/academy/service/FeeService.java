@@ -2,12 +2,10 @@ package com.shabab.UniversityManagementSystem.academy.service;
 
 
 import com.shabab.UniversityManagementSystem.academy.model.Fee;
+import com.shabab.UniversityManagementSystem.academy.model.FeeCollected;
 import com.shabab.UniversityManagementSystem.academy.model.FeeImposed;
 import com.shabab.UniversityManagementSystem.academy.model.Student;
-import com.shabab.UniversityManagementSystem.academy.repository.FeeImposedRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.FeeRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.SemesterRepository;
-import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
+import com.shabab.UniversityManagementSystem.academy.repository.*;
 import com.shabab.UniversityManagementSystem.accounting.Account;
 import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
 import com.shabab.UniversityManagementSystem.accounting.Transaction;
@@ -53,6 +51,8 @@ public class FeeService {
 
     @Autowired
     private FeeImposedRepository feeImposedRepository;
+    @Autowired
+    private FeeCollectedRepository feeCollectedRepository;
 
     public ApiResponse getAll() {
         ApiResponse response = new ApiResponse();
@@ -91,14 +91,14 @@ public class FeeService {
     public ApiResponse getImposedFees(Long studentId) {
         ApiResponse response = new ApiResponse();
         try {
-            List<FeeImposed> fees = feeImposedRepository.findAllByStudentId(
+            List<FeeImposed> imposedFees = feeImposedRepository.findAllByStudentId(
                     studentId
             ).orElse(new ArrayList<>());
-            if (fees.isEmpty()) {
-                return response.returnError("No fees found");
+            if (imposedFees.isEmpty()) {
+                return response.returnError("No imposed fees found");
             }
-            response.setData("fees", fees);
-            response.success("Fees retrieved successfully");
+            response.setData("imposedFees", imposedFees);
+            response.success("Imposed Fees retrieved successfully");
             return response;
         } catch (Exception e) {
             return response.returnError(e);
@@ -142,14 +142,7 @@ public class FeeService {
 
                         Account studentAccount = student.getAccount();
                         if (studentAccount == null) {
-                            Account account = new Account();
-                            account.setName(student.getName() + " Cash A/C");
-                            account.setBalance(0.0);
-                            account = accountRepository.save(account);
-
-                            student.setAccount(account);
-                            student = studentRepository.save(student);
-                            studentAccount = student.getAccount();
+                            studentAccount = student.createAccount(accountRepository, studentRepository);
                         }
 
                         Transaction transaction = new Transaction();
@@ -189,7 +182,7 @@ public class FeeService {
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public ApiResponse collectFees(List<Fee> fees) {
+    public ApiResponse collectFees(List<FeeImposed> imposedFees) {
         ApiResponse response = new ApiResponse();
         try {
             User user = userRepository.findById(
@@ -202,55 +195,55 @@ public class FeeService {
 
             Account userAccount = user.getAccount();
             if (userAccount == null) {
-                return response.returnError("User account not found");
+                userAccount = user.createAccount(accountRepository, userRepository);
             }
 
             double totalFees = 0.0;
 
-            for (Fee fee : fees) {
-                List<Student> students = studentRepository.findAllBySemester(
-                        fee.getSemester().getId(), AuthUtil.getCurrentUniversityId()
+            for (FeeImposed feeImposed : imposedFees) {
+                feeImposed = feeImposedRepository.getById(
+                        feeImposed.getId(), AuthUtil.getCurrentUniversityId()
                 ).orElse(null);
 
-                if (students != null) {
-                    for (Student student : students) {
-                        FeeImposed feeImposed = feeImposedRepository.findByStudentAndFee(
-                                student.getId(), fee.getId()
-                        ).orElse(null);
-
-                        if (feeImposed == null) {
-                            return response.returnError("Fee not imposed for " + student.getName());
-                        }
-
-                        Account studentAccount = student.getAccount();
-                        if (studentAccount == null) {
-                            return response.returnError("Student account not found");
-                        }
-
-                        Transaction transaction = new Transaction();
-                        transaction.setAccount(studentAccount);
-                        transaction.setAmount(feeImposed.getAmount());
-                        transaction.setTransactionType(Transaction.TransactionType.CREDIT);
-                        transaction.setTimestamp(LocalDateTime.now());
-                        transaction.setDescription("Fee collected for " + fee.getType());
-                        transaction.setUniversity(AuthUtil.getCurrentUniversity());
-                        transactionRepository.save(transaction);
-
-                        studentAccount.setBalance(studentAccount.getBalance() + feeImposed.getAmount());
-                        accountRepository.save(studentAccount);
-
-                        Transaction userTransaction = new Transaction();
-                        userTransaction.setAccount(userAccount);
-                        userTransaction.setAmount(feeImposed.getAmount());
-                        userTransaction.setTransactionType(Transaction.TransactionType.DEBIT);
-                        userTransaction.setTimestamp(LocalDateTime.now());
-                        userTransaction.setDescription("Fee collected for " + fee.getType() + " for " + student.getName());
-                        userTransaction.setUniversity(AuthUtil.getCurrentUniversity());
-                        transactionRepository.save(userTransaction);
-
-                        totalFees += feeImposed.getAmount();
-                    }
+                if (feeImposed == null) {
+                    return response.returnError("Imposed Fee not found");
                 }
+
+                Account studentAccount = feeImposed.getStudent().getAccount();
+                if (studentAccount == null) {
+                    studentAccount = feeImposed.getStudent().createAccount(accountRepository, studentRepository);
+                }
+
+                Transaction transaction = new Transaction();
+                transaction.setAccount(studentAccount);
+                transaction.setAmount(feeImposed.getAmount());
+                transaction.setTransactionType(Transaction.TransactionType.CREDIT);
+                transaction.setTimestamp(LocalDateTime.now());
+                transaction.setDescription("Fee collected for " + feeImposed.getFee().getType());
+                transaction.setUniversity(AuthUtil.getCurrentUniversity());
+                transactionRepository.save(transaction);
+
+                studentAccount.setBalance(studentAccount.getBalance() + feeImposed.getAmount());
+                accountRepository.save(studentAccount);
+
+                Transaction userTransaction = new Transaction();
+                userTransaction.setAccount(userAccount);
+                userTransaction.setAmount(feeImposed.getAmount());
+                userTransaction.setTransactionType(Transaction.TransactionType.DEBIT);
+                userTransaction.setTimestamp(LocalDateTime.now());
+                userTransaction.setDescription("Fee collected for " + feeImposed.getFee().getType() + " for " + feeImposed.getStudent().getName());
+                userTransaction.setUniversity(AuthUtil.getCurrentUniversity());
+                transactionRepository.save(userTransaction);
+
+                totalFees += feeImposed.getAmount();
+
+                FeeCollected feeCollected = new FeeCollected();
+                feeCollected.setStudent(feeImposed.getStudent());
+                feeCollected.setFee(feeImposed.getFee());
+                feeCollected.setAmount(feeImposed.getAmount());
+                feeCollectedRepository.save(feeCollected);
+
+                feeImposedRepository.delete(feeImposed);
             }
 
             userAccount.setBalance(userAccount.getBalance() - totalFees);
