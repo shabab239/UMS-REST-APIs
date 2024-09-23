@@ -1,5 +1,6 @@
-package com.shabab.UniversityManagementSystem.accounting;
+package com.shabab.UniversityManagementSystem.accounting.repository;
 
+import com.shabab.UniversityManagementSystem.accounting.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

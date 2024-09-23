@@ -1,23 +1,17 @@
 package com.shabab.UniversityManagementSystem.security.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.shabab.UniversityManagementSystem.academy.model.University;
-import com.shabab.UniversityManagementSystem.accounting.Account;
-import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
+import com.shabab.UniversityManagementSystem.accounting.model.Account;
+import com.shabab.UniversityManagementSystem.accounting.repository.AccountRepository;
 import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
+
 import lombok.*;
 
 /**

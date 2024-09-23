@@ -1,4 +1,4 @@
-package com.shabab.UniversityManagementSystem.accounting;
+package com.shabab.UniversityManagementSystem.accounting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shabab.UniversityManagementSystem.academy.model.University;

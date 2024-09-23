@@ -1,7 +1,11 @@
-package com.shabab.UniversityManagementSystem.accounting;
+package com.shabab.UniversityManagementSystem.accounting.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.Student;
 import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
+import com.shabab.UniversityManagementSystem.accounting.model.Account;
+import com.shabab.UniversityManagementSystem.accounting.model.Transaction;
+import com.shabab.UniversityManagementSystem.accounting.repository.AccountRepository;
+import com.shabab.UniversityManagementSystem.accounting.repository.TransactionRepository;
 import com.shabab.UniversityManagementSystem.security.model.User;
 import com.shabab.UniversityManagementSystem.security.repository.UserRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;

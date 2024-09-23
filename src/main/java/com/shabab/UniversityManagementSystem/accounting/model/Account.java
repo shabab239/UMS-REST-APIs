@@ -1,4 +1,4 @@
-package com.shabab.UniversityManagementSystem.accounting;
+package com.shabab.UniversityManagementSystem.accounting.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

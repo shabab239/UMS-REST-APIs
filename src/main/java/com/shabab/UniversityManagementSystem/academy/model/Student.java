@@ -1,8 +1,8 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
 import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
-import com.shabab.UniversityManagementSystem.accounting.Account;
-import com.shabab.UniversityManagementSystem.accounting.AccountRepository;
+import com.shabab.UniversityManagementSystem.accounting.model.Account;
+import com.shabab.UniversityManagementSystem.accounting.repository.AccountRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
