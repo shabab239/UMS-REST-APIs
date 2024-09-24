@@ -1,9 +1,12 @@
 package com.shabab.UniversityManagementSystem.accounting.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.*;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
@@ -23,10 +26,23 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(nullable = false)
+    private String title;
 
-    @Column(name = "balance", nullable = false)
+    @Column(nullable = false)
     private Double balance;
 
+    @Column(nullable = false)
+    private Long holderId; //User or StudentId
+
+    @Column(nullable = false)
+    private Long universityId; // Loose relation with University
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Transaction> transactions;
+
+    public Account(Long id) {
+        this.id = id;
+    }
 }

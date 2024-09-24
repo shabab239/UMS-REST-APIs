@@ -1,14 +1,12 @@
-package com.shabab.UniversityManagementSystem.academy.model;
+package com.shabab.UniversityManagementSystem.academy.model.exam;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.shabab.UniversityManagementSystem.academy.model.Semester;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
@@ -35,21 +33,21 @@ public class Examination {
 
     @NotBlank(message = "Exam name is required")
     @Size(max = 100, message = "Max 100 Characters")
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
     @NotNull(message = "Exam date is required")
-    @Column(name = "exam_date", nullable = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @NotNull(message = "Semester is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "semester_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Semester semester;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Mark> marks;
 
     public Examination(Long id) {

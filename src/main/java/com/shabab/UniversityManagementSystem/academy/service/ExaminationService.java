@@ -1,7 +1,13 @@
 package com.shabab.UniversityManagementSystem.academy.service;
 
 import com.shabab.UniversityManagementSystem.academy.model.*;
+import com.shabab.UniversityManagementSystem.academy.model.exam.Examination;
+import com.shabab.UniversityManagementSystem.academy.model.exam.Mark;
+import com.shabab.UniversityManagementSystem.academy.model.exam.Result;
 import com.shabab.UniversityManagementSystem.academy.repository.*;
+import com.shabab.UniversityManagementSystem.academy.repository.exam.ExaminationRepository;
+import com.shabab.UniversityManagementSystem.academy.repository.exam.MarkRepository;
+import com.shabab.UniversityManagementSystem.academy.repository.exam.ResultRepository;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import com.shabab.UniversityManagementSystem.util.AuthUtil;
 import jakarta.transaction.Transactional;

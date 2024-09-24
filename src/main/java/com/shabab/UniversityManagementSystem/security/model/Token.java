@@ -40,7 +40,10 @@ public class Token {
     private String password;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
 
+    public Token(Long id) {
+        this.id = id;
+    }
 }

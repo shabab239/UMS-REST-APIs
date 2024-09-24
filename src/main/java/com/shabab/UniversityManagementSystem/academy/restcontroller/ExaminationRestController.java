@@ -1,7 +1,7 @@
 package com.shabab.UniversityManagementSystem.academy.restcontroller;
 
-import com.shabab.UniversityManagementSystem.academy.model.Examination;
-import com.shabab.UniversityManagementSystem.academy.model.Mark;
+import com.shabab.UniversityManagementSystem.academy.model.exam.Examination;
+import com.shabab.UniversityManagementSystem.academy.model.exam.Mark;
 import com.shabab.UniversityManagementSystem.academy.service.ExaminationService;
 import com.shabab.UniversityManagementSystem.util.ApiResponse;
 import jakarta.validation.Valid;

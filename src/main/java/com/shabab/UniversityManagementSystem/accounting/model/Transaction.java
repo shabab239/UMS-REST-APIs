@@ -1,5 +1,6 @@
 package com.shabab.UniversityManagementSystem.accounting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shabab.UniversityManagementSystem.academy.model.University;
 import jakarta.persistence.*;
@@ -27,30 +28,32 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Account account;
 
-    @Column(name = "amount", nullable = false)
+    @Column(nullable = false)
     private Double amount;
 
-    @Column(name = "transaction_type", nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
-    @Column(name = "timestamp", nullable = false)
+    @Column( nullable = false)
     private LocalDateTime timestamp;
 
-    @Column(name = "description")
     private String description;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "university_id", nullable = false)
-    private University university;
+    @Column(nullable = false)
+    private Long universityId; // Loose relation with University
 
     public enum TransactionType {
         CREDIT,
         DEBIT
+    }
+
+    public Transaction(Long id) {
+        this.id = id;
     }
 }

@@ -1,7 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shabab.UniversityManagementSystem.security.model.User;
 import jakarta.persistence.*;
@@ -9,15 +8,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 /**
  * Project: UniversityManagementSystem-SpringBoot
  * Author: Shabab
- * Created on: 24/08/2024
+ * Created on: 24/09/2024
  */
 
 @AllArgsConstructor
@@ -25,36 +25,29 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "acd_departments")
-public class Department {
+@Table(name = "acd_halls")
+public class Hall {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Department name is required")
-    @Size(max = 100, message = "Max 100 Characters")
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Hall name is required")
+    @Size(max = 300, message = "Max 300 Characters")
+    @Column(nullable = false, length = 300)
     private String name;
 
     @OneToOne(fetch = FetchType.EAGER)
-    private User head;
-
-    @JsonBackReference
-    @NotNull(message = "Faculty is required")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
-    private Faculty faculty;
+    private User provost;
 
     @Column(nullable = false)
     private Long universityId; // Loose relation with University
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Program> programs;
+    @OneToMany(mappedBy = "hall", fetch = FetchType.LAZY)
+    private List<Student> students;
 
-    public Department(Long id) {
+    public Hall(Long id) {
         this.id = id;
     }
-
 }

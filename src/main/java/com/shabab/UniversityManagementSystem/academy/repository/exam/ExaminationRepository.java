@@ -1,7 +1,6 @@
-package com.shabab.UniversityManagementSystem.academy.repository;
+package com.shabab.UniversityManagementSystem.academy.repository.exam;
 
-import com.shabab.UniversityManagementSystem.academy.model.Course;
-import com.shabab.UniversityManagementSystem.academy.model.Examination;
+import com.shabab.UniversityManagementSystem.academy.model.exam.Examination;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

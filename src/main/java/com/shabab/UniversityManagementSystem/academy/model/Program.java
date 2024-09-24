@@ -1,8 +1,6 @@
 package com.shabab.UniversityManagementSystem.academy.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.Min;
@@ -29,29 +27,29 @@ public class Program {
 
     @NotBlank(message = "Program name is required")
     @Size(max = 100, message = "Max 100 Characters")
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
     @NotNull(message = "Program duration year is required")
     @Min(value = 1, message = "Program duration must be a positive number")
-    @Column(name = "duration_year", length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private Integer durationYear;
 
+    @JsonBackReference
     @NotNull(message = "Department is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Department department;
 
-    @Column(name = "university_id", nullable = false)
+    @Column(nullable = false)
     private Long universityId; // Loose relation with University
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "program", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "program", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Semester> semesters;
 
     public Program(Long id) {
         this.id = id;
     }
-
 }
 

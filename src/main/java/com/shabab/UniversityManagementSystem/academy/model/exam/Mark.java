@@ -1,12 +1,11 @@
-package com.shabab.UniversityManagementSystem.academy.model;
+package com.shabab.UniversityManagementSystem.academy.model.exam;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.shabab.UniversityManagementSystem.academy.model.Course;
+import com.shabab.UniversityManagementSystem.academy.model.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.*;
 import lombok.NoArgsConstructor;
 
@@ -30,54 +29,43 @@ public class Mark {
 
     @NotNull(message = "Exam is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Examination examination;
 
     @NotNull(message = "Student is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Student student;
 
     @NotNull(message = "Course is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Course course;
 
     @Min(value = 0, message = "Must be a positive number")
-    @Column(name = "mark_mid")
     private Double markMid;
 
     @Min(value = 0, message = "Must be a positive number")
-    @Column(name = "mark_attendance")
     private Double markAttendance;
 
     @Min(value = 0, message = "Must be a positive number")
-    @Column(name = "mark_written")
     private Double markWritten;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sessional_type")
     private Mark.SessionalType sessionalType;
 
     @Min(value = 0, message = "Must be a positive number")
-    @Column(name = "mark_sessional")
     private Double markSessional;
 
-    @Column(name = "total_mark") //100
     private Double totalMark;
 
-    @Column(name = "gpa") //4.00, 3.50 etc
     private Double gpa;
 
-    @Column(name = "grade", length = 2) //A+, A- etc
+    @Column(length = 2) //A+, A- etc
     private String grade;
 
-    @Column(name = "status", length = 6) //Passed, Failed
+    @Column(length = 6) //Passed, Failed
     private String status;
-
-    public Mark(Long id) {
-        this.id = id;
-    }
 
     public enum SessionalType {
         PRACTICAL,
@@ -144,5 +132,9 @@ public class Mark {
         this.setStatus(status);
         this.setTotalMark(totalMarks);
         return true;
+    }
+
+    public Mark(Long id) {
+        this.id = id;
     }
 }

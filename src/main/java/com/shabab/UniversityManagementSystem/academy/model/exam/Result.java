@@ -1,12 +1,11 @@
-package com.shabab.UniversityManagementSystem.academy.model;
+package com.shabab.UniversityManagementSystem.academy.model.exam;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.shabab.UniversityManagementSystem.academy.model.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.*;
 import lombok.NoArgsConstructor;
 
@@ -30,20 +29,24 @@ public class Result {
 
     @NotNull(message = "Exam is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Examination examination;
 
+    @JsonBackReference
     @NotNull(message = "Student is required")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Student student;
 
-    @Column(name = "cgpa") // 4.00, 3.50, etc.
-    private Double cgpa;
+    private Double cgpa; // 4.00, 3.50, etc.
 
-    @Column(name = "grade", length = 2) // A+, A-, etc.
-    private String grade;
+    @Column(length = 2)
+    private String grade; // A+, A-, etc.
 
-    @Column(name = "status", length = 6) // Passed, Failed
-    private String status;
+    @Column(length = 6)
+    private String status; // Passed, Failed
+
+    public Result(Long id) {
+        this.id = id;
+    }
 }
