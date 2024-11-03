@@ -83,7 +83,7 @@ public class AccountService {
             List<Map<String, Object>> journalEntries = transactions.stream().map(transaction -> {
                 Map<String, Object> entry = new HashMap<>();
                 entry.put("date", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").format(transaction.getTimestamp()));
-                entry.put("accountName", transaction.getAccount().getName());
+                entry.put("accountName", transaction.getAccount().getTitle());
                 entry.put("description", transaction.getDescription());
                 if (transaction.getTransactionType() == Transaction.TransactionType.DEBIT) {
                     entry.put("debit", transaction.getAmount());

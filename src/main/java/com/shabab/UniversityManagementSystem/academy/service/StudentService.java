@@ -125,7 +125,7 @@ public class StudentService {
             }
 
             Account account = new Account();
-            account.setName(student.getName() + " Cash A/C");
+            account.setTitle(student.getName() + " Cash A/C");
             account.setBalance(0.0);
             account = accountRepository.save(account);
 

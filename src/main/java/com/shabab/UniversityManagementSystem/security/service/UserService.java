@@ -99,7 +99,7 @@ public class UserService {
 
 
             Account account = new Account();
-            account.setName(user.getName() + " Cash A/C");
+            account.setTitle(user.getName() + " Cash A/C");
             account.setBalance(0.0);
             account = accountRepository.save(account);
 

@@ -3,7 +3,9 @@ package com.shabab.UniversityManagementSystem.academy.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shabab.UniversityManagementSystem.academy.model.exam.Result;
+import com.shabab.UniversityManagementSystem.academy.repository.StudentRepository;
 import com.shabab.UniversityManagementSystem.accounting.model.Account;
+import com.shabab.UniversityManagementSystem.accounting.repository.AccountRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -124,5 +126,16 @@ public class Student {
 
     public Student(Long id) {
         this.id = id;
+    }
+
+    public Account createAccount(AccountRepository accountRepository, StudentRepository studentRepository) {
+        Account account = new Account();
+        account.setTitle(name + " Cash A/C");
+        account.setBalance(0.0);
+        accountRepository.save(account);
+
+        this.account = account;
+        studentRepository.save(this);
+        return account;
     }
 }

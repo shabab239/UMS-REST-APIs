@@ -96,5 +96,18 @@ public class User {
         ROLE_STAFF
     }
 
+
+    public Account createAccount(AccountRepository accountRepository, UserRepository userRepository) {
+        Account account = new Account();
+        account.setTitle(name + " Cash A/C");
+        account.setBalance(0.0);
+        accountRepository.save(account);
+
+        this.account = account;
+        userRepository.save(this);
+        return account;
+    }
+
+
 }
 
